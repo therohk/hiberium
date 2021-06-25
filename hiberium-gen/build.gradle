@@ -1,0 +1,53 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+
+group = 'com.konivax'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.11
+
+//apply from: "$project.rootDir/analysis.gradle"
+
+ext.libraryVersions = [
+    lombok : '1.18.16',
+
+    jackson: '2.11.4',
+    yaml: '2.11.1',
+    freemarker: '2.3.31',
+    xmljaxb : '2.3.0',
+    supercsv : '2.4.0',
+    commonslang : '3.12.0',
+    nekohtml : '1.9.21'
+]
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    compile("org.freemarker:freemarker:${libraryVersions.freemarker}")
+    compile("javax.xml.bind:jaxb-api:${libraryVersions.xmljaxb}")
+    //compile("javax.persistence:javax-persistence-api:2.2")
+
+    compile("net.sf.supercsv:super-csv:${libraryVersions.supercsv}")
+
+    compile("com.fasterxml.jackson.core:jackson-core:${libraryVersions.jackson}")
+    compile("com.fasterxml.jackson.core:jackson-databind:${libraryVersions.jackson}")
+    compile("com.fasterxml.jackson.core:jackson-annotations:${libraryVersions.jackson}")
+
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${libraryVersions.jackson}")
+
+    compile("jakarta.persistence:jakarta.persistence-api:2.2.3")
+
+    compile('commons-cli:commons-cli:1.2')
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+
+    compileOnly("org.projectlombok:lombok:${libraryVersions.lombok}")
+    annotationProcessor("org.projectlombok:lombok:${libraryVersions.lombok}")
+
+}

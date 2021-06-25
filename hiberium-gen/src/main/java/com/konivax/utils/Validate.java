@@ -1,0 +1,29 @@
+package com.konivax.utils;
+
+public final class Validate {
+
+    private Validate() { }
+
+    public static void notEmpty(String string, String msg) {
+        if(StringUtils.isEmpty(string))
+            throw new IllegalArgumentException(msg);
+    }
+
+    public static void isTrue(final boolean cond, final String message, final Object... values) {
+        if (cond == false) {
+            throw new IllegalArgumentException(String.format(message, values));
+        }
+    }
+
+    public static void isFalse(final boolean cond, final String message, final Object... values) {
+        if (cond)
+            throw new IllegalArgumentException(String.format(message, values));
+    }
+
+    public static <T> T notNull(final T object, final String message, final Object... values) {
+        if (object == null) {
+            throw new NullPointerException(String.format(message, values));
+        }
+        return object;
+    }
+}

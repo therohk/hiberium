@@ -1,0 +1,11 @@
+concept_name,attribute_name,attribute_type,field_name,attribute_flag
+ConceptOne,fieldOneOne,int,field_one_one,K
+ConceptOne,fieldOneTwo,string,field_one_two,N
+ConceptOne,fieldOneThree,string,field_one_three,N
+ConceptOne,fieldOneFour,string,field_one_four,N
+ConceptTwo,stringField,string,,K
+ConceptTwo,intFieldOne,int,,
+ConceptTwo,intFieldTwo,int,,
+ConceptTwo,booleanField,bool,,
+ConceptTwo,dateFieldOne,date,,
+ConceptTwo,dateFieldTwo,datetime,,
