@@ -7,6 +7,9 @@ import lombok.Setter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author therohk 2021/06/25
+ */
 @Getter
 @Setter
 public class Template {
@@ -17,7 +20,7 @@ public class Template {
 
     private List<String> dependencies;
 
-    private String sourcePath = "/freemarker/";
+    private String sourcePath;
     private String targetPath;
 
 
@@ -26,11 +29,17 @@ public class Template {
         if(variables == null || variables.isEmpty())
             return;
         dependencies = variables.stream()
-                .filter(v -> v.startsWith("render-"))
+                .filter(v -> v.startsWith("render_"))
                 .map(v -> v.substring(8)+".ftl")
-                .map(v -> v.replaceAll("[\\-]", "_"))
+                .map(v -> v.replaceAll("[_]", "\\-"))
                 .collect(Collectors.toList());
         dependencies.addAll(variables);
     }
 
+    public String getTemplateEmbedName(String templateName) {
+        if(templateName.endsWith(".ftl"))
+            templateName = templateName.substring(0, templateName.length()-4);
+        String embedName = "render_"+templateName.replaceAll("[\\-]", "_");
+        return embedName;
+    }
 }

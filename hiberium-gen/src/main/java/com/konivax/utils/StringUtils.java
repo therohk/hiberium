@@ -9,8 +9,8 @@ public final class StringUtils {
 
     private StringUtils() { }
 
-    public static String defaultString(String str, String defaultStr) {
-        return str == null ? defaultStr : str;
+    public static String defaultString(String string, String defaultValue) {
+        return string == null ? defaultValue : string;
     }
 
     public static boolean isEmpty(final CharSequence string) {
@@ -41,15 +41,15 @@ public final class StringUtils {
         return !isBlank(string);
     }
 
-    public static List<String> splitByPredicate(String string, Predicate<Character> condition) {
+    public static Boolean parseBoolean(final String string) {
         return null;
     }
 
-    public static String toFirstUpperCase(String string) {
+    public static String capFirst(String string) {
         return string.substring(0, 1).toUpperCase()+string.substring(1);
     }
 
-    public static String toFirstLowerCase(String string) {
+    public static String uncapFirst(String string) {
         return string.substring(0, 1).toLowerCase()+string.substring(1);
     }
 
@@ -73,6 +73,20 @@ public final class StringUtils {
         return null;
     }
 
+    public static String snip(String string, int leftCut, int rightCut) {
+        if(StringUtils.isEmpty(string))
+            return string;
+        if(leftCut < 0 || rightCut < 0)
+            return null;
+        if(leftCut + rightCut > string.length())
+            return "";
+        return string.substring(leftCut, string.length() - rightCut);
+    }
+
+    public static List<String> splitByPredicate(String string, Predicate<Character> condition) {
+        return null;
+    }
+
     /**
      * Splits a String by Character type as returned by
      * {@code java.lang.Character.getType(char)}. Groups of contiguous
@@ -83,16 +97,16 @@ public final class StringUtils {
      * will belong to the following token rather than to the preceding, if any,
      * {@code Character.UPPERCASE_LETTER} token.
      *
-     * @param str the String to split, may be {@code null}
+     * @param string the String to split, may be {@code null}
      * @param camelCase whether to use so-called "camel-case" for letter types
      * @return an array of parsed Strings, {@code null} if null String input
      */
-    public static String[] splitByCharacterType(final String str, boolean camelCase) {
-        if(str == null)
+    public static List<String> splitByCharacterType(final String string, boolean camelCase) {
+        if(string == null)
             return null;
-        if(str.length() == 0)
-            return new String[0];
-        char[] c = str.toCharArray();
+        if(string.length() == 0)
+            return new ArrayList<String>(0);
+        char[] c = string.toCharArray();
         List<String> list = new ArrayList<String>();
         int tokenStart = 0;
         int currentType = Character.getType(c[tokenStart]);
@@ -114,6 +128,6 @@ public final class StringUtils {
             currentType = type;
         }
         list.add(new String(c, tokenStart, c.length - tokenStart));
-        return list.toArray(new String[list.size()]);
+        return list;
     }
 }

@@ -1,26 +1,15 @@
 package com.konivax.files;
 
-import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.FileUtils;
 import com.konivax.utils.format.FtlUtils;
 import com.konivax.utils.Validate;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class RenderHibernateProject {
-
-    public void renderProjectFiles(Map<String,Object> root, String projectPath) {
-
-        //build.gradle
-        //application.properties
-        //Application.java
-        //SwaggerConfig.java
-        //exception handler
-        //models.response MissingDataException
-
-    }
 
     public void renderJpaEntity(Map<String,Object> root, String projectPath) {
         String packagePath = FtlUtils.parseLocalTemplate(root, "src.main.java.${package_base}.models.${module_name}");
@@ -43,7 +32,7 @@ public class RenderHibernateProject {
 
         Validate.notNull(root.get("concept_name"), "concept not defined");
 
-        List<String> availFuncs = CollectionUtils.arrayToList("select", "insert", "update", "delete");
+        List<String> availFuncs = Arrays.asList("select", "insert", "update", "delete");
 
         Map<String,Object> render = new HashMap<String,Object>();
         render.put("render_controller_select_java", FtlUtils.parseNamedTemplate(root, "controller-select-java.ftl"));

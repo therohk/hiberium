@@ -1,5 +1,6 @@
-package com.konivax.files;
+package com.konivax;
 
+import com.konivax.files.CsvLoader;
 import com.konivax.models.Attribute;
 import com.konivax.models.Concept;
 import com.konivax.models.Project;
@@ -20,14 +21,17 @@ public class RenderProject {
 
         String projectPath = FileUtils.getCurrentPath("hiberium");
         String configPath = projectPath+"\\hiberium-gen\\src\\main\\resources\\";
+        String projectSource = configPath+"hibernate-render.yaml";
+        String conceptSource = configPath+"concept-def.csv";
+        String attributeSource = configPath+"attribute-xref.csv";
 
         //load project config
-        Project project = YamlUtils.deserializeFile(configPath+"hibernate-render.yaml", Project.class);
+        Project project = YamlUtils.deserializeFile(projectSource, Project.class);
         System.out.println(JsonUtils.serializeJavaObject(project));
 
         //load data model
-        List<Concept> conceptList = CsvLoader.loadConceptDefFile(configPath+"concept-def.csv");
-        List<Attribute> attributeList = CsvLoader.loadAttributeXrefFile(configPath+"attribute-xref.csv");
+        List<Concept> conceptList = CsvLoader.loadConceptDefFile(conceptSource);
+        List<Attribute> attributeList = CsvLoader.loadAttributeXrefFile(attributeSource);
         CsvLoader.attachConceptAttributes(conceptList, attributeList);
 
         //create freemarker model
@@ -37,7 +41,7 @@ public class RenderProject {
 
         //process project files
         System.out.println("processing common project files");
-        for(Template template : project.getApplication()) {
+        for(Template template : project.getComposition()) {
             flushNamedTemplate(root, targetPath, template);
         }
 
@@ -96,6 +100,7 @@ public class RenderProject {
         FileUtils.createFolder(folderPath, true);
         FtlUtils.flushNamedTemplate(localData, template.getTemplate(), filePath);
 
+        Validate.isTrue(FileUtils.exists(filePath), "template render failed");
         return filePath;
     }
 
@@ -111,6 +116,7 @@ public class RenderProject {
         FileUtils.createFolder(folderPath, true);
         FtlUtils.flushNamedTemplate(dataModel, templateName, filePath);
 
+        Validate.isTrue(FileUtils.exists(filePath), "template render failed");
         return filePath;
     }
 

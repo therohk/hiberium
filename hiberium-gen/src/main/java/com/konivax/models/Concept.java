@@ -1,7 +1,6 @@
 package com.konivax.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,13 +37,11 @@ public class Concept {
     private String contextName;
     @Column(name = "concept_class")
     private String className;
-
-    private String repositoryPath;
-    private String entityPath;
-    private String controllerPath;
-    private String servicePath;
     @Column(name = "update_code")
     private String updateCode;
+
+    private Boolean dynamicInsert = true;
+    private Boolean dynamicUpdate = false;
 
     private Boolean selectable = true;
     private Boolean insertable = true;
@@ -56,11 +53,11 @@ public class Concept {
 
 
     public void createDerivedNames() {
-        List<String> parts = CollectionUtils.arrayToList(StringUtils.splitByCharacterType(conceptName, true));
+        List<String> parts = StringUtils.splitByCharacterType(conceptName, true);
 
         //variable name
         if(StringUtils.isBlank(variableName)) {
-            variableName = StringUtils.toFirstLowerCase(conceptName);
+            variableName = StringUtils.uncapFirst(conceptName);
         }
         //table name
         if(StringUtils.isBlank(sqlTableName)) {

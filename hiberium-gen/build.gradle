@@ -1,5 +1,6 @@
 apply plugin: 'idea'
 apply plugin: 'java'
+apply plugin: 'application'
 
 group = 'com.konivax'
 version = '0.0.1-SNAPSHOT'
@@ -24,6 +25,12 @@ repositories {
 
 test {
     useJUnitPlatform()
+}
+
+task render(type: JavaExec) {
+    group = "Execution"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.konivax.RenderProject'
 }
 
 dependencies {

@@ -2,7 +2,6 @@ package com.konivax.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.konivax.models.mapper.JavaFieldMapper;
-import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,16 +48,15 @@ public class Attribute {
     private String foreignKeyTable;
     private String foreignKeyField;
     private String foreignConstraintName;
+    private String foreignKeyType;
 
     @Column(name = "enable_coldef")
     private Boolean includeColumnDefinition;
-
 
     //nullable
     //searchable
     //indexable
     //analysable
-
 
     public void applyAttributeFlag(String attributeConfig) {
 
@@ -67,7 +65,7 @@ public class Attribute {
     }
 
     public void createDerivedNames() {
-        List<String> parts = CollectionUtils.arrayToList(StringUtils.splitByCharacterType(attributeName, true));
+        List<String> parts = StringUtils.splitByCharacterType(attributeName, true);
 
         if(StringUtils.isBlank(fieldName)) {
             fieldName = parts.stream()

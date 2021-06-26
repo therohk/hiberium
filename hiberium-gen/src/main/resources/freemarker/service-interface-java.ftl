@@ -6,8 +6,11 @@ import java.util.List;
 
 public interface ${concept_name}Service {
 
-    void handle${concept_name}CreateOrUpdate(${concept_name} ${concept_varname});
+    void handle${concept_name}InsertOrUpdate(${concept_name} ${concept_varname});
 
-    void handle${concept_name}CreateOrUpdate(List<${concept_name}> ${concept_varname}List);
+    default void handle${concept_name}InsertOrUpdate(List<${concept_name}> ${concept_varname}List) {
+        for(${concept_name} ${concept_varname} : ${concept_varname}List)
+            handle${concept_name}InsertOrUpdate(${concept_varname})
+    }
 
 }
