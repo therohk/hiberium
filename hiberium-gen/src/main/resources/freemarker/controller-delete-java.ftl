@@ -8,10 +8,10 @@
         if (${concept_varname} == null)
             throw new Exception("${concept_name} " + ${concept_varname}Id + " not found");
 
-        ${concept_varname}.setFieldsForDelete();
+        ${concept_varname}.handleFieldsForDelete();
         repository.save(${concept_varname});
 
-        LOG.info("DELETE ${concept_name} where id=" + ${concept_varname}Id);
+        log.info("DELETE ${concept_name} where id=" + ${concept_varname}Id);
         Map<String, Boolean> response = new HashMap<String, Boolean>();
         response.put("deleted", Boolean.TRUE);
         return response;

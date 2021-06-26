@@ -1,5 +1,6 @@
 package ${package_base}.models.${module_name};
 
+import ${package_base}.models.StoredObject;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
@@ -18,7 +19,7 @@ import java.util.Date;
 @Entity
 @DynamicInsert
 @Table(name = "${concept_table}", schema = "${concept_schema}")
-public class ${concept_name} implements Serializable {
+public class ${concept_name} implements StoredObject<${concept_name}>, Serializable {
 
 <#list attributes as attribute>
     <#if attribute.attribute_flag?contains("K")>

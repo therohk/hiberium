@@ -1,15 +1,13 @@
 package com.konivax.utils.format;
 
+import org.supercsv.cellprocessor.ParseBool;
 import org.supercsv.cellprocessor.ParseDate;
 import org.supercsv.cellprocessor.ParseDouble;
 import org.supercsv.cellprocessor.ParseInt;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 
 import javax.persistence.Column;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class CsvUtils {
 
@@ -36,6 +34,8 @@ public final class CsvUtils {
                 case "java.util.Date":
                     processors[i] = new ParseDate("yyyy-MM-dd HH:mm:ss.SSSSS", true);
                     break;
+                case "java.lang.Boolean":
+                    processors[i] = new ParseBool();
             }
         }
         return processors;
@@ -71,26 +71,11 @@ public final class CsvUtils {
                 case "java.util.Date":
                     processors[i] = new ParseDate("yyyy-MM-dd HH:mm:ss.SSSSS", true);
                     break;
+                case "java.lang.Boolean":
+                    processors[i] = new ParseBool();
             }
         }
         return processors;
-    }
-
-    public static <T> String[] getFieldNamesAsArray(Class<T> clazz, String[] headers) {
-        List<String> fieldNames = new ArrayList<String>();
-        Field[] fields = clazz.getDeclaredFields();
-
-        for(String header : headers) {
-            for(Field field : fields) {
-                if(field.getAnnotation(Column.class) == null)
-                    continue;
-                if(header.equals(field.getAnnotation(Column.class).name()))
-                    fieldNames.add(field.getName());
-            }
-        }
-        if(headers.length != fieldNames.size())
-            throw new RuntimeException("fields not available or mismatched");
-        return fieldNames.toArray((String[]) Array.newInstance(String.class, fieldNames.size()));
     }
 
 }

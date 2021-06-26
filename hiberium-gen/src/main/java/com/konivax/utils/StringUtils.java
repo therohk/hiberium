@@ -41,14 +41,7 @@ public final class StringUtils {
         return !isBlank(string);
     }
 
-    public static List<String> splitCamelCase(String string) {
-
-
-        return null;
-    }
-
     public static List<String> splitByPredicate(String string, Predicate<Character> condition) {
-
         return null;
     }
 

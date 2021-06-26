@@ -6,13 +6,17 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class FileUtils {
+public final class FileUtils {
 
     private FileUtils() { }
 
-    //convert package name to file path and vice versa
+    public static Path getPath(String file) {
+        return Paths.get(file);
+    }
 
-    //figure out path to generate project within
+    public static File getFile(String file) {
+        return new File(file);
+    }
 
     public static String getCurrentPath(String projectName) {
         String workingDir = System.getProperty("user.dir");
@@ -20,7 +24,7 @@ public class FileUtils {
         return projectPath;
     }
 
-    public static String getPackage(String basePackage, String subPackage, String moduleName) {
+    public static String getPackagePath(String basePackage, String subPackage, String moduleName) {
         StringBuilder b = new StringBuilder();
         b.append(basePackage);
         b.append(".").append(subPackage);
@@ -33,7 +37,7 @@ public class FileUtils {
         StringBuilder b = new StringBuilder();
         b.append(basePath);
         b.append(packagePath.replaceAll("[\\.]", "\\\\"));
-        b.append("//");
+        b.append("\\\\");
         return b.toString();
     }
 
@@ -41,19 +45,9 @@ public class FileUtils {
         StringBuilder b = new StringBuilder();
         b.append(basePath);
         b.append(packagePath.replaceAll("[\\.]", "\\\\"));
-        b.append("//");
+        b.append("\\\\");
         b.append(fileName);
         return b.toString();
-    }
-
-    //for java.nio
-    public static Path getPath(String file) {
-        return Paths.get(file);
-    }
-
-    //for java.io
-    public static File getFile(String file) {
-        return new File(file);
     }
 
     public static boolean exists(String location) {
@@ -67,7 +61,6 @@ public class FileUtils {
 
     public static boolean createFolder(String location, boolean recursive) {
         if(exists(location)) {
-//            logger.warn("folder "+location+" already exists");
             return false;
         }
         new File(location).mkdirs();

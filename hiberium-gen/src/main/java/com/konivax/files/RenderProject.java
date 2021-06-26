@@ -33,28 +33,27 @@ public class RenderProject {
         //create freemarker model
         String targetPath = projectPath+"\\"+project.getProjectName()+"\\";
         Map<String,Object> root = new HashMap<String,Object>();
-        root.put("package_base", project.getPackageBase());
-        root.put("context_base", project.getContextBase());
+        root.putAll(ReflectUtils.toColumnObjectMap(project));
 
-//        for(Template template : project.getApplication()) {
-//            flushNamedTemplate(root, targetPath, template);
-//            flushNamedTemplate(root, template.getTemplate(), targetPath, template.getPackagePath(), template.getFilename());
-//        }
+        //process project files
+        System.out.println("processing common project files");
+        for(Template template : project.getApplication()) {
+            flushNamedTemplate(root, targetPath, template);
+        }
 
+        //process concept files
         for(Concept concept : conceptList) {
-            System.out.println("rendering concept "+concept.getConceptName()+" with "+concept.getAttributeXref().size()+" attributes");
+            System.out.println("processing concept " + concept.getConceptName() + " with " + concept.getAttributeXref().size() + " attributes");
 
-            Map<String,Object> conceptData = exportConceptToModel(concept);
+            Map<String, Object> conceptData = exportConceptToModel(concept);
             conceptData.putAll(root);
 
-            for(Template template : project.getProjection()) {
+            for (Template template : project.getProjection()) {
                 flushNamedTemplate(conceptData, targetPath, template);
             }
-
         }
 
     }
-
 
     private static Map<String,Object> exportConceptToModel(Concept concept) {
         Validate.notNull(concept, "concept is not defined");
@@ -84,11 +83,10 @@ public class RenderProject {
         Map<String,Object> localData = new HashMap<String,Object>();
         for(String dependency : template.getDependencies()) {
             String templateName = FtlUtils.getTemplateBaseName(dependency);
-
             String templateData = FtlUtils.parseNamedTemplate(dataModel, dependency);
 
-            String renderName = "render_"+templateName.replaceAll("[\\-]", "_");
-            localData.put(renderName, templateData);
+            String embedName = "render_"+templateName.replaceAll("[\\-]", "_");
+            localData.put(embedName, templateData);
         }
         localData.putAll(dataModel);
 
@@ -115,6 +113,5 @@ public class RenderProject {
 
         return filePath;
     }
-
 
 }

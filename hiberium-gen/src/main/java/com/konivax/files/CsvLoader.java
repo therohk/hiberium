@@ -2,6 +2,7 @@ package com.konivax.files;
 
 import com.konivax.models.Attribute;
 import com.konivax.models.Concept;
+import com.konivax.utils.ReflectUtils;
 import com.konivax.utils.format.CsvUtils;
 import com.konivax.utils.format.JsonUtils;
 import org.supercsv.cellprocessor.ift.CellProcessor;
@@ -26,7 +27,7 @@ public class CsvLoader {
             String[] headers = beanReader.getHeader(true);
 //            System.out.println(CollectionUtils.arrayToList(headers).toString());
 
-            String[] fieldMapping = CsvUtils.getFieldNamesAsArray(Concept.class, headers);
+            String[] fieldMapping = ReflectUtils.getFieldNamesAsArray(Concept.class, headers);
             CellProcessor[] processors = CsvUtils.getCellProcessorForObject(Concept.class, headers);
 //            System.out.println(CollectionUtils.arrayToList(fieldMapping).toString());
 
@@ -53,7 +54,7 @@ public class CsvLoader {
             String[] headers = beanReader.getHeader(true);
 //            System.out.println(CollectionUtils.arrayToList(headers).toString());
 
-            String[] fieldMapping = CsvUtils.getFieldNamesAsArray(Attribute.class, headers);
+            String[] fieldMapping = ReflectUtils.getFieldNamesAsArray(Attribute.class, headers);
             CellProcessor[] processors = CsvUtils.getCellProcessorForObject(Attribute.class, headers);
 //            System.out.println(CollectionUtils.arrayToList(fieldMapping).toString());
 

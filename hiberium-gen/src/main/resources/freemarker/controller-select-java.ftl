@@ -7,6 +7,6 @@
         ${concept_name} ${concept_varname} = repository.getOne(${concept_varname}Id);
         if (${concept_varname} == null)
             throw new Exception("Product Faq Id " + ${concept_varname}Id + " not found");
-        LOG.info("SELECT ${concept_name} where id=" + ${concept_varname}Id);
+        log.info("SELECT ${concept_name} where id=" + ${concept_varname}Id);
         return ResponseEntity.ok().body(${concept_varname});
     }

@@ -1,10 +1,11 @@
 
     @RequestMapping(value = "/${concept_apipath}", method = RequestMethod.POST)
-    public ProductFaq create${concept_name}(
-            @Valid @RequestBody ${concept_name} ${concept_varname}) {
+    public ${concept_name} create${concept_name}(
+            @Valid @RequestBody ${concept_name} ${concept_varname})
+            throws Exception {
 
-        ${concept_varname}.setFieldsForCreate(authenticationFacade.getUserId());
-        ProductFaq ${concept_varname}Inserted = repository.save(productFaq);
-        LOG.info("INSERT ${concept_name} where id=" + ${concept_varname}Inserted.getProductFaqId());
+        ${concept_varname}.handleFieldsForInsert();
+        ${concept_name} ${concept_varname}Inserted = repository.save(${concept_varname});
+        log.info("INSERT ${concept_name} where id=" + ${concept_varname}Inserted.getPrimaryKey());
         return ${concept_varname}Inserted;
     }

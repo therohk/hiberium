@@ -9,13 +9,13 @@ public interface StoredObject<T> {
 
     void setPrimaryKey(Integer primaryKey);
 
-    default void setPrimaryKeyNull() {
+    default void unsetPrimaryKey() {
         setPrimaryKey(null);
     }
 
     String getPrimaryKeyFieldName();
 
-    String getModelClassPath();
+//    String getModelClassPath();
 
     /**
      * prepare eligible fields for new instance creation
@@ -23,7 +23,7 @@ public interface StoredObject<T> {
     void handleFieldsForInsert(Integer ownerId);
 
     /**
-     * copy the field values that are eligible for update
+     * copy eligible fields for update into current instance
      * default operations on some fields
      * @param update
      */
@@ -37,5 +37,7 @@ public interface StoredObject<T> {
     /**
      * merge object with update strategy code
      */
-    void handleFieldsForMerge(T merge, String mergeCd);
+    default void handleFieldsForMerge(T merge, String mergeCd) {
+        handleFieldsForUpdate(merge);
+    }
 }

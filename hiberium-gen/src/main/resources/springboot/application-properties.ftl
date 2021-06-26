@@ -3,7 +3,7 @@ spring.datasource.username=
 spring.datasource.password=
 
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.hibernate.ddl-auto=validate
+#spring.jpa.hibernate.ddl-auto=validate
 
 spring.jpa.properties.hibernate.jdbc.batch_size=30
 spring.jpa.properties.hibernate.order_inserts=true

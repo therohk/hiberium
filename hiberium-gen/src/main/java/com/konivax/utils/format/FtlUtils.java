@@ -1,6 +1,7 @@
 package com.konivax.utils.format;
 
 import com.konivax.utils.StringUtils;
+import com.konivax.utils.Validate;
 import freemarker.cache.*;
 import freemarker.core.InvalidReferenceException;
 import freemarker.template.Configuration;
@@ -34,22 +35,14 @@ public final class FtlUtils {
             configuration.setSetting(Configuration.CACHE_STORAGE_KEY, "strong:20, soft:250");
         } catch (TemplateException te) {
             configuration.setCacheStorage(new NullCacheStorage());
-//            te.printStackTrace();
             throw new RuntimeException("configuration creation failed", te);
         }
-//        String basePath = Settings.getSetting("freemarker.render.config", "/freemarker/");
-        MultiTemplateLoader mtl = null;
-//        try {
-//            ClassTemplateLoader ctl = new ClassTemplateLoader(FtlUtils.class, "/templates/");
-//            FileTemplateLoader ftl2 = new FileTemplateLoader(new File("/templates/"));
-//            mtl = new MultiTemplateLoader(new TemplateLoader[]{ctl, ftl2});
-//
-//        } catch (IOException ioe) {
-//            throw new ParseException("configuration creation failed", ioe);
-//        }
 
-        ClassTemplateLoader ctl = new ClassTemplateLoader(FtlUtils.class, "/freemarker/");
-        mtl = new MultiTemplateLoader(new TemplateLoader[]{ctl});
+        MultiTemplateLoader mtl = null;
+        ClassTemplateLoader ctl1 = new ClassTemplateLoader(FtlUtils.class, "/freemarker/");
+        ClassTemplateLoader ctl2 = new ClassTemplateLoader(FtlUtils.class, "/springboot/");
+//        FileTemplateLoader ftl2 = new FileTemplateLoader(new File("/templates/"));
+        mtl = new MultiTemplateLoader(new TemplateLoader[]{ctl1, ctl2});
         configuration.setTemplateLoader(mtl);
 
         return configuration;
@@ -62,7 +55,7 @@ public final class FtlUtils {
     }
 
     public static void parseNamedTemplateToWriter(final Map<String,Object> dataModel, String templateName, Writer writer) {
-//        Validate.isTrue(templateName.endsWith(".ftl"), "illegal template name");
+        Validate.isTrue(templateName.endsWith(".ftl"), "illegal template name");
         Configuration configuration = getConfiguration();
 
         //load template
@@ -84,14 +77,15 @@ public final class FtlUtils {
     }
 
     public static String parseLocalTemplate(final Map<String,Object> dataModel, String templateCode) {
+        if(StringUtils.isEmpty(templateCode))
+            return "";
         StringWriter writer = new StringWriter();
         parseLocalTemplateToWriter(dataModel, templateCode, writer);
         return writer.toString();
     }
 
     public static void parseLocalTemplateToWriter(final Map<String,Object> dataModel, String templateCode, Writer writer) {
-        if(StringUtils.isEmpty(templateCode))
-            throw new IllegalArgumentException("template code not defined");
+        Validate.notEmpty(templateCode, "template code not defined");
 
         //create template
         Template template;
@@ -100,9 +94,6 @@ public final class FtlUtils {
         } catch (IOException ioe) {
             throw new RuntimeException("string template load failed", ioe);
         }
-        //for debug
-//        Writer writer = new OutputStreamWriter(System.out, StandardCharsets.UTF_8);
-//        template.process(data, writer);
 
         //render template
         try {
@@ -115,12 +106,14 @@ public final class FtlUtils {
     }
 
     public static void flushNamedTemplate(final Map<String,Object> dataModel, String templateName, String filePath) {
+        Validate.notBlank(templateName,"template name not defined");
+        Validate.notBlank(filePath,"target file path not defined");
         try {
             Writer writer = new OutputStreamWriter(new FileOutputStream(filePath), StandardCharsets.UTF_8);
             parseNamedTemplateToWriter(dataModel, templateName, writer);
             writer.flush();
             writer.close();
-            System.out.println("written "+templateName+" to "+filePath);
+            System.out.println("rendered "+templateName+" -> "+filePath);
         } catch (IOException ioe) {
             throw new RuntimeException("template render failed: " + templateName, ioe);
         }

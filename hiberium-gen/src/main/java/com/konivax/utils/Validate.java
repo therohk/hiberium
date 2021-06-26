@@ -9,6 +9,11 @@ public final class Validate {
             throw new IllegalArgumentException(msg);
     }
 
+    public static void notBlank(String string, String msg) {
+        if(StringUtils.isBlank(string))
+            throw new IllegalArgumentException(msg);
+    }
+
     public static void isTrue(final boolean cond, final String message, final Object... values) {
         if (cond == false) {
             throw new IllegalArgumentException(String.format(message, values));
