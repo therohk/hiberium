@@ -1,4 +1,4 @@
-package com.konivax.files;
+package com.konivax.obsolete;
 
 import com.konivax.utils.FileUtils;
 import com.konivax.utils.format.FtlUtils;

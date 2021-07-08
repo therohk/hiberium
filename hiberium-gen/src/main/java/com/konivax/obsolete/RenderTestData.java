@@ -1,5 +1,6 @@
-package com.konivax.files;
+package com.konivax.obsolete;
 
+import com.konivax.files.CsvLoader;
 import com.konivax.models.Attribute;
 import com.konivax.models.Concept;
 import com.konivax.models.Project;
@@ -25,24 +26,16 @@ public class RenderTestData {
 
         System.out.println(workingDir + " " + projectPath);
 
-
-
-
-
         String configPath = projectPath+"\\hiberium-gen\\src\\main\\resources\\";
-
         String basePath = projectPath+"\\hiberium-war\\";
         String basePackage = "com.konivax";
 
         Project project = YamlUtils.deserializeFile(configPath+"hibernate-render.yaml", Project.class);
         System.out.println(JsonUtils.serializeJavaObject(project));
 
-
         List<Concept> conceptList = CsvLoader.loadConceptDefFile(configPath+"concept-def.csv");
         List<Attribute> attributeList = CsvLoader.loadAttributeXrefFile(configPath+"attribute-xref.csv");
         CsvLoader.attachConceptAttributes(conceptList, attributeList);
-
-        //properties
 
         for(Concept concept : conceptList) {
             concept.createDerivedNames();
@@ -58,9 +51,7 @@ public class RenderTestData {
                 attributes.add(ReflectUtils.toColumnObjectMap(attribute));
             }
             model.put("attributes", attributes);
-
-
-
+            
 //            System.out.println(concept.exportToTemplateModel());
             System.out.println(ReflectUtils.toColumnObjectMap(concept));
             System.out.println(model.toString());
@@ -68,9 +59,6 @@ public class RenderTestData {
             handleConceptRender(model, basePath);
 
         }
-
-
-
     }
 
     private static void handleConceptRender(Map<String,Object> model, String basePath) {
