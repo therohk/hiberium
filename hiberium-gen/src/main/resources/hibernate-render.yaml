@@ -3,7 +3,7 @@ projectName : "hiberium-war"
 packageBase : "com.konivax"
 contextBase : "/hiberium/1.0"
 artifactVersion : "0.1.0-SNAPSHOT"
-composition :
+projections :
   - template : "build-gradle.ftl"
     packagePath : ""
     filename : "build.gradle"
@@ -28,8 +28,8 @@ composition :
   - template : "stored-object-java.ftl"
     packagePath : "src.main.java.${package_base}.models"
     filename : "StoredObject.java"
-projection :
-  - template : "jpa-entity-java.ftl"
+conceptions :
+  - template : "jpa-stored-object-java.ftl"
     packagePath : "src.main.java.${package_base}.models.${module_name}"
     filename : "${concept_name}.java"
   - template : "spring-repository-java.ftl"

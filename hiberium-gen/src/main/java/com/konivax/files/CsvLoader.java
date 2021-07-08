@@ -13,10 +13,13 @@ import org.supercsv.prefs.CsvPreference;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CsvLoader {
+public final class CsvLoader {
+
+    private CsvLoader() { }
 
     public static List<Concept> loadConceptDefFile(String filePath) {
         System.out.println("loading concepts from "+filePath);
@@ -25,11 +28,12 @@ public class CsvLoader {
             FileReader fileReader = new FileReader(filePath, Charset.forName("UTF-8"));
             ICsvBeanReader beanReader = new CsvBeanReader(fileReader, CsvPreference.STANDARD_PREFERENCE);
             String[] headers = beanReader.getHeader(true);
-//            System.out.println(CollectionUtils.arrayToList(headers).toString());
+//            System.out.println(Arrays.asList(headers).toString());
 
             String[] fieldMapping = ReflectUtils.getFieldNamesAsArray(Concept.class, headers);
             CellProcessor[] processors = CsvUtils.getCellProcessorForObject(Concept.class, headers);
-//            System.out.println(CollectionUtils.arrayToList(fieldMapping).toString());
+            System.out.println("concept csv header mapping "+
+                    Arrays.asList(headers).toString()+" -> "+Arrays.asList(fieldMapping).toString());
 
             Concept concept = null;
             while ((concept = beanReader.read(Concept.class, fieldMapping, processors)) != null) {
@@ -52,11 +56,12 @@ public class CsvLoader {
             FileReader fileReader = new FileReader(filePath, Charset.forName("UTF-8"));
             ICsvBeanReader beanReader = new CsvBeanReader(fileReader, CsvPreference.STANDARD_PREFERENCE);
             String[] headers = beanReader.getHeader(true);
-//            System.out.println(CollectionUtils.arrayToList(headers).toString());
+//            System.out.println(Arrays.asList(headers).toString());
 
             String[] fieldMapping = ReflectUtils.getFieldNamesAsArray(Attribute.class, headers);
             CellProcessor[] processors = CsvUtils.getCellProcessorForObject(Attribute.class, headers);
-//            System.out.println(CollectionUtils.arrayToList(fieldMapping).toString());
+            System.out.println("attribute csv header mapping "+
+                    Arrays.asList(headers).toString()+" -> "+Arrays.asList(fieldMapping).toString());
 
             Attribute attribute = null;
             while ((attribute = beanReader.read(Attribute.class, fieldMapping, processors)) != null) {
@@ -94,7 +99,7 @@ public class CsvLoader {
 
     }
 
-    public static void validateConceptAttributes(Concept concept) {
+    public static void validateConceptAndAttributes(Concept concept) {
 
     }
 

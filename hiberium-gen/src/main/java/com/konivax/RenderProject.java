@@ -41,7 +41,7 @@ public class RenderProject {
 
         //process project files
         System.out.println("processing common project files");
-        for(Template template : project.getComposition()) {
+        for(Template template : project.getProjections()) {
             flushNamedTemplate(root, targetPath, template);
         }
 
@@ -52,7 +52,7 @@ public class RenderProject {
             Map<String, Object> conceptData = exportConceptToModel(concept);
             conceptData.putAll(root);
 
-            for (Template template : project.getProjection()) {
+            for (Template template : project.getConceptions()) {
                 flushNamedTemplate(conceptData, targetPath, template);
             }
         }

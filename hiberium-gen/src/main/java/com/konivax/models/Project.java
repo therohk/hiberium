@@ -26,7 +26,7 @@ public class Project {
     private String artifactVersion;
 
     //rendered once per project
-    private List<Template> composition;
+    private List<Template> projections;
     //rendered once per concept
-    private List<Template> projection;
+    private List<Template> conceptions;
 }

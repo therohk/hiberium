@@ -2,10 +2,10 @@
     @RequestMapping(value = "/${concept_apipath}/{id}", method = RequestMethod.PUT)
     public ResponseEntity<${concept_name}> update${concept_name}(
             @PathVariable(value = "id") Integer ${concept_varname}Id,
-            @Valid @RequestBody ${concept_name} ${concept_varname}Request)
-            throws Exception {
+            @Valid @RequestBody ${concept_name} ${concept_varname}Request
+            ) throws Exception {
 
-        if (!${concept_varname}Id.equals(${concept_varname}Request.getPrimaryKey()))
+        if (!${concept_varname}Id.equals(${concept_varname}Request.primaryKey()))
             throw new Exception("${concept_name} Id mismatch for put object");
 
         ${concept_name} ${concept_varname} = repository.getOne(${concept_varname}Id);
