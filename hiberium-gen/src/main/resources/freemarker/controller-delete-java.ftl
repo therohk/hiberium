@@ -1,8 +1,8 @@
 
     @RequestMapping(value = "/${concept_apipath}/{id}", method = RequestMethod.DELETE)
     public Map<String, Boolean> delete${concept_name}(
-            @PathVariable(value = "id") Integer ${concept_varname}Id)
-            throws Exception {
+            @PathVariable(value = "id") Integer ${concept_varname}Id
+            ) throws Exception {
 
         ${concept_name} ${concept_varname} = repository.getOne(${concept_varname}Id);
         if (${concept_varname} == null)
@@ -11,7 +11,7 @@
         ${concept_varname}.handleFieldsForDelete();
         repository.save(${concept_varname});
 
-        log.info("DELETE ${concept_name} where id=" + ${concept_varname}Id);
+        log.info("DELETE ${concept_name} where id={}", ${concept_varname}Id);
         Map<String, Boolean> response = new HashMap<String, Boolean>();
         response.put("deleted", Boolean.TRUE);
         return response;

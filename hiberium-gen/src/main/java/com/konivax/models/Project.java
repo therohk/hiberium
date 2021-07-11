@@ -24,6 +24,8 @@ public class Project {
     private String contextBase;
     @Column(name = "artifact_version")
     private String artifactVersion;
+    @Column(name = "project_schema")
+    private String projectSchema;
 
     //rendered once per project
     private List<Template> projections;

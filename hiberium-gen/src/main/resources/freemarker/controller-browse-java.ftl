@@ -18,6 +18,6 @@
         Integer offset = (pageNum - 1) * perPage;
 
         List<${concept_name}> ${concept_varname}List = repository.findAllByLimitAndOffset(perPage, offset);
-        log.info("SELECT ${concept_name} where pageNum=" + pageNum);
+        log.info("SELECT ${concept_name} WHERE pageNum={}", pageNum);
         return ResponseEntity.ok().body(${concept_varname}List);
     }

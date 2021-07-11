@@ -6,6 +6,6 @@
 
         ${concept_varname}.handleFieldsForInsert();
         ${concept_name} ${concept_varname}Inserted = repository.save(${concept_varname});
-        log.info("INSERT ${concept_name} where id=" + ${concept_varname}Inserted.primaryKey());
+        log.info("INSERT ${concept_name} where id={}", ${concept_varname}Inserted.primaryKey());
         return ${concept_varname}Inserted;
     }

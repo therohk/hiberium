@@ -15,6 +15,6 @@
         ${concept_varname}.handleFieldsForUpdate(${concept_varname}Request);
         final ${concept_name} ${concept_varname}Updated = repository.save(${concept_varname});
 
-        log.info("UPDATE ${concept_name} where id=" + ${concept_varname}Id);
+        log.info("UPDATE ${concept_name} where id={}", ${concept_varname}Id);
         return ResponseEntity.ok(${concept_varname}Updated);
     }
