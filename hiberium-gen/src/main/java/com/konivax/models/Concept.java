@@ -25,6 +25,8 @@ public class Concept {
     private String conceptName;
     @Column(name = "module_name")
     private String moduleName;
+    @Column(name = "module_parent")
+    private String conceptParent;
 
     @Column(name = "concept_table")
     private String sqlTableName;
@@ -40,7 +42,9 @@ public class Concept {
     @Column(name = "update_code")
     private String updateCode;
 
+    @Column(name = "dynamic_insert")
     private Boolean dynamicInsert = true;
+    @Column(name = "dynamic_update")
     private Boolean dynamicUpdate = false;
 
     private Boolean selectable = true;

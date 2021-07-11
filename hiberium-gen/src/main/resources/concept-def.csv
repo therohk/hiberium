@@ -1,3 +1,3 @@
 concept_name,concept_table,concept_schema,module_name
-ConceptOne,concept_one,sales_portal,module
-ConceptTwo,concept_two,sales_portal,module
+ConceptOne,concept_one,data_portal,module
+ConceptTwo,concept_two,data_portal,module

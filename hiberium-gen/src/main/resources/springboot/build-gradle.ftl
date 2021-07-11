@@ -37,7 +37,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-validation')
 
-    compile('org.postgresql:postgresql')
     compile("javax.xml.bind:jaxb-api:2.3.0")
 
     //hibernate
@@ -65,6 +64,9 @@ dependencies {
     //annotations
     providedCompile("org.projectlombok:lombok:1.18.16")
     annotationProcessor("org.projectlombok:lombok:1.18.16")
+
+    //default database
+    runtimeOnly("com.h2database:h2")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 

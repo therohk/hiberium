@@ -9,4 +9,9 @@ public interface ${concept_name}Repository extends JpaRepository<${concept_name}
         return findById(id).orElse(null);
     }
 
+<#list attributes as attribute>
+    <#if !attribute.attribute_flag?contains("R")><#continue></#if>
+    List<${concept_name}> findBy${attribute_name?cap_first}(${attribute.attribute_java} ${attribute_name});
+</#list>
+
 }
