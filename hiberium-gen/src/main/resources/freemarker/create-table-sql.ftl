@@ -1,4 +1,6 @@
 
+-- INCOMPLETE
+
 -- DROP TABLE ${concept_schema}.${concept_table}
 
 CREATE TABLE ${concept_schema}.${concept_table} (

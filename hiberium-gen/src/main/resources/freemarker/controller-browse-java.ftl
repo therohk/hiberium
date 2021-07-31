@@ -1,7 +1,7 @@
 
     @RequestMapping(value = "/${concept_apipath}/all", method = RequestMethod.GET)
-    public ResponseEntity<List<${concept_name}>> getAll${concept_name}()
-    throws Exception {
+    public ResponseEntity<List<${concept_name}>> getAll${concept_name}(
+        ) throws Exception {
         List<${concept_name}> ${concept_varname}List = repository.findAll();
         log.info("SELECT ${concept_name} all");
         return ResponseEntity.ok().body(${concept_varname}List);

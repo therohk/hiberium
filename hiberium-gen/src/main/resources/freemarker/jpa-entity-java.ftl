@@ -19,7 +19,7 @@ import java.util.Date;
 @Entity
 @DynamicInsert
 @Table(name = "${concept_table}", schema = "${concept_schema}")
-public class ${concept_name} implements StoredObject<${concept_name}>, Serializable {
+public class ${concept_name} implements Serializable {
 
 <#list attributes as attribute>
     <#if attribute.attribute_flag?contains("K")>
