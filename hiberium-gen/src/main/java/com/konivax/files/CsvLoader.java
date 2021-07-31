@@ -26,7 +26,7 @@ public final class CsvLoader {
         List<Concept> conceptList = new ArrayList<Concept>();
         try {
             FileReader fileReader = new FileReader(filePath, Charset.forName("UTF-8"));
-            ICsvBeanReader beanReader = new CsvBeanReader(fileReader, CsvPreference.STANDARD_PREFERENCE);
+            ICsvBeanReader beanReader = new CsvBeanReader(fileReader, CsvUtils.getCsvPreferences());
             String[] headers = beanReader.getHeader(true);
 //            System.out.println(Arrays.asList(headers).toString());
 
@@ -54,7 +54,7 @@ public final class CsvLoader {
 
         try {
             FileReader fileReader = new FileReader(filePath, Charset.forName("UTF-8"));
-            ICsvBeanReader beanReader = new CsvBeanReader(fileReader, CsvPreference.STANDARD_PREFERENCE);
+            ICsvBeanReader beanReader = new CsvBeanReader(fileReader, CsvUtils.getCsvPreferences());
             String[] headers = beanReader.getHeader(true);
 //            System.out.println(Arrays.asList(headers).toString());
 
@@ -77,18 +77,14 @@ public final class CsvLoader {
 
 
     public static void attachConceptAttributes(List<Concept> conceptList, List<Attribute> attributeList) {
-
         for(Concept concept : conceptList) {
-
             String conceptName = concept.getConceptName();
-
             List<Attribute> attributeReq = attributeList.stream()
                     .filter(a -> a.getConceptName().equals(conceptName))
                     .collect(Collectors.toList());
 
             concept.setAttributeXref(attributeReq);
         }
-
     }
 
     private static void processConcept(Concept concept) {

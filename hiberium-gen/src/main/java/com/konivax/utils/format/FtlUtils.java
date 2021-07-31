@@ -2,7 +2,10 @@ package com.konivax.utils.format;
 
 import com.konivax.utils.StringUtils;
 import com.konivax.utils.Validate;
-import freemarker.cache.*;
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.cache.MultiTemplateLoader;
+import freemarker.cache.NullCacheStorage;
+import freemarker.cache.TemplateLoader;
 import freemarker.core.InvalidReferenceException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -84,6 +87,17 @@ public final class FtlUtils {
         return writer.toString();
     }
 
+    public static String parseLocalTemplate(String templateCode
+            , String label1, String value1
+            , String label2, String value2
+            , String label3, String value3) {
+        Map<String,Object> dataModel = new HashMap<String,Object>();
+        dataModel.put(label1, value1);
+        dataModel.put(label2, value2);
+        dataModel.put(label3, value3);
+        return parseLocalTemplate(dataModel, templateCode);
+    }
+
     public static void parseLocalTemplateToWriter(final Map<String,Object> dataModel, String templateCode, Writer writer) {
         Validate.notEmpty(templateCode, "template code not defined");
 
@@ -119,29 +133,27 @@ public final class FtlUtils {
         }
     }
 
-    /**
-     * todo avoid printing logs for this function
-     */
     public static Set<String> getTemplateVariables(String templateName) {
         Template template = null;
         try {
-            template = getConfiguration().getTemplate(templateName);
+            Configuration configuration = getConfiguration();
+            configuration.setLogTemplateExceptions(false);
+            template = configuration.getTemplate(templateName);
         } catch (IOException ioe) {
             throw new RuntimeException("file classpath template load failed: " + templateName, ioe);
         }
         StringWriter stringWriter = new StringWriter();
-        Map<String, Object> dataModel = new HashMap<>();
+        Map<String, Object> dataModel = new HashMap<String, Object>();
         boolean exceptionCaught;
-
         do {
             exceptionCaught = false;
             try {
                 template.process(dataModel, stringWriter);
-            } catch (InvalidReferenceException e) {
+            } catch (InvalidReferenceException ire) {
                 exceptionCaught = true;
-                dataModel.put(e.getBlamedExpressionString(), "");
-            } catch (IOException | TemplateException e) {
-//                throw new IllegalStateException("Failed to Load Template: " + templateName, e);
+                dataModel.put(ire.getBlamedExpressionString(), "");
+            } catch (IOException | TemplateException ioe) {
+//                throw new IllegalStateException("template load failed: " + templateName, ioe);
             }
         } while (exceptionCaught);
 

@@ -1,14 +1,39 @@
 package com.konivax.models.mapper;
 
+import com.konivax.models.Attribute;
+
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * database field type to java field type mapping
  */
-public class JavaFieldMapper {
+public final class JavaFieldMapper {
+
+    private static List<String> javaKeywords = Arrays.asList(
+            "abstract", "continue", "for", "new", "switch",
+            "assert", "default", "goto", "package", "synchronized",
+            "boolean", "do", "if", "private", "this",
+            "break", "double", "implements", "protected", "throw",
+            "byte", "else", "import", "public", "throws",
+            "case", "enum", "instanceof", "return", "transient",
+            "catch", "extends", "int", "short", "try",
+            "char", "final", "interface", "static", "void",
+            "class", "finally", "long", "strictfp", "volatile",
+            "const", "float", "native", "super", "while" );
+
+    private JavaFieldMapper() { }
+
+    public static Boolean validateJavaFieldName(String fieldName) {
+        return !javaKeywords.contains(fieldName);
+    }
+
+    public static String mapDatabaseToJavaFieldType(Attribute attribute) {
+        return mapDatabaseToJavaFieldType(attribute.getAttributeType());
+    }
 
     public static String mapDatabaseToJavaFieldType(String fieldType) {
-
         switch (fieldType.toLowerCase()) {
             case "int":
             case "int4":
@@ -48,8 +73,8 @@ public class JavaFieldMapper {
         return null;
     }
 
-    public static Class<?> mapJavaFieldTypeToClass(String fieldType) {
-        switch (fieldType) {
+    public static Class<?> mapJavaFieldTypeToClass(String javaFieldType) {
+        switch (javaFieldType) {
             case "String":
                 return String.class;
             case "Integer":
@@ -66,8 +91,8 @@ public class JavaFieldMapper {
         return null;
     }
 
-    public static String mapJavaFieldTypeToPackage(String fieldType) {
-        switch (fieldType) {
+    public static String mapJavaFieldTypeToPackage(String javaFieldType) {
+        switch (javaFieldType) {
             case "String":
                 return String.class.getName();
             case "Integer":
@@ -83,4 +108,5 @@ public class JavaFieldMapper {
         }
         return null;
     }
+
 }

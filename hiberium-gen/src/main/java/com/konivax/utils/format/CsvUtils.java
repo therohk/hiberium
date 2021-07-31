@@ -5,13 +5,26 @@ import org.supercsv.cellprocessor.ParseDate;
 import org.supercsv.cellprocessor.ParseDouble;
 import org.supercsv.cellprocessor.ParseInt;
 import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.comment.CommentStartsWith;
+import org.supercsv.io.CsvBeanReader;
+import org.supercsv.io.ICsvBeanReader;
+import org.supercsv.prefs.CsvPreference;
 
 import javax.persistence.Column;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.charset.Charset;
 
 public final class CsvUtils {
 
     private CsvUtils() { }
+
+    public static CsvPreference getCsvPreferences() {
+        return new CsvPreference.Builder(CsvPreference.STANDARD_PREFERENCE)
+                .skipComments(new CommentStartsWith("#"))
+                .build();
+    }
 
     public static <T> CellProcessor[] getCellProcessorForObject(Class<T> clazz) {
         Field[] fields = clazz.getDeclaredFields();

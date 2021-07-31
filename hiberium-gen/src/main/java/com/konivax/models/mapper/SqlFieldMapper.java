@@ -2,10 +2,12 @@ package com.konivax.models.mapper;
 
 import com.konivax.models.Attribute;
 
-public class SqlFieldMapper {
+public final class SqlFieldMapper {
+
+    private SqlFieldMapper() { }
 
     public static String mapDatabaseToFieldType(Attribute attribute) {
-        String fieldType = attribute.getFieldType();
+        String fieldType = attribute.getAttributeType();
 
         switch (fieldType.toLowerCase()) {
             case "numeric":
@@ -16,4 +18,10 @@ public class SqlFieldMapper {
         return null;
     }
 
+    public static String createNullString(Attribute attribute) {
+        if(attribute.getAttributeConfig().contains("N"))
+            return "NOT NULL";
+        else
+            return "NULL";
+    }
 }

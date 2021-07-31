@@ -61,11 +61,16 @@ public final class ReflectUtils {
         Map<String, Object> objectMap = new HashMap<String, Object>();
         for (Field field : fields) {
             Object obj = runGetter(field, o);
+            if(obj == null)
+                continue;
             objectMap.put(field.getName(), obj);
         }
         return objectMap;
     }
 
+    /**
+     * export all fields containing column annotation
+     */
     public static Map<String,Object> toColumnObjectMap(Object o) {
         Field[] fields = o.getClass().getDeclaredFields();
         Map<String, Object> objectMap = new HashMap<String, Object>();
@@ -73,6 +78,8 @@ public final class ReflectUtils {
             if(field.getAnnotation(Column.class) == null)
                 continue;
             Object obj = runGetter(field, o);
+            if(obj == null)
+                continue;
             objectMap.put(field.getAnnotation(Column.class).name(), obj);
         }
         return objectMap;

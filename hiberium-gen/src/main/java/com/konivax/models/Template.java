@@ -23,7 +23,6 @@ public class Template {
     private String sourcePath;
     private String targetPath;
 
-
     public void findTemplateDependencies() {
         Set<String> variables = FtlUtils.getTemplateVariables(template);
         if(variables == null || variables.isEmpty())

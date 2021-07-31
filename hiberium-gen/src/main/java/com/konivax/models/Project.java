@@ -14,9 +14,11 @@ import java.util.List;
 public class Project {
 
     private String projectType;
+    @Column(name = "project_name")
     private String projectName;
     private String projectTitle;
     private String projectDesc;
+    private String projectPath;
 
     @Column(name = "package_base")
     private String packageBase;

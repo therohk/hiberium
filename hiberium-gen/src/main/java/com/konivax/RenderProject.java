@@ -21,17 +21,21 @@ public class RenderProject {
 
         String projectPath = FileUtils.getCurrentPath("hiberium");
         String configPath = projectPath+"\\hiberium-gen\\src\\main\\resources\\";
-        String projectSource = configPath+"hibernate-render.yaml";
-        String conceptSource = configPath+"concept-def.csv";
-        String attributeSource = configPath+"attribute-xref.csv";
+        String projectYaml = configPath+"hibernate-render.yaml";
+        String conceptCsv = configPath+"concept-def.csv";
+        String attributeCsv = configPath+"attribute-xref.csv";
 
+        RenderProject.renderFromConfig(projectPath, projectYaml, conceptCsv, attributeCsv);
+    }
+
+    public static void renderFromConfig(String projectPath, String projectYaml, String conceptCsv, String attributeCsv) {
         //load project config
-        Project project = YamlUtils.deserializeFile(projectSource, Project.class);
+        Project project = YamlUtils.deserializeFile(projectYaml, Project.class);
         System.out.println(JsonUtils.serializeJavaObject(project));
 
         //load data model
-        List<Concept> conceptList = CsvLoader.loadConceptDefFile(conceptSource);
-        List<Attribute> attributeList = CsvLoader.loadAttributeXrefFile(attributeSource);
+        List<Concept> conceptList = CsvLoader.loadConceptDefFile(conceptCsv);
+        List<Attribute> attributeList = CsvLoader.loadAttributeXrefFile(attributeCsv);
         CsvLoader.attachConceptAttributes(conceptList, attributeList);
 
         //create freemarker model
@@ -56,10 +60,9 @@ public class RenderProject {
                 flushNamedTemplate(conceptData, targetPath, template);
             }
         }
-
     }
 
-    private static Map<String,Object> exportConceptToModel(Concept concept) {
+    public static Map<String,Object> exportConceptToModel(Concept concept) {
         Validate.notNull(concept, "concept is not defined");
         Map<String,Object> model = new HashMap<String,Object>();
 
@@ -74,7 +77,6 @@ public class RenderProject {
         model.put("attributes", attributes);
         return model;
     }
-
 
     public static String flushNamedTemplate(final Map<String,Object> dataModel, String basePath, Template template) {
 

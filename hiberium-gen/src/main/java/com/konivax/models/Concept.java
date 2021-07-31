@@ -25,13 +25,13 @@ public class Concept {
     private String conceptName;
     @Column(name = "module_name")
     private String moduleName;
-    @Column(name = "module_parent")
-    private String conceptParent;
 
     @Column(name = "concept_table")
     private String sqlTableName;
     @Column(name = "concept_schema")
     private String sqlSchemaName;
+    @Column(name = "concept_index")
+    private String conceptIndex;
 
     @Column(name = "concept_varname")
     private String variableName;
@@ -46,6 +46,12 @@ public class Concept {
     private Boolean dynamicInsert = true;
     @Column(name = "dynamic_update")
     private Boolean dynamicUpdate = false;
+
+    //requires foreign key
+    @Column(name = "concept_parent")
+    private String conceptParent;
+    @Column(name = "concept_cardinality")
+    private String cardinalityParent; //parent:child is 1:1 or 1:n
 
     private Boolean selectable = true;
     private Boolean insertable = true;
@@ -78,7 +84,6 @@ public class Concept {
         if(StringUtils.isBlank(updateCode)) {
             updateCode = "B";
         }
-
     }
 
     public List<String> listRequiredFunctions() {

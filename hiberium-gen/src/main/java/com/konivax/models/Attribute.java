@@ -1,6 +1,7 @@
 package com.konivax.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.konivax.models.mapper.ElasticFieldMapper;
 import com.konivax.models.mapper.JavaFieldMapper;
 import com.konivax.utils.StringUtils;
 import lombok.Getter;
@@ -27,28 +28,40 @@ public class Attribute {
     private String attributeName;
     @Column(name = "field_name")
     private String fieldName;
-    private String fieldType;
 
     @Column(name = "attribute_type")
     private String attributeType;
     @Column(name = "attribute_flag")
     private String attributeConfig;
+    @Column(name = "attribute_format")
+    private String attributeFormat;
 
     @Column(name = "attribute_java")
     private String javaFieldType;
     private String javaFullFieldType;
-    private String elasticFieldType;
+
+    @Column(name = "elastic_index")
+    private String elasticIndexType; //for elastic index json
+    @Column(name = "elastic_document")
+    private String elasticDocType; //for elastic document java
 
     private Integer fieldStartPos;
-    private Integer fieldLength;
+    private Integer fieldLength; //scale for numeric types
     private Integer fieldPrecision;
 
+    private String fieldBehavior;
+    private String setterValue; //for default value expression
     private String defaultValue;
+    private String sequenceName; //db sequence for id generation
 
+    @Column(name = "foreign_key")
+    private String foreignKey;
     private String foreignKeyTable;
     private String foreignKeyField;
     private String foreignConstraintName;
     private String foreignKeyType;
+
+    private String formFieldType;
 
     @Column(name = "enable_coldef")
     private Boolean includeColumnDefinition;
@@ -79,6 +92,15 @@ public class Attribute {
             javaFieldType = JavaFieldMapper.mapDatabaseToJavaFieldType(attributeType);
             javaFullFieldType = JavaFieldMapper.mapJavaFieldTypeToPackage(javaFieldType);
         }
+        if(StringUtils.isBlank(elasticIndexType)) {
+            elasticIndexType = ElasticFieldMapper.mapJavaFieldTypeToElastic(this);
+        }
+        if(StringUtils.notBlank(foreignKey)) {
+            foreignKeyTable = foreignKey.split("\\.", 2)[0];
+            foreignKeyField = foreignKey.split("\\.", 2)[1];
+            foreignConstraintName = "";
+        }
+
     }
 
 }
