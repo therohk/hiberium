@@ -7,7 +7,7 @@ public final class SqlFieldMapper {
     private SqlFieldMapper() { }
 
     public static String mapDatabaseToFieldType(Attribute attribute) {
-        String fieldType = attribute.getAttributeType();
+        String fieldType = attribute.getFieldType();
 
         switch (fieldType.toLowerCase()) {
             case "numeric":

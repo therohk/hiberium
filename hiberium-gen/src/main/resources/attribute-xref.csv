@@ -1,11 +1,45 @@
-concept_name,attribute_name,attribute_type,field_name,attribute_flag
-ConceptOne,fieldOneOne,int,field_one_one,K
-ConceptOne,fieldOneTwo,string,field_one_two,N
-ConceptOne,fieldOneThree,string,field_one_three,N
-ConceptOne,fieldOneFour,string,field_one_four,N
-ConceptTwo,stringField,string,,K
-ConceptTwo,intFieldOne,int,,
-ConceptTwo,intFieldTwo,int,,
-ConceptTwo,booleanField,bool,,
-ConceptTwo,dateFieldOne,date,,
-ConceptTwo,dateFieldTwo,datetime,,
+concept_name,attribute_name,field_name,field_type,attribute_flag,foreign_key
+# -------------------------------------
+ConceptOne,fieldOneOne,field_one_one,int,K,
+ConceptOne,fieldOneTwo,field_one_two,string,N,
+ConceptOne,fieldOneThree,field_one_three,string,N,
+ConceptOne,fieldOneFour,field_one_four,string,N,
+# -------------------------------------
+ConceptTwo,stringField,,string,K,
+ConceptTwo,intFieldOne,,int,,
+ConceptTwo,intFieldTwo,,int,,
+ConceptTwo,longFieldOne,,long,,
+ConceptTwo,doubleFieldOne,,double,,
+ConceptTwo,booleanField,,bool,,
+ConceptTwo,dateFieldOne,,date,,
+ConceptTwo,dateFieldTwo,,datetime,,
+# -------------------------------------
+# workflow process fields
+WorkflowProcess,workflowId,pkworkflow_id,int,K,
+WorkflowProcess,workflowName,workflow_name,string,U,
+WorkflowProcess,workflowType,workflow_type,int,,
+WorkflowProcess,workflowTable,workflow_table,string,,
+WorkflowProcess,activeInd,workflow_active_ind,int,R,
+WorkflowProcess,lastModCd,last_mod_cd,string,,
+WorkflowProcess,lastModTs,last_mod_ts,datetime,,
+# -------------------------------------
+# workflow state fields
+WorkflowState,workflowStateId,pkworkflow_state_id,int,K,
+WorkflowState,workflowId,fkworkflow_id,int,MR,workflow_def.pkworkflow_id
+WorkflowState,workflowStateName,state_name,string,,
+WorkflowState,workflowStateType,state_type,int,,
+WorkflowState,wokflowStateDesc,state_desc,string,,
+WorkflowState,activeInd,state_active_ind,int,,
+WorkflowState,lastModCd,last_mod_cd,string,,
+WorkflowState,lastModTs,last_mod_ts,datetime,,
+# -------------------------------------
+# workflow transition fields
+WorkflowTransition,workflowTransId,pkworkflow_trans_id,int,K,
+WorkflowTransition,workflowId,fkworkflow_id,int,MR,workflow_def.pkworkflow_id
+WorkflowTransition,stateSourceId,fkstate_source_id,int,MR,workflow_state_xref.pkworkflow_state_id
+WorkflowTransition,stateTargetId,fkstate_target_id,int,MR,workflow_state_xref.pkworkflow_state_id
+WorkflowTransition,stateTriggerType,trans_trigger_type,int,,
+WorkflowTransition,wokflowTransDesc,trans_desc,string,,
+WorkflowTransition,activeInd,trans_active_ind,int,,
+WorkflowTransition,lastModCd,last_mod_cd,string,,
+WorkflowTransition,lastModTs,last_mod_ts,datetime,,

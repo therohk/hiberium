@@ -1,3 +1,6 @@
 concept_name,concept_table,concept_schema,module_name
 ConceptOne,concept_one,data_portal,module
 ConceptTwo,concept_two,data_portal,module
+WorkflowProcess,workflow_def,data_portal,workflow
+WorkflowState,workflow_state_xref,data_portal,workflow
+WorkflowTransition,workflow_trans_xref,data_portal,workflow

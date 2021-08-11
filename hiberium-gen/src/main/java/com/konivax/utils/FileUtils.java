@@ -54,7 +54,7 @@ public final class FileUtils {
         Path path = getPath(location);
         boolean ex = Files.exists(path, LinkOption.NOFOLLOW_LINKS);
         boolean nex = Files.notExists(path, LinkOption.NOFOLLOW_LINKS);
-        if ((ex == true ) && (nex == false))
+        if((ex == true) && (nex == false))
             return true;
         return false;
     }

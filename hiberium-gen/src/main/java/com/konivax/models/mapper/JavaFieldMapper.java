@@ -30,7 +30,7 @@ public final class JavaFieldMapper {
     }
 
     public static String mapDatabaseToJavaFieldType(Attribute attribute) {
-        return mapDatabaseToJavaFieldType(attribute.getAttributeType());
+        return mapDatabaseToJavaFieldType(attribute.getFieldType());
     }
 
     public static String mapDatabaseToJavaFieldType(String fieldType) {

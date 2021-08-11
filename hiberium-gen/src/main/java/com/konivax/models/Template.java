@@ -23,6 +23,8 @@ public class Template {
     private String sourcePath;
     private String targetPath;
 
+    //todo overwrite or skip flag
+
     public void findTemplateDependencies() {
         Set<String> variables = FtlUtils.getTemplateVariables(template);
         if(variables == null || variables.isEmpty())

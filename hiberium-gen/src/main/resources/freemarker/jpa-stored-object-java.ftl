@@ -4,6 +4,7 @@ import ${package_base}.models.StoredObject;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +13,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@DynamicInsert
+<#if dynamic_insert>@DynamicInsert</#if>
+<#if dynamic_update>@DynamicUpdate</#if>
 @Table(name = "${concept_table}", schema = "${concept_schema}")
 public class ${concept_name} implements StoredObject<${concept_name}>, Serializable {
 

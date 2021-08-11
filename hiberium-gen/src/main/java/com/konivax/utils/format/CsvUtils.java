@@ -20,6 +20,9 @@ public final class CsvUtils {
 
     private CsvUtils() { }
 
+    /**
+     * support for comments in csv files
+     */
     public static CsvPreference getCsvPreferences() {
         return new CsvPreference.Builder(CsvPreference.STANDARD_PREFERENCE)
                 .skipComments(new CommentStartsWith("#"))

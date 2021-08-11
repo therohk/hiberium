@@ -28,9 +28,9 @@ public class Attribute {
     private String attributeName;
     @Column(name = "field_name")
     private String fieldName;
+    @Column(name = "field_type")
+    private String fieldType;
 
-    @Column(name = "attribute_type")
-    private String attributeType;
     @Column(name = "attribute_flag")
     private String attributeConfig;
     @Column(name = "attribute_format")
@@ -45,13 +45,16 @@ public class Attribute {
     @Column(name = "elastic_document")
     private String elasticDocType; //for elastic document java
 
-    private Integer fieldStartPos;
+    private Integer fieldStartPos; //for fixed width source
+    @Column(name = "field_length")
     private Integer fieldLength; //scale for numeric types
+    @Column(name = "field_precision")
     private Integer fieldPrecision;
 
+    @Column(name = "default_value")
+    private String defaultValue;
     private String fieldBehavior;
     private String setterValue; //for default value expression
-    private String defaultValue;
     private String sequenceName; //db sequence for id generation
 
     @Column(name = "foreign_key")
@@ -89,7 +92,7 @@ public class Attribute {
             attributeConfig = "S";
         }
         if(StringUtils.isBlank(javaFieldType)) {
-            javaFieldType = JavaFieldMapper.mapDatabaseToJavaFieldType(attributeType);
+            javaFieldType = JavaFieldMapper.mapDatabaseToJavaFieldType(fieldType);
             javaFullFieldType = JavaFieldMapper.mapJavaFieldTypeToPackage(javaFieldType);
         }
         if(StringUtils.isBlank(elasticIndexType)) {

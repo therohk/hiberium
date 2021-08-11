@@ -100,6 +100,7 @@ public class Concept {
     }
 
     public void generateHiberiumLocation() {
-
+        Double latitude = null;
+        Double longitude = null;
     }
 }
