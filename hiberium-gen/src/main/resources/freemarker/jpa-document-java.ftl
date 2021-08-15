@@ -19,7 +19,7 @@ public class ${concept_name} {
     @Id
     private String id;
 <#list attributes as attribute>
-    @Field(name = "${attribute.field_name}", type = ${attribute.elastic_document})
+    @Field(name = "${attribute.field_name}", type = ${attribute.elastic_doctype})
     private ${attribute.attribute_java} ${attribute.attribute_name};
 </#list>
 

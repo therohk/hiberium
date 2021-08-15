@@ -11,24 +11,24 @@ public final class YamlUtils {
 
     private YamlUtils() { }
 
-    public static <T> T deserializeObject(String yamlString, Class<T> clazz) {
-        if(yamlString == null)
-            return null;
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        try {
-            return mapper.readValue(yamlString, clazz);
-        } catch(IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public static <T> T deserializeFile(String yamlFile, Class<T> clazz) {
         if(yamlFile == null)
             return null;
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
             return mapper.readValue(new File(yamlFile), clazz);
+        } catch(IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static <T> T deserializeJavaObject(String yamlString, Class<T> clazz) {
+        if(yamlString == null)
+            return null;
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        try {
+            return mapper.readValue(yamlString, clazz);
         } catch(IOException e) {
             e.printStackTrace();
             return null;

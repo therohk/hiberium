@@ -10,24 +10,24 @@ public final class JsonUtils {
 
     private JsonUtils() { }
 
-    public static <T> T deserializeObject(String jsonString, Class<T> clazz) {
-        if(jsonString == null)
-            return null;
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.readValue(jsonString, clazz);
-        } catch(IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public static <T> T deserializeFile(String yamlFile, Class<T> clazz) {
         if(yamlFile == null)
             return null;
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(new File(yamlFile), clazz);
+        } catch(IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static <T> T deserializeJavaObject(String jsonString, Class<T> clazz) {
+        if(jsonString == null)
+            return null;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(jsonString, clazz);
         } catch(IOException e) {
             e.printStackTrace();
             return null;

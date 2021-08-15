@@ -8,20 +8,20 @@ public final class SqlFieldMapper {
 
     public static String mapDatabaseToFieldType(Attribute attribute) {
         String fieldType = attribute.getFieldType();
+        String javaType = attribute.getJavaFieldType();
+        String derivedType = null;
 
         switch (fieldType.toLowerCase()) {
             case "numeric":
-                fieldType = "NUMERIC("+attribute.getFieldLength()+","+attribute.getFieldPrecision()+")";
-                return fieldType;
-
+                derivedType = fieldType.toUpperCase()+"("+attribute.getFieldScale()+","+attribute.getFieldPrecision()+")";
+                attribute.setIncludeColumnDefinition(true);
+                return derivedType;
+            case "varchar":
+                derivedType = fieldType.toUpperCase()+"("+attribute.getFieldScale()+")";
+                attribute.setIncludeColumnDefinition(true);
+                return derivedType;
         }
         return null;
     }
 
-    public static String createNullString(Attribute attribute) {
-        if(attribute.getAttributeConfig().contains("N"))
-            return "NOT NULL";
-        else
-            return "NULL";
-    }
 }

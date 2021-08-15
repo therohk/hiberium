@@ -1,6 +1,7 @@
 package com.konivax.utils;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -56,6 +57,11 @@ public final class ReflectUtils {
         return columnNames;
     }
 
+    public static <T> String[] getColumnNamesAsArray(Class<T> clazz) {
+        List<String> columnNames = getColumnNamesAsList(clazz);
+        return columnNames.toArray((String[]) Array.newInstance(String.class, columnNames.size()));
+    }
+
     public static Map<String,Object> toFieldObjectMap(Object o) {
         Field[] fields = o.getClass().getDeclaredFields();
         Map<String, Object> objectMap = new HashMap<String, Object>();
@@ -85,6 +91,16 @@ public final class ReflectUtils {
         return objectMap;
     }
 
+    public static <T> Field getEntityPrimaryKey(Class<T> clazz) {
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            Id IdAnnotation = field.getAnnotation(Id.class);
+            if (IdAnnotation != null)
+                return field;
+        }
+        return null;
+    }
+
     public static Object runGetter(Field field, Object o) {
         for (Method method : o.getClass().getMethods()) {
             if ((method.getName().startsWith("get")) && (method.getName().length() == (field.getName().length() + 3))) {
@@ -101,4 +117,5 @@ public final class ReflectUtils {
         }
         return null;
     }
+
 }

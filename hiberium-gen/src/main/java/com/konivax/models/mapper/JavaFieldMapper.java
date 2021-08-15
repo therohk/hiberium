@@ -1,8 +1,11 @@
 package com.konivax.models.mapper;
 
 import com.konivax.models.Attribute;
+import com.konivax.utils.CollectionUtils;
+import com.konivax.utils.StringUtils;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +32,17 @@ public final class JavaFieldMapper {
         return !javaKeywords.contains(fieldName);
     }
 
+    public static String mapStringToBoolean(String strValue, boolean invert) {
+        if(StringUtils.isBlank(strValue))
+            return null;
+        strValue = strValue.toLowerCase();
+        if(CollectionUtils.in(strValue, "true", "yes", "Y", "T", "J", "1"))
+            return invert ? "false" : "true";
+        if(CollectionUtils.in(strValue, "false", "no", "N", "F", "0"))
+            return invert ? "true" : "false";
+        return null;
+    }
+
     public static String mapDatabaseToJavaFieldType(Attribute attribute) {
         return mapDatabaseToJavaFieldType(attribute.getFieldType());
     }
@@ -44,19 +58,21 @@ public final class JavaFieldMapper {
                 return "Integer";
             case "long":
             case "int8":
+            case "serial8":
                 return "Long";
             case "date":
             case "time":
             case "datetime":
             case "instant":
             case "timestamp":
-            case "timestampz":
+            case "timestamptz":
                 return "Date";
             case "number":
             case "decimal":
             case "float":
             case "double":
             case "real":
+            case "numeric":
                 return "Double";
             case "string":
             case "char":

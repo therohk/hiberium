@@ -13,7 +13,7 @@ public final class ElasticFieldMapper {
         String javaFieldType = attribute.getJavaFieldType();
         switch (javaFieldType) {
             case "String":
-                Integer fieldLength = attribute.getFieldLength();
+                Integer fieldLength = attribute.getFieldScale();
                 if(fieldLength != null && fieldLength <= 15)
                     return "keyword";
                 else

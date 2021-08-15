@@ -75,6 +75,10 @@ public class Concept {
                     .map(s -> s.toLowerCase())
                     .collect(Collectors.joining("_"));
         }
+        //index name
+        if(StringUtils.isBlank(conceptIndex)) {
+            conceptIndex = sqlTableName;
+        }
         //context path
         if(StringUtils.isBlank(contextName)) {
             contextName = parts.stream()

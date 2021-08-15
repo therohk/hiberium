@@ -24,30 +24,25 @@ public class Attribute {
     @Column(name = "concept_name")
     private String conceptName;
 
+    //java api options
     @Column(name = "attribute_name")
     private String attributeName;
-    @Column(name = "field_name")
-    private String fieldName;
-    @Column(name = "field_type")
-    private String fieldType;
-
     @Column(name = "attribute_flag")
     private String attributeConfig;
     @Column(name = "attribute_format")
     private String attributeFormat;
-
     @Column(name = "attribute_java")
     private String javaFieldType;
     private String javaFullFieldType;
 
-    @Column(name = "elastic_index")
-    private String elasticIndexType; //for elastic index json
-    @Column(name = "elastic_document")
-    private String elasticDocType; //for elastic document java
-
+    //database options
+    @Column(name = "field_name")
+    private String fieldName;
+    @Column(name = "field_type")
+    private String fieldType;
     private Integer fieldStartPos; //for fixed width source
-    @Column(name = "field_length")
-    private Integer fieldLength; //scale for numeric types
+    @Column(name = "field_scale")
+    private Integer fieldScale; //length for varchar type
     @Column(name = "field_precision")
     private Integer fieldPrecision;
 
@@ -59,31 +54,40 @@ public class Attribute {
 
     @Column(name = "foreign_key")
     private String foreignKey;
+    @Column(name = "foreign_key_table")
     private String foreignKeyTable;
+    @Column(name = "foreign_key_field")
     private String foreignKeyField;
     private String foreignConstraintName;
     private String foreignKeyType;
+
+    //elastic options
+    @Column(name = "elastic_type")
+    private String elasticIndexType; //for elastic index json
+    @Column(name = "elastic_doctype")
+    private String elasticDocType; //for elastic document java
 
     private String formFieldType;
 
     @Column(name = "enable_coldef")
     private Boolean includeColumnDefinition;
 
-    //nullable
-    //searchable
-    //indexable
-    //analysable
+    //nullable; searchable; indexable; analysable
 
     public void applyAttributeFlag(String attributeConfig) {
 
-//        if(attributeConfig.contains("K"))
+    }
 
+    public void applyScalePrecision(Integer scale, Integer precision) {
+        this.fieldScale = scale;
+        this.fieldPrecision = precision;
     }
 
     public void createDerivedNames() {
-        List<String> parts = StringUtils.splitByCharacterType(attributeName, true);
+        //todo validate
 
         if(StringUtils.isBlank(fieldName)) {
+            List<String> parts = StringUtils.splitByCharacterType(attributeName, true);
             fieldName = parts.stream()
                     .map(s -> s.toLowerCase())
                     .collect(Collectors.joining("_"));
@@ -97,11 +101,14 @@ public class Attribute {
         }
         if(StringUtils.isBlank(elasticIndexType)) {
             elasticIndexType = ElasticFieldMapper.mapJavaFieldTypeToElastic(this);
+            elasticDocType = ElasticFieldMapper.mapElasticTypeToDocumentType(this);
         }
         if(StringUtils.notBlank(foreignKey)) {
             foreignKeyTable = foreignKey.split("\\.", 2)[0];
             foreignKeyField = foreignKey.split("\\.", 2)[1];
-            foreignConstraintName = "";
+            foreignConstraintName = fieldName+"_fk";
+            if(!attributeConfig.contains("M"))
+                attributeConfig = attributeConfig + "M";
         }
 
     }

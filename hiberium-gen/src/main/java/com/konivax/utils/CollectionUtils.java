@@ -16,6 +16,16 @@ public final class CollectionUtils {
         return (collection != null && !collection.isEmpty());
     }
 
+    public static boolean in(final String needle, final String... haystack) {
+        if(haystack == null || haystack.length == 0)
+            return false;
+        for(String hay : haystack) {
+            if(needle.equals(hay))
+                return true;
+        }
+        return false;
+    }
+
     public static <T> boolean in(final T needle, final Collection<T> haystack) {
         if(haystack == null || haystack.size() == 0)
             return false;
