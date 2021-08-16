@@ -5,9 +5,10 @@ import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.StringUtils;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
+import static com.konivax.models.mapper.FieldConstants.*;
 
 /**
  * database field type to java field type mapping
@@ -55,53 +56,53 @@ public final class JavaFieldMapper {
             case "smallint":
             case "tinyint":
             case "serial":
-                return "Integer";
+                return TYPE_INTEGER;
             case "long":
             case "int8":
             case "serial8":
-                return "Long";
+                return TYPE_LONG;
             case "date":
             case "time":
             case "datetime":
             case "instant":
             case "timestamp":
             case "timestamptz":
-                return "Date";
+                return TYPE_DATETIME;
             case "number":
             case "decimal":
             case "float":
             case "double":
             case "real":
             case "numeric":
-                return "Double";
+                return TYPE_DOUBLE;
             case "string":
             case "char":
             case "nchar":
             case "varchar":
             case "nvarchar":
             case "text":
-                return "String";
+                return TYPE_STRING;
             case "bool":
             case "boolean":
             case "bit":
-                return "Boolean";
+                return TYPE_BOOLEAN;
         }
         return null;
     }
 
     public static Class<?> mapJavaFieldTypeToClass(String javaFieldType) {
         switch (javaFieldType) {
-            case "String":
+            case TYPE_STRING:
                 return String.class;
-            case "Integer":
+            case TYPE_INTEGER:
                 return Integer.class;
-            case "Long":
+            case TYPE_LONG:
                 return Long.class;
-            case "Double":
+            case TYPE_DOUBLE:
                 return Double.class;
-            case "Date":
+            case TYPE_DATETIME:
                 return Date.class;
-            case "Boolean":
+            case TYPE_BOOLEAN:
                 return Boolean.class;
         }
         return null;
@@ -109,17 +110,17 @@ public final class JavaFieldMapper {
 
     public static String mapJavaFieldTypeToPackage(String javaFieldType) {
         switch (javaFieldType) {
-            case "String":
+            case TYPE_STRING:
                 return String.class.getName();
-            case "Integer":
+            case TYPE_INTEGER:
                 return Integer.class.getName();
-            case "Long":
+            case TYPE_LONG:
                 return Long.class.getName();
-            case "Double":
+            case TYPE_DOUBLE:
                 return Double.class.getName();
-            case "Date":
+            case TYPE_DATETIME:
                 return Date.class.getName();
-            case "Boolean":
+            case TYPE_BOOLEAN:
                 return Boolean.class.getName();
         }
         return null;

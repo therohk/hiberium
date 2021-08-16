@@ -44,12 +44,14 @@ public final class FieldConstants {
     public static final String ONE_TO_MANY = "1:n";
 
     //data constants
+    public static final Integer DEFAULT_LENGTH = 128;
     public static final Integer DEFAULT_SCALE = 15;
     public static final Integer DEFAULT_PRECISION = 4;
 
     public static final String DATA_ACTIVE = "1";
     public static final String DATA_INACTIVE = "0";
 
+    public static final String FORMAT_DATE = "yyyy-MM-dd HH:mm:ss.SSSSS";
     public static final String DATA_DATETS = "new Date()";
 
 }

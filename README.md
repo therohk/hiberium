@@ -2,7 +2,7 @@
 
 Code generator for working springboot, hibernate projects from csv schema definition.
 
-Generate a high quality deployable spring boot application using freemarker templates to generate code.
+Generate a high quality deployable web application using freemarker templates to generate code.
 
 1. Download this repository and open with Intellij
 
@@ -24,8 +24,10 @@ Generate a high quality deployable spring boot application using freemarker temp
 
 ### Features to be added soon.
 
-1. Proper sql create statement for table along with dependency ordering
+1. Dependency ordering for sql create table statements.
 
 2. Optional Spring security integration with JWT tokens.
 
-3. Support for spring elastic search project.
+3. Bulk import and export endpoint via csv files for any entity.
+
+4. Full support for spring elastic search client.

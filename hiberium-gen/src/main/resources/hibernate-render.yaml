@@ -50,3 +50,6 @@ conceptions :
   - template : "create-table-sql.ftl"
     packagePath : "src.main.resources.database"
     filename : "create-${concept_table}.sql"
+  - template : "elastic-index-json.ftl"
+    packagePath : "src.main.resources.elastic"
+    filename : "putindex-${concept_index}.json"

@@ -2,6 +2,8 @@ package com.konivax.models.mapper;
 
 import com.konivax.models.Attribute;
 
+import static com.konivax.models.mapper.FieldConstants.*;
+
 public final class ElasticFieldMapper {
 
     private ElasticFieldMapper() { }
@@ -12,21 +14,21 @@ public final class ElasticFieldMapper {
     public static String mapJavaFieldTypeToElastic(Attribute attribute) {
         String javaFieldType = attribute.getJavaFieldType();
         switch (javaFieldType) {
-            case "String":
+            case TYPE_STRING:
                 Integer fieldLength = attribute.getFieldScale();
                 if(fieldLength != null && fieldLength <= 15)
                     return "keyword";
                 else
                     return "text";
-            case "Integer":
-            case "Long":
+            case TYPE_INTEGER:
+            case TYPE_LONG:
                 return "long";
             case "Float":
-            case "Double":
+            case TYPE_DOUBLE:
                 return "double";
-            case "Date":
+            case TYPE_DATETIME:
                 return "date";
-            case "Boolean":
+            case TYPE_BOOLEAN:
                 return "boolean";
         }
         return null;

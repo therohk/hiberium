@@ -74,13 +74,22 @@ public class Attribute {
 
     //nullable; searchable; indexable; analysable
 
-    public void applyAttributeFlag(String attributeConfig) {
-
-    }
-
     public void applyScalePrecision(Integer scale, Integer precision) {
         this.fieldScale = scale;
         this.fieldPrecision = precision;
+    }
+
+    public boolean hasAttributeFlag(String attributeFlag) {
+        if(StringUtils.isBlank(attributeConfig))
+            return false;
+        return attributeConfig.contains(attributeFlag);
+    }
+
+    public void applyAttributeFlag(String attributeFlag) {
+        if(StringUtils.isBlank(attributeConfig))
+            attributeConfig = attributeFlag;
+        if(!attributeConfig.contains(attributeFlag))
+            attributeConfig = attributeConfig + attributeFlag;
     }
 
     public void createDerivedNames() {
