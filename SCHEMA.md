@@ -6,9 +6,9 @@ The project to be rendered is defined under [hibernate-render.yaml](hiberium-gen
 
 The yaml configuration stores the templates and their target package which are rendered in order.
 
-The templates in the section projections are rendered once per project.
+The templates under the section [projections](hiberium-gen/src/main/resources/freemarker) are rendered once per project.
 
-The templates in the section conceptions are rendered once per concept.
+The templates under the section [conceptions](hiberium-gen/src/main/resources/springboot) are rendered once per concept.
 
 A runnable spring web application is generated under the hiberium-war folder.
 
@@ -20,7 +20,7 @@ Implement further business logic and connect to a real database.
 
 # Concept
 
-concept = entity = table = class = model = object = type
+concept = entity = table = class = model = object = bean = type
 
 This configuration is loaded from [concept-def.csv](hiberium-gen/src/main/resources/concept-def.csv) by default.
 
@@ -53,14 +53,18 @@ This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/res
 | field_type | `[a-z0-9]+` | database field type |
 | attribute_flag | optional see [flags](#attribute-flags) | alphabetic field configuration |
 | foreign_key | `tablename.fieldname` | foreign key relation added on field |
-| field_length | if applicable | length for varchar or scale for numeric type |
+| field_scale | if applicable | length for varchar or scale for numeric type |
 | field_precision | if applicable | precision for numeric type |
-| default_value | if applicable | default value for field |
+| default_value | optional | default value for field |
 | dynamic_insert | `true` | enable hibernate dynamic insert |
 | dynamic_update | `false` | enable hibernate dynamic update |
-| elastic_type | not implemented | elastic search field type |
+| elastic_type | optional | elastic search field type |
 
 ## Attribute Flags
+
+A string of chained alphabetic flags can be used to configure an attribute.
+
+Todo, any boolean setting can be over-ridden individually after applying the flag.
 
 | Flag Value | Meaning | Effect |
 |----|----|----|
@@ -79,6 +83,10 @@ This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/res
 
 This flag describes how updates to an entity via the PUT api are handled. 
 
+It decides how field values are handled during a merge operation between two entities.
+
 Options include always insert, overwrite/replace, finalize and merge. 
 
-This feature is not yet available. Code contributions are welcome!
+This feature will be implemented using reflections api and is not yet available. 
+
+Code contributions are welcome!

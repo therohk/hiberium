@@ -24,10 +24,12 @@ Generate a high quality deployable web application using freemarker templates to
 
 ### Features to be added soon.
 
-1. Dependency ordering for sql create table statements.
+1. Move application logic from controller layer to service layer.
 
-2. Optional Spring security integration with JWT tokens.
+2. Dependency ordering for sql create table statements.
 
 3. Bulk import and export endpoint via csv files for any entity.
 
-4. Full support for spring elastic search client.
+4. Optional Spring security integration with JWT tokens.
+
+5. Full support for spring elastic search client.
