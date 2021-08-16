@@ -69,9 +69,6 @@ public class Attribute {
 
     private String formFieldType;
 
-    @Column(name = "enable_coldef")
-    private Boolean includeColumnDefinition;
-
     //nullable; searchable; indexable; analysable
 
     public void applyScalePrecision(Integer scale, Integer precision) {

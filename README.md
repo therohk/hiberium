@@ -33,3 +33,5 @@ Generate a high quality deployable web application using freemarker templates to
 4. Optional Spring security integration with JWT tokens.
 
 5. Full support for spring elastic search client.
+
+6. Optional entity insert using form submission.

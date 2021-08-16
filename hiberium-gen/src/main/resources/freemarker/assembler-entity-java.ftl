@@ -14,10 +14,10 @@ class ${concept_name}Assembler implements RepresentationModelAssembler<${concept
 
     @Override
     public EntityModel<${concept_name}> toModel(${concept_name} ${concept_varname}) {
-
-      return EntityModel.of(${concept_varname},
-          linkTo(methodOn(${concept_name}Controller.class).get${concept_name}ById(${concept_varname}.getId())).withSelfRel(),
-          linkTo(methodOn(${concept_name}Controller.class).getAll${concept_name}()).withRel("${concept_varname}List")
-          );
+        return EntityModel.of(
+            ${concept_varname},
+            linkTo(methodOn(${concept_name}Controller.class).get${concept_name}ById(${concept_varname}.getId())).withSelfRel(),
+            linkTo(methodOn(${concept_name}Controller.class).getAll${concept_name}()).withRel("${concept_varname}List")
+        );
     }
 }
