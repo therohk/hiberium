@@ -3,7 +3,7 @@
     public ResponseEntity<List<${concept_name}>> find${concept_name}BySearchField(
             @PathVariable(value = "label") String searchLabel,
             @PathVariable(value = "value") String searchValue,
-            @RequestParam(value = "page", defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @RequestParam(value = "perPage", defaultValue = "10") Integer perPage
             ) throws Exception {
 

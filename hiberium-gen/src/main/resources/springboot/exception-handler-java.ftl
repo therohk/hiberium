@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 @ControllerAdvice
 public class GenericExceptionHandler {
@@ -36,6 +37,17 @@ public class GenericExceptionHandler {
         String message = exception.getMessage() != null ? exception.getMessage() : "Unknown Error";
         ExceptionResponse error = new ExceptionResponse();
         error.setExceptionObject(request, message, 400);
+        return error;
+    }
+
+    @ExceptionHandler({NoSuchElementException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public @ResponseBody ExceptionResponse handleExceptionMissingData(
+            final Exception exception, final HttpServletRequest request) {
+
+        String message = exception.getMessage() != null ? exception.getMessage() : "Missing Data";
+        ExceptionResponse error = new ExceptionResponse();
+        error.setExceptionObject(request, message, 404);
         return error;
     }
 

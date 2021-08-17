@@ -22,5 +22,11 @@ public interface ${concept_name}Repository extends JpaRepository<${concept_name}
     List<${concept_name}> findBy${attribute.attribute_name?cap_first}(${attribute.attribute_java} ${attribute.attribute_name});
 
 </#list>
-
 }
+
+<#macro printfindby attribute>
+<@compress single_line=true>
+<#if attribute.attribute_role?contains("U")>${concept_name} <#else>List<${concept_name}> </#if>
+findBy${attribute.attribute_name?cap_first}(${attribute.attribute_java} ${attribute.attribute_name});
+</@compress>
+</#macro>
