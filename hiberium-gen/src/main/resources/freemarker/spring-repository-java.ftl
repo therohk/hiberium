@@ -18,7 +18,7 @@ public interface ${concept_name}Repository extends JpaRepository<${concept_name}
     List<${concept_name}> findAllByLimitAndOffset(Integer limit, Integer offset);
 
 <#list attributes as attribute>
-    <#if !attribute.attribute_flag?contains("R")><#continue></#if>
+    <#if !attribute.attribute_role?contains("R")><#continue></#if>
     List<${concept_name}> findBy${attribute.attribute_name?cap_first}(${attribute.attribute_java} ${attribute.attribute_name});
 
 </#list>

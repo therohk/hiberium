@@ -51,8 +51,8 @@ dependencies {
 //    compile('org.springframework.boot:spring-boot-starter-security')
 //    compile('org.springframework.boot:spring-boot-starter-oauth2-client')
 //    compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
-    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-    compile("net.sourceforge.nekohtml:nekohtml:1.9.21")
+//    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+//    compile("net.sourceforge.nekohtml:nekohtml:1.9.21")
     compile("io.jsonwebtoken:jjwt:0.9.1")
 
     compile("org.webjars:bootstrap:3.3.7")

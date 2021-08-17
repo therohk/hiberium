@@ -19,7 +19,7 @@ import java.util.Date;
 public class ${concept_name} implements StoredObject<${concept_name}>, Serializable {
 
 <#list attributes as attribute>
-    <#if attribute.attribute_flag?contains("K")>
+    <#if attribute.attribute_role?contains("K")>
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     </#if>
@@ -27,7 +27,7 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
     private ${attribute.attribute_java} ${attribute.attribute_name};
 </#list>
 
-<#assign primary_key = attributes?filter(a -> a.attribute_flag?contains("K"))?first>
+<#assign primary_key = attributes?filter(a -> a.attribute_role?contains("K"))?first>
     public ${primary_key.attribute_java} primaryKey() {
         return get${primary_key.attribute_name?cap_first}();
     }
@@ -42,8 +42,8 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
 
     public void handleFieldsForUpdate(${concept_name} update) {
 <#list attributes as attribute>
-    <#if attribute.attribute_flag?contains("K")><#continue></#if>
-    <#if attribute.attribute_flag?contains("F")><#continue></#if>
+    <#if attribute.attribute_role?contains("K")><#continue></#if>
+    <#if attribute.attribute_role?contains("F")><#continue></#if>
         this.set${attribute.attribute_name?cap_first}(update.get${attribute.attribute_name?cap_first}());
 </#list>
     }

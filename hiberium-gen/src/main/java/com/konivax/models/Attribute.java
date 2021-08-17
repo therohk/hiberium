@@ -27,8 +27,8 @@ public class Attribute {
     //java api options
     @Column(name = "attribute_name")
     private String attributeName;
-    @Column(name = "attribute_flag")
-    private String attributeConfig;
+    @Column(name = "attribute_role")
+    private String attributeRole;
     @Column(name = "attribute_format")
     private String attributeFormat;
     @Column(name = "attribute_java")
@@ -77,16 +77,16 @@ public class Attribute {
     }
 
     public boolean hasAttributeFlag(String attributeFlag) {
-        if(StringUtils.isBlank(attributeConfig))
+        if(StringUtils.isBlank(attributeRole))
             return false;
-        return attributeConfig.contains(attributeFlag);
+        return attributeRole.contains(attributeFlag);
     }
 
     public void applyAttributeFlag(String attributeFlag) {
-        if(StringUtils.isBlank(attributeConfig))
-            attributeConfig = attributeFlag;
-        if(!attributeConfig.contains(attributeFlag))
-            attributeConfig = attributeConfig + attributeFlag;
+        if(StringUtils.isBlank(attributeRole))
+            attributeRole = attributeFlag;
+        if(!attributeRole.contains(attributeFlag))
+            attributeRole = attributeRole + attributeFlag;
     }
 
     public void createDerivedNames() {
@@ -98,8 +98,8 @@ public class Attribute {
                     .map(s -> s.toLowerCase())
                     .collect(Collectors.joining("_"));
         }
-        if(StringUtils.isBlank(attributeConfig)) {
-            attributeConfig = "S";
+        if(StringUtils.isBlank(attributeRole)) {
+            attributeRole = "S";
         }
         if(StringUtils.isBlank(javaFieldType)) {
             javaFieldType = JavaFieldMapper.mapDatabaseToJavaFieldType(fieldType);
@@ -113,8 +113,8 @@ public class Attribute {
             foreignKeyTable = foreignKey.split("\\.", 2)[0];
             foreignKeyField = foreignKey.split("\\.", 2)[1];
             foreignConstraintName = fieldName+"_fk";
-            if(!attributeConfig.contains("M"))
-                attributeConfig = attributeConfig + "M";
+            if(!attributeRole.contains("M"))
+                attributeRole = attributeRole + "M";
         }
 
     }

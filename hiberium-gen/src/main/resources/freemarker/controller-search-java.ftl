@@ -10,7 +10,7 @@
         List<${concept_name}> ${concept_varname}List = new ArrayList<${concept_name}>();
         switch (searchField) {
 <#list attributes as attribute>
-    <#if !attribute.attribute_flag?contains("R")><#continue></#if>
+    <#if !attribute.attribute_role?contains("R")><#continue></#if>
             case "${attribute_name}":
     <#if attribute.attribute_java == "String">
                 ${concept_varname}List = repository.findBy${attribute_name?first_cap}(searchLabel);

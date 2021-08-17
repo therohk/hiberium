@@ -7,7 +7,7 @@
                 "type": "${attribute.elastic_type}"
     <#if attribute.elastic_type == "text">, "analyzer": "english"</#if>
     <#if attribute.elastic_type == "date">, "format": "basic_date_time"</#if>
-    <#if attribute.attribute_flag?contains("H")>, "index" : false</#if>
+    <#if attribute.attribute_role?contains("H")>, "index" : false</#if>
              } <#sep>,</#sep>
 </@compress>
 

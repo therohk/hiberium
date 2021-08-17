@@ -9,13 +9,13 @@ CREATE TABLE ${concept_schema}.${concept_table} (
 <#list attributes as attribute>
     ${attribute.field_name} <@printtype attribute=attribute/> <@printnull attribute=attribute/> <@printdefault attribute=attribute/> <#sep>,</#sep>
 </#list>
-<#list attributes?filter(a -> a.attribute_flag?contains("K")) as attribute>
+<#list attributes?filter(a -> a.attribute_role?contains("K")) as attribute>
     , CONSTRAINT ${attribute.field_name}_pk PRIMARY KEY (${attribute.field_name})
 </#list>
-<#list attributes?filter(a -> a.attribute_flag?contains("U")) as attribute>
+<#list attributes?filter(a -> a.attribute_role?contains("U")) as attribute>
     , CONSTRAINT ${attribute.field_name}_uk UNIQUE (${attribute.field_name})
 </#list>
-<#list attributes?filter(a -> a.attribute_flag?contains("M")) as attribute>
+<#list attributes?filter(a -> a.attribute_role?contains("M")) as attribute>
     , CONSTRAINT ${attribute.field_name}_fk FOREIGN KEY (${attribute.field_name}) REFERENCES ${concept_schema}.${attribute.foreign_key_table}(${attribute.foreign_key_field})
 </#list>
 );
@@ -31,7 +31,7 @@ CREATE TABLE ${concept_schema}.${concept_table} (
 
 <#macro printnull attribute>
 <@compress single_line=true>
-<#if !attribute.attribute_flag?contains("N")>NOT</#if> NULL
+<#if !attribute.attribute_role?contains("N")>NOT</#if> NULL
 </@compress>
 </#macro>
 

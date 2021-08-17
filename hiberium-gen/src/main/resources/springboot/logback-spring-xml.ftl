@@ -22,7 +22,7 @@
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="RollingFile" />
+        <!-- <appender-ref ref="RollingFile" /> -->
         <appender-ref ref="Console" />
     </root>
 </configuration>

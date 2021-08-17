@@ -22,7 +22,7 @@ import java.util.Date;
 public class ${concept_name} implements Serializable {
 
 <#list attributes as attribute>
-    <#if attribute.attribute_flag?contains("K")>
+    <#if attribute.attribute_role?contains("K")>
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     </#if>

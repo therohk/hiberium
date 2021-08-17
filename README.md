@@ -12,15 +12,15 @@ Generate a high quality deployable web application using freemarker templates to
 
 4. Run the gradle command `gradle render`
 
-5. Code has been generated under child project `hiberium-war`
+5. Code has been generated under the child project `hiberium-war`
 
 6. Open `settings.gradle` and remove comment for the child project
 
 7. Run the gradle command `gradle clean build`
 
-8. Run the spring application main function from `Application.java`
+8. Run the spring webapp from `Application.java` or `gradle bootWar`
 
-9. Setup database connection details in `application.properties`
+9. Start writing business logic and setup connection details in `application.properties`
 
 ### Features to be added soon.
 

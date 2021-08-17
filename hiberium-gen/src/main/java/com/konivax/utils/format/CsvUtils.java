@@ -4,11 +4,13 @@ import com.konivax.utils.ReflectUtils;
 import org.supercsv.cellprocessor.*;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.comment.CommentStartsWith;
+import org.supercsv.exception.SuperCsvException;
 import org.supercsv.io.CsvBeanReader;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
+import org.supercsv.util.CsvContext;
 
 import javax.persistence.Column;
 import java.io.FileReader;
@@ -82,29 +84,13 @@ public final class CsvUtils {
    //--------------------------------------------------------------------------
 
     public static <T> List<T> readCsvFileData(String filePath, Class<T> clazz) {
-        System.out.println("loading into "+clazz.getSimpleName()+" from "+filePath);
-        List<T> entityList = new ArrayList<T>();
+        System.out.println("loading csv from "+filePath);
         try {
             FileReader fileReader = new FileReader(filePath, Charset.forName("UTF-8"));
-            ICsvBeanReader beanReader = new CsvBeanReader(fileReader, CsvUtils.getCsvPreferences());
-            String[] headers = beanReader.getHeader(true);
-
-            String[] fieldMapping = ReflectUtils.getFieldNamesAsArray(clazz, headers);
-            CellProcessor[] processors = CsvUtils.getCellProcessorForObject(clazz, headers);
-            System.out.println("csv header mapping "+
-                    Arrays.asList(headers).toString()+" -> "+Arrays.asList(fieldMapping).toString());
-
-            T entity = null;
-            while ((entity = beanReader.read(clazz, fieldMapping, processors)) != null) {
-                System.out.println(JsonUtils.serializeJavaObject(entity));
-                entityList.add(entity);
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException("failed to parse csv file : " + e.getMessage());
+            return readCsvReaderData(fileReader, clazz);
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
         }
-
-        return entityList;
     }
 
     public static <T> List<T> readCsvReaderData(Reader reader, Class<T> clazz) {
@@ -125,8 +111,15 @@ public final class CsvUtils {
                 entityList.add(entity);
             }
 
-        } catch (IOException e) {
-            throw new RuntimeException("failed to parse csv file : " + e.getMessage());
+        } catch (IOException ioe) {
+            throw new RuntimeException("failed to parse csv file : " + ioe.getMessage());
+        } catch (SuperCsvException sce) {
+            CsvContext context = sce.getCsvContext();
+            String errorText = String.format("error on lineNum=%s ; rowNum=%s ; colNum=%s",
+                    context.getLineNumber(), context.getRowNumber(), context.getColumnNumber());
+            System.out.println(errorText);
+            System.out.println(context.getRowSource());
+            throw new RuntimeException(sce);
         }
 
         return entityList;

@@ -51,7 +51,7 @@ This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/res
 | attribute_name | `[a-z][A-Za-z]+` | java field name exposed via rest api |
 | field_name | `[a-z0-9_]+` | database field name |
 | field_type | `[a-z0-9]+` | database field type |
-| attribute_flag | optional see [flags](#attribute-flags) | alphabetic field configuration |
+| attribute_role | optional see [roles](#attribute-roles) | alphabetic field configuration |
 | foreign_key | `tablename.fieldname` | foreign key relation added on field |
 | field_scale | if applicable | length for varchar or scale for numeric type |
 | field_precision | if applicable | precision for numeric type |
@@ -60,13 +60,13 @@ This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/res
 | dynamic_update | `false` | enable hibernate dynamic update |
 | elastic_type | optional | elastic search field type |
 
-## Attribute Flags
+## Attribute Roles
 
-A string of chained alphabetic flags can be used to configure an attribute.
+A string of chained alphabetic roles can be used to configure an attribute.
 
-Todo, any boolean setting can be over-ridden individually after applying the flag.
+Todo, any boolean setting configured from the role can be over-ridden individually.
 
-| Flag Value | Meaning | Effect |
+| Role Value | Meaning | Effect |
 |----|----|----|
 | K | Primary Key | single primary key in table |
 | F | Finalized | value cannot be changed once set |
