@@ -2,6 +2,8 @@ package com.konivax.utils;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -101,15 +103,28 @@ public final class ReflectUtils {
         return null;
     }
 
-    public static Object runGetter(Field field, Object o) {
-        for (Method method : o.getClass().getMethods()) {
-            if ((method.getName().startsWith("get")) && (method.getName().length() == (field.getName().length() + 3))) {
+    public static <T> Field getEntityFieldByName(Class<T> clazz, String fieldName) {
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getName().equals(fieldName))
+                return field;
+            if(field.getAnnotation(Column.class) != null)
+                if(field.getAnnotation(Column.class).name().equals(fieldName))
+                    return field;
+        }
+        return null;
+    }
+
+    public static Object runGetter(Field field, Object obj) {
+        for (Method method : obj.getClass().getMethods()) {
+            if ((method.getName().startsWith("get"))
+                    && (method.getName().length() == (field.getName().length() + 3))) {
                 if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
                     try {
-                        return method.invoke(o);
-                    } catch (IllegalAccessException e) {
+                        return method.invoke(obj);
+                    } catch (IllegalAccessException iae) {
                         System.err.println("Could not determine method: " + method.getName());
-                    } catch (InvocationTargetException e) {
+                    } catch (InvocationTargetException ite) {
                         System.err.println("Could not determine method: " + method.getName());
                     }
                 }
@@ -118,4 +133,34 @@ public final class ReflectUtils {
         return null;
     }
 
+    public static Object invokeGetter(Object obj, String fieldName) {
+        PropertyDescriptor pd;
+        try {
+            pd = new PropertyDescriptor(fieldName, obj.getClass());
+            Method getter = pd.getReadMethod();
+            try {
+                return getter.invoke(obj);
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException iae) {
+                throw new RuntimeException(iae);
+            }
+        } catch (IntrospectionException ie) {
+            throw new RuntimeException(ie);
+        }
+    }
+
+    public static void invokeSetter(Object obj, String fieldName, Object targetValue) {
+        PropertyDescriptor pd;
+        try {
+            pd = new PropertyDescriptor(fieldName, obj.getClass());
+            Method setter = pd.getWriteMethod();
+            try {
+                setter.invoke(obj, targetValue);
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException iae) {
+//                e.printStackTrace();
+                throw new RuntimeException(iae);
+            }
+        } catch (IntrospectionException ie) {
+            throw new RuntimeException(ie);
+        }
+    }
 }

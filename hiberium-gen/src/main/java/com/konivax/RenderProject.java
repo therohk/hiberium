@@ -1,6 +1,5 @@
 package com.konivax;
 
-import com.konivax.files.CsvLoader;
 import com.konivax.files.FtlBuilder;
 import com.konivax.models.Attribute;
 import com.konivax.models.Concept;
@@ -9,6 +8,7 @@ import com.konivax.models.Template;
 import com.konivax.utils.FileUtils;
 import com.konivax.utils.ReflectUtils;
 import com.konivax.utils.Validate;
+import com.konivax.utils.format.CsvUtils;
 import com.konivax.utils.format.JsonUtils;
 import com.konivax.utils.format.YamlUtils;
 
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class RenderProject {
 
@@ -35,9 +36,9 @@ public class RenderProject {
         System.out.println(JsonUtils.serializeJavaObject(project));
 
         //load data model
-        List<Concept> conceptList = CsvLoader.loadConceptDefFile(conceptCsv);
-        List<Attribute> attributeList = CsvLoader.loadAttributeXrefFile(attributeCsv);
-        CsvLoader.attachConceptAttributes(conceptList, attributeList);
+        List<Concept> conceptList = CsvUtils.readCsvFileData(conceptCsv, Concept.class);
+        List<Attribute> attributeList = CsvUtils.readCsvFileData(attributeCsv, Attribute.class);
+        attachConceptAttributes(conceptList, attributeList);
 
         //create freemarker model
         String targetPath = projectPath + "\\" + project.getProjectName() + "\\";
@@ -60,6 +61,17 @@ public class RenderProject {
             for (Template template : project.getConceptions()) {
                 FtlBuilder.renderFtlTemplate(conceptData, targetPath, template);
             }
+        }
+    }
+
+    public static void attachConceptAttributes(List<Concept> conceptList, List<Attribute> attributeList) {
+        for (Concept concept : conceptList) {
+            String conceptName = concept.getConceptName();
+            List<Attribute> attributeReq = attributeList.stream()
+                    .filter(a -> a.getConceptName().equals(conceptName))
+                    .collect(Collectors.toList());
+
+            concept.setAttributeXref(attributeReq);
         }
     }
 

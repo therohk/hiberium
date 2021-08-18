@@ -15,9 +15,8 @@ public final class Validate {
     }
 
     public static void isTrue(final boolean cond, final String message, final Object... values) {
-        if (cond == false) {
+        if (cond == false)
             throw new IllegalArgumentException(String.format(message, values));
-        }
     }
 
     public static void isFalse(final boolean cond, final String message, final Object... values) {
@@ -26,9 +25,8 @@ public final class Validate {
     }
 
     public static <T> T notNull(final T object, final String message, final Object... values) {
-        if (object == null) {
+        if (object == null)
             throw new NullPointerException(String.format(message, values));
-        }
         return object;
     }
 }

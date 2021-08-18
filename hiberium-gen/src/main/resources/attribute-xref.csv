@@ -5,13 +5,17 @@ ConceptOne,fieldOneTwo,field_one_two,varchar,N,,,
 ConceptOne,fieldOneThree,field_one_three,varchar,N,,,
 ConceptOne,fieldOneFour,field_one_four,varchar,N,,,
 # -------------------------------------
-ConceptTwo,stringField,,varchar,K,,,
+ConceptTwo,intKey,,serial,K,,,
 ConceptTwo,intFieldOne,,int4,,,,
 ConceptTwo,intFieldTwo,,int4,,,,
 ConceptTwo,longFieldOne,,int8,,,,
+ConceptTwo,stringFieldOne,,text,,,,
+ConceptTwo,stringFieldTwo,,char,,,,
+ConceptTwo,stringFieldThree,,varchar,,,,
 ConceptTwo,doubleFieldOne,,numeric,,,,
 ConceptTwo,booleanField,,bool,,,,
 ConceptTwo,dateFieldOne,,date,,,,
+ConceptTwo,stringFieldFour,,varchar,,,2,
 ConceptTwo,dateFieldTwo,,timestamptz,,,,
 # -------------------------------------
 # workflow process fields
