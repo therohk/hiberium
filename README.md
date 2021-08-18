@@ -18,7 +18,7 @@ Generate a high quality deployable web application using freemarker templates to
 
 7. Run the gradle command `gradle clean build`
 
-8. Run the spring webapp from `Application.java` or `gradle bootWar`
+8. Run the spring webapp from `Application.java` or `gradle bootRun`
 
 9. Start writing business logic and setup connection details in `application.properties`
 

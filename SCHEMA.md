@@ -20,7 +20,7 @@ Implement further business logic and connect to a real database.
 
 # Concept
 
-concept = entity = table = class = model = object = bean = type
+concept = entity = table = class = model = bean = type = container
 
 This configuration is loaded from [concept-def.csv](hiberium-gen/src/main/resources/concept-def.csv) by default.
 
@@ -30,12 +30,14 @@ This configuration is loaded from [concept-def.csv](hiberium-gen/src/main/resour
 | ---- |---- | ---- |
 | concept_id | optional `[0-9]+` | numeric identifier for concept |
 | concept_name | required `[A-Za-z0-9]+` | denoted in camel case |
-| concept_module | required `[A-Z][a-z]+` | denoted in standard case as single word |
+| module_name | required `[a-z]+` | single word in lower case |
 | concept_table | `[a-z0-9_]+` | db table name ; lower case separated by underscore |
 | concept_schema | `[a-z0-9_]+` | db schema name ; lower case separated by underscore |
 | concept_apipath | optional api context path | default value is hyphen separated concept_name |
 | concept_desc | optional text | description of concept |
-| concept_strategy | optional | update strategy for resource |
+| update_code | optional | update strategy for resource |
+| dynamic_insert | `true` | enable hibernate dynamic insert |
+| dynamic_update | `false` | enable hibernate dynamic update |
 
 # Attribute
 
@@ -56,8 +58,6 @@ This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/res
 | field_scale | if applicable | length for varchar or scale for numeric type |
 | field_precision | if applicable | precision for numeric type |
 | default_value | optional | default value for field |
-| dynamic_insert | `true` | enable hibernate dynamic insert |
-| dynamic_update | `false` | enable hibernate dynamic update |
 | elastic_type | optional | elastic search field type |
 
 ## Attribute Roles
