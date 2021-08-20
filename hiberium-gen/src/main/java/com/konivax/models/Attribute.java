@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Attribute {
 
+    @Id
     @Column(name = "attribute_id")
     private Integer attributeId;
     @Column(name = "concept_name")
@@ -61,11 +63,12 @@ public class Attribute {
     private String foreignConstraintName;
     private String foreignKeyType;
 
+    @Column(name = "update_code")
+    private String updateCode;
+
     //elastic options
     @Column(name = "elastic_type")
     private String elasticIndexType; //for elastic index json
-    @Column(name = "elastic_doctype")
-    private String elasticDocType; //for elastic document java
 
     private String formFieldType;
 
@@ -107,14 +110,12 @@ public class Attribute {
         }
         if(StringUtils.isBlank(elasticIndexType)) {
             elasticIndexType = ElasticFieldMapper.mapJavaFieldTypeToElastic(this);
-            elasticDocType = ElasticFieldMapper.mapElasticTypeToDocumentType(this);
         }
         if(StringUtils.notBlank(foreignKey)) {
             foreignKeyTable = foreignKey.split("\\.", 2)[0];
             foreignKeyField = foreignKey.split("\\.", 2)[1];
             foreignConstraintName = fieldName+"_fk";
-            if(!attributeRole.contains("M"))
-                attributeRole = attributeRole + "M";
+            applyAttributeFlag("M");
         }
 
     }

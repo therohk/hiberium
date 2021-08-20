@@ -134,9 +134,8 @@ public final class ReflectUtils {
     }
 
     public static Object invokeGetter(Object obj, String fieldName) {
-        PropertyDescriptor pd;
         try {
-            pd = new PropertyDescriptor(fieldName, obj.getClass());
+            PropertyDescriptor pd = new PropertyDescriptor(fieldName, obj.getClass());
             Method getter = pd.getReadMethod();
             try {
                 return getter.invoke(obj);
@@ -148,13 +147,12 @@ public final class ReflectUtils {
         }
     }
 
-    public static void invokeSetter(Object obj, String fieldName, Object targetValue) {
-        PropertyDescriptor pd;
+    public static void invokeSetter(Object obj, String fieldName, Object fieldValue) {
         try {
-            pd = new PropertyDescriptor(fieldName, obj.getClass());
+            PropertyDescriptor pd = new PropertyDescriptor(fieldName, obj.getClass());
             Method setter = pd.getWriteMethod();
             try {
-                setter.invoke(obj, targetValue);
+                setter.invoke(obj, fieldValue);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException iae) {
 //                e.printStackTrace();
                 throw new RuntimeException(iae);

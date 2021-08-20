@@ -22,12 +22,15 @@ public class Project {
 
     @Column(name = "package_base")
     private String packageBase;
-    @Column(name = "context_base")
-    private String contextBase;
     @Column(name = "artifact_version")
     private String artifactVersion;
     @Column(name = "project_schema")
     private String projectSchema;
+
+    @Column(name = "context_base")
+    private String contextBase;
+    @Column(name = "server_port")
+    private String serverPort;
 
     //rendered once per project
     private List<Template> projections;

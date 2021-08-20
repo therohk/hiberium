@@ -32,12 +32,11 @@ public final class FieldConstants {
     public static final String CODE_UPDATETS = "updateTs";
     public static final String CODE_STATUS = "statusCd";
     public static final String CODE_WORKFLOW = "workflow";
+    public static final String CODE_VERSION = "version";
 
     public static final String KEY_PRIMARY = "pk";
     public static final String KEY_UNIQUE = "uk";
     public static final String KEY_FOREIGN = "fk";
-
-    //todo update strategy
 
     //cardinality
     public static final String ONE_TO_ONE = "1:1";

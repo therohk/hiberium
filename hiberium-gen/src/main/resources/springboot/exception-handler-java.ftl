@@ -29,9 +29,9 @@ public class GenericExceptionHandler {
         return error;
     }
 
-    @ExceptionHandler({IllegalArgumentException.class})
+    @ExceptionHandler({IllegalArgumentException.class, AssertionError.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public @ResponseBody ExceptionResponse handleExceptionIllegalArgument(
+    public @ResponseBody ExceptionResponse handleIllegalArgumentException(
             final Exception exception, final HttpServletRequest request) {
 
         String message = exception.getMessage() != null ? exception.getMessage() : "Unknown Error";
@@ -40,12 +40,23 @@ public class GenericExceptionHandler {
         return error;
     }
 
-    @ExceptionHandler({NoSuchElementException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public @ResponseBody ExceptionResponse handleExceptionMissingData(
+    @ExceptionHandler({IllegalAccessException.class})
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public @ResponseBody ExceptionResponse handleIllegalAccessException(
             final Exception exception, final HttpServletRequest request) {
 
-        String message = exception.getMessage() != null ? exception.getMessage() : "Missing Data";
+        String message = exception.getMessage() != null ? exception.getMessage() : "Forbidden Resource";
+        ExceptionResponse error = new ExceptionResponse();
+        error.setExceptionObject(request, message, 403);
+        return error;
+    }
+
+    @ExceptionHandler({NoSuchElementException.class})
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public @ResponseBody ExceptionResponse handleMissingDataException(
+            final Exception exception, final HttpServletRequest request) {
+
+        String message = exception.getMessage() != null ? exception.getMessage() : "Missing Resource";
         ExceptionResponse error = new ExceptionResponse();
         error.setExceptionObject(request, message, 404);
         return error;

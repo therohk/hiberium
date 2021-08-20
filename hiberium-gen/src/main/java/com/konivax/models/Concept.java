@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,15 @@ import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Concept {
 
+    @Id
     @Column(name = "concept_id")
     private Integer conceptId;
     @Column(name = "concept_name")
     private String conceptName;
     @Column(name = "module_name")
     private String moduleName;
+    @Column(name = "concept_desc")
+    private String conceptDesc;
 
     @Column(name = "concept_table")
     private String sqlTableName;
