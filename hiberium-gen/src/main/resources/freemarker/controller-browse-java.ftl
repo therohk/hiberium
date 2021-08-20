@@ -1,23 +1,12 @@
 
-    @RequestMapping(value = "/${concept_apipath}/all", method = RequestMethod.GET)
-    public ResponseEntity<List<${concept_name}>> getAll${concept_name}(
-        ) throws Exception {
-        List<${concept_name}> ${concept_varname}List = repository.findAll();
-        log.info("SELECT ${concept_name} all");
-        return ResponseEntity.ok().body(${concept_varname}List);
-    }
+    @RequestMapping(value = "/${concept_apipath}/page/{pageNum}", method = RequestMethod.POST)
+    public List<${concept_name}> browse${concept_name}BySample(
+            @RequestBody ${concept_name} ${concept_varname}Sample,
+            @PathVariable(value = "pageNum") Integer pageNum,
+            @RequestParam(value = "perPage", defaultValue = "20") Integer perPage,
+            @RequestParam(value = "sortField", required = false) List<String> sortFields,
+            @RequestParam(value = "sortAsc", defaultValue = "true") Boolean sortAsc
+            ) throws Exception {
 
-    @RequestMapping(value = "/${concept_apipath}/page/{page}", method = RequestMethod.GET)
-    public ResponseEntity<List<${concept_name}>> getAll${concept_name}ByPage(
-        @PathVariable(value = "page") Integer pageNum,
-        @RequestParam(value = "perPage", defaultValue = "10") Integer perPage
-        ) throws Exception {
-
-        if(pageNum == null || pageNum <= 0)
-            pageNum = 1;
-        Integer offset = (pageNum - 1) * perPage;
-
-        List<${concept_name}> ${concept_varname}List = repository.findAllByLimitAndOffset(perPage, offset);
-        log.info("SELECT ${concept_name} WHERE pageNum={}", pageNum);
-        return ResponseEntity.ok().body(${concept_varname}List);
+        return service.searchByExample(${concept_varname}Sample, pageNum, perPage, sortFields, sortAsc);
     }

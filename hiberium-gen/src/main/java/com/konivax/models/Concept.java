@@ -89,9 +89,6 @@ public class Concept {
                     .map(s -> s.toLowerCase())
                     .collect(Collectors.joining("-"));
         }
-        if(StringUtils.isBlank(updateCode)) {
-            updateCode = "B";
-        }
     }
 
     public List<String> listRequiredFunctions() {

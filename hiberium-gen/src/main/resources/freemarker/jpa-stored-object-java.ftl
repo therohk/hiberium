@@ -36,16 +36,31 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
         set${primary_key.attribute_name?cap_first}(primaryKey);
     }
 
-    public void handleFieldsForInsert() { }
+    public void handleFieldsForInsert() {
+        set${primary_key.attribute_name?cap_first}(null);
+        //activeInd + createTs + updateTs
+    }
 
-    public void handleFieldsForDelete() { }
+    public void handleFieldsForDelete() {
+        //activeInd + updateTs
+     }
 
-    public void handleFieldsForUpdate(${concept_name} update) {
+    public void handleFieldsForUpdate(${concept_name} source) {
 <#list attributes as attribute>
     <#if attribute.attribute_role?contains("K")><#continue></#if>
     <#if attribute.attribute_role?contains("F")><#continue></#if>
-        this.set${attribute.attribute_name?cap_first}(update.get${attribute.attribute_name?cap_first}());
+        this.set${attribute.attribute_name?cap_first}(<@printsetval attribute=attribute/>);
 </#list>
+    }
+
+    public ${concept_name} handleFieldsForUpdate(${concept_name} source, String strategy) {
+        handleFieldsForUpdate(source);
+<#list attributes as attribute>
+    <#if attribute.attribute_role?contains("K")><#continue></#if>
+    <#if attribute.attribute_role?contains("F")><#continue></#if>
+        //handleFieldForUpdate(this, source, "${attribute.attribute_name}", <@printmerge attribute=attribute/>);
+</#list>
+        return this;
     }
 
 }
@@ -54,6 +69,23 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
 <@compress single_line=true>
 <#if attribute.field_type == "numeric">
 , columnDefinition = "${attribute.field_type}(${attribute.field_scale!15},${attribute.field_precision!4})"
+</#if>
+</@compress>
+</#macro>
+
+<#macro printsetval attribute>
+<@compress single_line=true>
+<#if attribute.setter_value??>${attribute.setter_value}
+<#else>source.get${attribute.attribute_name?cap_first}()
+</#if>
+</@compress>
+</#macro>
+
+<#macro printmerge attribute>
+<@compress single_line=true>
+<#if attribute.update_code??>"${attribute.update_code}"
+<#elseif update_code??>"${update_code}"
+<#else>strategy
 </#if>
 </@compress>
 </#macro>
