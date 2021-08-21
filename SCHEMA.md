@@ -29,13 +29,13 @@ This configuration is loaded from [concept-def.csv](hiberium-gen/src/main/resour
 | Required | Options | Meaning |
 | ---- |---- | ---- |
 | concept_id | optional `[0-9]+` | numeric identifier for concept |
-| concept_name | required `[A-Za-z0-9]+` | denoted in camel case |
+| concept_name | required `[A-Z][0-9A-Za-z]+` | denoted in camel case |
 | module_name | required `[a-z]+` | single word in lower case |
-| concept_table | `[a-z0-9_]+` | db table name ; lower case separated by underscore |
-| concept_schema | `[a-z0-9_]+` | db schema name ; lower case separated by underscore |
-| concept_apipath | optional api context path | default value is hyphen separated concept_name |
+| concept_table | `[0-9a-z_]+` | db table name ; lower case separated by underscore |
+| concept_schema | `[0-9a-z_]+` | db schema name ; lower case separated by underscore |
+| concept_apipath | optional `[0-9a-z\-]+` | api context path ; default is hyphen separated concept_name |
 | concept_desc | optional text | description of concept |
-| update_code | optional | update strategy for resource |
+| update_code | optional | default update strategy for fields |
 | dynamic_insert | `true` | enable hibernate dynamic insert |
 | dynamic_update | `false` | enable hibernate dynamic update |
 
@@ -50,15 +50,16 @@ This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/res
 | Required | Options | Meaning |
 |----|----|----|
 | concept_name | defined name | concept which contains attribute |
-| attribute_name | `[a-z][A-Za-z]+` | java field name exposed via rest api |
-| field_name | `[a-z0-9_]+` | database field name |
-| field_type | `[a-z0-9]+` | database field type |
+| attribute_name | `[a-z][0-9A-Za-z]+` | java field name exposed via rest api |
+| field_name | `[0-9a-z_]+` | database field name |
+| field_type | `[0-9a-z]+` | database field type |
 | attribute_role | optional see [roles](#attribute-roles) | alphabetic field configuration |
 | foreign_key | `tablename.fieldname` | foreign key relation added on field |
 | field_scale | if applicable | length for varchar or scale for numeric type |
 | field_precision | if applicable | precision for numeric type |
 | default_value | optional | default value for field |
 | elastic_type | optional | elastic search field type |
+| update_code | optional | update strategy for field |
 
 ## Attribute Roles
 
@@ -69,24 +70,23 @@ Todo, any boolean setting configured from the role can be over-ridden individual
 | Role Value | Meaning | Effect |
 |----|----|----|
 | K | Primary Key | single primary key in table |
-| F | Finalized | value cannot be changed once set |
+| I | Immutable | value cannot be changed once set |
+| F | Foreign Key | foreign key constraint on field |
 | H | Hidden | field is excluded from json response |
 | U | Unique Key | unique key constraint on field |
-| M | Foreign Key | foreign key constraint on field |
 | N | Non-Nullable | field value cannot be null |
 | R | Searchable | field can be used for table lookup |
 | O | Orderable | field can be used for sorting |
-| I | Indexable | field is indexed in search engine |
 | G | Groupable | field can be used for grouping |
 
 # Update Strategy
 
 This flag describes how updates to an entity via the PUT api are handled. 
 
-It decides how field values are handled during a merge operation between two entities.
+It decides how the value of each field is handled during a merge operation between two entities.
 
 Options include always insert, overwrite/replace, finalize and merge. 
 
-This feature will be implemented using reflections api and is not yet available. 
+## Strategy Codes
 
-Code contributions are welcome!
+This feature will be implemented using reflections api and is not yet available. 

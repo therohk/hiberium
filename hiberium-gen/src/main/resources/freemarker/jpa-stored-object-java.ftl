@@ -54,7 +54,7 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
     public void handleFieldsForUpdate(${concept_name} source) {
 <#list attributes as attribute>
     <#if attribute.attribute_role?contains("K")><#continue></#if>
-    <#if attribute.attribute_role?contains("F")><#continue></#if>
+    <#if attribute.attribute_role?contains("I")><#continue></#if>
         this.set${attribute.attribute_name?cap_first}(<@printsetval attribute=attribute/>);
 </#list>
         //updateTs
@@ -93,7 +93,7 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
 <#macro printstrtgy attribute>
 <@compress single_line=true>
 <#if attribute.attribute_role?contains("K")>"N"
-<#elseif attribute.attribute_role?contains("F")>"I"
+<#elseif attribute.attribute_role?contains("I")>"I"
 <#elseif attribute.update_code??>"${attribute.update_code}"
 <#elseif update_code??>"${update_code}"
 <#else>strategy

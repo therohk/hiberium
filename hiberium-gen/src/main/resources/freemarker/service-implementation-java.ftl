@@ -25,6 +25,7 @@ public class ${concept_name}Service {
         Optional<${concept_name}> ${concept_varname}Match = ${concept_varname}Repository.findById(primaryKey);
         if(${concept_varname}Match.isEmpty())
             throw new NoSuchElementException("missing data for ${concept_name} WHERE id="+primaryKey);
+        log.info("SELECT ${concept_name} WHERE id={}", primaryKey);
         return ${concept_varname}Match.get();
     }
 
@@ -42,7 +43,7 @@ public class ${concept_name}Service {
             pageable = PageRequest.of(pageNum-1, perPage);
         }
         Page<${concept_name}> ${concept_varname}Page = ${concept_varname}Repository.findAll(${concept_varname}Example, pageable);
-        log.info("SELECT ${concept_name} WHERE page={} size={} ; found={}", pageNum, perPage, ${concept_varname}Page.getNumberOfElements());
+        log.info("SELECT ${concept_name} WHERE page={} AND size={} ; found={}", pageNum, perPage, ${concept_varname}Page.getNumberOfElements());
         return ${concept_varname}Page.getContent();
     }
 

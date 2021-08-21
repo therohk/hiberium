@@ -17,7 +17,6 @@ public class Template {
     private String template;
     private String packagePath;
     private String filename;
-//    private String collection;
 
     private List<String> dependencies;
 

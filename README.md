@@ -20,7 +20,9 @@ Generate a high quality deployable web application using freemarker templates to
 
 8. Run the spring webapp from `Application.java` or `gradle bootRun`
 
-9. Start writing business logic and setup connection details in `application.properties`
+9. Explore the swagger api docs at `localhost:8080/hiberium/1.0/swagger-ui.html#`
+
+Start writing business logic and setup connection details in `application.properties`
 
 ### Features to be added soon.
 
@@ -35,3 +37,5 @@ Generate a high quality deployable web application using freemarker templates to
 5. Full support for spring elastic search client.
 
 6. Optional entity insert using form submission.
+
+Code contributions are welcome!

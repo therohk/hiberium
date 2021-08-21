@@ -2,6 +2,7 @@ package com.konivax.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.konivax.models.mapper.ElasticFieldMapper;
+import com.konivax.models.mapper.FieldConstants;
 import com.konivax.models.mapper.JavaFieldMapper;
 import com.konivax.utils.StringUtils;
 import lombok.Getter;
@@ -102,7 +103,7 @@ public class Attribute {
                     .collect(Collectors.joining("_"));
         }
         if(StringUtils.isBlank(attributeRole)) {
-            attributeRole = "S";
+            attributeRole = FieldConstants.ROLE_DEFAULT;
         }
         if(StringUtils.isBlank(javaFieldType)) {
             javaFieldType = JavaFieldMapper.mapDatabaseToJavaFieldType(fieldType);
@@ -115,7 +116,7 @@ public class Attribute {
             foreignKeyTable = foreignKey.split("\\.", 2)[0];
             foreignKeyField = foreignKey.split("\\.", 2)[1];
             foreignConstraintName = fieldName+"_fk";
-            applyAttributeFlag("M");
+            applyAttributeFlag(FieldConstants.ROLE_FOREIGN);
         }
 
     }

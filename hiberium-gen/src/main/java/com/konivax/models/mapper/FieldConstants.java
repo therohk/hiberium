@@ -21,10 +21,10 @@ public final class FieldConstants {
     public static final String ROLE_PRIMARY = "K";
     public static final String ROLE_HIDDEN = "H";
     public static final String ROLE_UNIQUE = "U";
-    public static final String ROLE_FINAL = "F";
-    public static final String ROLE_FOREIGN = "M";
-    public static final String ROLE_SEARCH = "R";
+    public static final String ROLE_FOREIGN = "F";
     public static final String ROLE_NOTNULL = "N";
+    public static final String ROLE_FINAL = "I"; //immutable
+    public static final String ROLE_SEARCH = "R";
     public static final String ROLE_DEFAULT = "S";
 
     //todo attribute behaviors

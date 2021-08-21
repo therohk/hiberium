@@ -15,7 +15,7 @@ CREATE TABLE ${concept_schema}.${concept_table} (
 <#list attributes?filter(a -> a.attribute_role?contains("U")) as attribute>
     , CONSTRAINT ${attribute.field_name}_uk UNIQUE (${attribute.field_name})
 </#list>
-<#list attributes?filter(a -> a.attribute_role?contains("M")) as attribute>
+<#list attributes?filter(a -> a.attribute_role?contains("F")) as attribute>
     , CONSTRAINT ${attribute.field_name}_fk FOREIGN KEY (${attribute.field_name}) REFERENCES ${concept_schema}.${attribute.foreign_key_table}(${attribute.foreign_key_field})
 </#list>
 );
