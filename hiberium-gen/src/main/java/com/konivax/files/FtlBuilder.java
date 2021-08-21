@@ -11,8 +11,13 @@ import java.util.Map;
 
 public final class FtlBuilder {
 
+    private FtlBuilder() { }
+
     /**
      * render freemarker template with dependencies
+     * dependant templates are rendered before the main templates
+     * their outputs are added back to the data map variable
+     * they are accessed and injected as text into main template
      */
     public static String renderFtlTemplate(final Map<String,Object> dataModel, String basePath, Template template) {
 
@@ -24,10 +29,8 @@ public final class FtlBuilder {
 
         Map<String,Object> localData = new HashMap<String,Object>();
         for(String dependency : template.getDependencies()) {
-            String templateName = FtlUtils.getTemplateBaseName(dependency);
             String templateData = FtlUtils.parseNamedTemplate(dataModel, dependency);
-
-            String embedName = "render_"+templateName.replaceAll("[\\-]", "_");
+            String embedName = Template.getTemplateEmbedName(dependency);
             localData.put(embedName, templateData);
         }
         localData.putAll(dataModel);
@@ -44,6 +47,7 @@ public final class FtlBuilder {
 
     /**
      * render freemarker template without dependencies
+     * packagePath and fileName strings are evaluated as templates
      */
     public static String renderFtlTemplate(final Map<String,Object> dataModel, String templateName,
                                             String basePath, String packagePath, String fileName) {

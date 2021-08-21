@@ -22,12 +22,6 @@ public final class FtlUtils {
 
     private FtlUtils() { }
 
-    public static String getTemplateBaseName(String templateName) {
-        if(templateName.endsWith(".ftl"))
-            return templateName.substring(0, templateName.length()-4);
-        return templateName;
-    }
-
     public static Configuration getConfiguration() {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_31);
         configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);

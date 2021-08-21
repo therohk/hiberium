@@ -34,7 +34,7 @@ WorkflowState,workflowStateId,pkworkflow_state_id,serial,K,,,
 WorkflowState,workflowId,fkworkflow_id,int4,MR,workflow_def.pkworkflow_id,,
 WorkflowState,workflowStateName,state_name,varchar,,,32,
 WorkflowState,workflowStateType,state_type,int4,,,,
-WorkflowState,wokflowStateDesc,state_desc,varchar,N,,64,
+WorkflowState,workflowStateDesc,state_desc,varchar,N,,64,
 WorkflowState,activeInd,state_active_ind,int4,,,,1
 WorkflowState,lastModCd,last_mod_cd,varchar,,,,I
 WorkflowState,lastModTs,last_mod_ts,timestamptz,,,,
@@ -45,7 +45,7 @@ WorkflowTransition,workflowId,fkworkflow_id,int4,MR,workflow_def.pkworkflow_id,,
 WorkflowTransition,stateSourceId,fkstate_source_id,int4,MR,workflow_state_xref.pkworkflow_state_id,,
 WorkflowTransition,stateTargetId,fkstate_target_id,int4,MR,workflow_state_xref.pkworkflow_state_id,,
 WorkflowTransition,stateTriggerType,trans_trigger_type,int4,,,,
-WorkflowTransition,wokflowTransDesc,trans_desc,varchar,N,,64,
+WorkflowTransition,workflowTransDesc,trans_desc,varchar,N,,64,
 WorkflowTransition,activeInd,trans_active_ind,int4,,,,1
 WorkflowTransition,lastModCd,last_mod_cd,varchar,,,,I
 WorkflowTransition,lastModTs,last_mod_ts,timestamptz,,,,
