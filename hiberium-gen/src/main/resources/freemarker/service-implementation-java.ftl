@@ -30,15 +30,16 @@ public class ${concept_name}Service {
 
     public List<${concept_name}> searchByExample(${concept_name} ${concept_varname}Sample, Integer pageNum, Integer perPage,
                                                List<String> sortFields, boolean ascending) {
-        pageNum = pageNum - 1;
+        if(${concept_varname}Sample == null)
+            ${concept_varname}Sample = new ${concept_name}();
         Example<${concept_name}> ${concept_varname}Example = Example.of(${concept_varname}Sample);
         Pageable pageable;
         if(sortFields != null && !sortFields.isEmpty()) {
             Sort.Direction direction = ascending ? Sort.Direction.ASC : Sort.Direction.DESC;
             String[] propArray = sortFields.toArray(new String[sortFields.size()]);
-            pageable = PageRequest.of(pageNum, perPage, direction, propArray);
+            pageable = PageRequest.of(pageNum-1, perPage, direction, propArray);
         } else {
-            pageable = PageRequest.of(pageNum, perPage);
+            pageable = PageRequest.of(pageNum-1, perPage);
         }
         Page<${concept_name}> ${concept_varname}Page = ${concept_varname}Repository.findAll(${concept_varname}Example, pageable);
         log.info("SELECT ${concept_name} WHERE page={} size={} ; found={}", pageNum, perPage, ${concept_varname}Page.getNumberOfElements());

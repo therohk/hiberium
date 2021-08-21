@@ -1,66 +1,49 @@
 package com.konivax.models;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
 import java.lang.reflect.Field;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * base class for all hibernate entities
+ * same as freemarker template stored-object-java.ftl
  */
 public interface StoredObject<T> {
 
-    Integer primaryKey();
+    //common entity reflections
 
-    void primaryKey(Integer primaryKey);
-
-    default void unsetPrimaryKey() {
-        primaryKey(null);
+    default String getEntityName() {
+        return this.getClass().getSimpleName();
     }
 
-    Integer activeIndicator();
+    default String getEntityClassPath() {
+        return this.getClass().getName();
+    }
 
-    void activeIndicator(Integer activeIndicator);
+    default String getTableName() {
+        Table tableAnnotation = this.getClass().getAnnotation(Table.class);
+        if(tableAnnotation == null)
+            return null;
+        String table = tableAnnotation.name();
+        String schema = tableAnnotation.schema();
+        return schema.isBlank() ? table : schema+"."+table;
+    }
 
-    Date lastUpdated();
-
-    void lastUpdated(Date lastUpdated);
-
-    String groupingKey();
-
-    String getPrimaryKeyFieldName();
-
-//    String getModelClassPath();
-
-    /**
-     * prepare eligible fields for new instance creation
-     */
-    void handleFieldsForInsert(Integer ownerId);
-
-    /**
-     * copy eligible fields for update into current instance
-     * default operations on some fields
-     * @param update
-     */
-    void handleFieldsForUpdate(T update);
-
-    /**
-     * update eligible fields prior to soft delete operation
-     */
-    void handleFieldsForDelete();
-
-    /**
-     * merge object with update strategy code
-     */
-    default void handleFieldsForMerge(T merge, String mergeCd) {
-//        handleFieldsForUpdate(merge);
+    default List<String> getFieldNamesAsList() {
         Field[] fields = this.getClass().getDeclaredFields();
-        for (Field field : fields)
-            handleFieldForMerge(merge, field, mergeCd);
+        return Arrays.stream(fields)
+                .map(f -> f.getName())
+                .collect(Collectors.toList());
     }
 
-    default void handleFieldForMerge(T merge, Field field, String mergeFlag) {
-        switch (mergeFlag) {
-
-        }
+    default List<String> getColumnNamesAsList() {
+        Field[] fields = this.getClass().getDeclaredFields();
+        return Arrays.stream(fields)
+                .filter(f -> f.getAnnotation(Column.class) != null)
+                .map(f -> f.getAnnotation(Column.class).name())
+                .collect(Collectors.toList());
     }
 
 }

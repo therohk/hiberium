@@ -32,8 +32,8 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
         return get${primary_key.attribute_name?cap_first}();
     }
 
-    public void primaryKey(${primary_key.attribute_java} primaryKey) {
-        set${primary_key.attribute_name?cap_first}(primaryKey);
+    public void primaryKey(${primary_key.attribute_java} ${primary_key.attribute_name}) {
+        set${primary_key.attribute_name?cap_first}(${primary_key.attribute_name});
     }
 
     public void handleFieldsForInsert() {
@@ -51,17 +51,20 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
     <#if attribute.attribute_role?contains("F")><#continue></#if>
         this.set${attribute.attribute_name?cap_first}(<@printsetval attribute=attribute/>);
 </#list>
+        //updateTs
     }
 
     public ${concept_name} handleFieldsForUpdate(${concept_name} source, String strategy) {
         handleFieldsForUpdate(source);
 <#list attributes as attribute>
-    <#if attribute.attribute_role?contains("K")><#continue></#if>
-    <#if attribute.attribute_role?contains("F")><#continue></#if>
-        //handleFieldForUpdate(this, source, "${attribute.attribute_name}", <@printmerge attribute=attribute/>);
+        //handleFieldForUpdate(this, source, "${attribute.attribute_name}", <@printstrtgy attribute=attribute/>);
 </#list>
         return this;
     }
+
+//    public String toString() {
+//        return JsonUtils.serializeJavaObject(this);
+//    }
 
 }
 
@@ -81,9 +84,11 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
 </@compress>
 </#macro>
 
-<#macro printmerge attribute>
+<#macro printstrtgy attribute>
 <@compress single_line=true>
-<#if attribute.update_code??>"${attribute.update_code}"
+<#if attribute.attribute_role?contains("K")>"N"
+<#elseif attribute.attribute_role?contains("F")>"I"
+<#elseif attribute.update_code??>"${attribute.update_code}"
 <#elseif update_code??>"${update_code}"
 <#else>strategy
 </#if>

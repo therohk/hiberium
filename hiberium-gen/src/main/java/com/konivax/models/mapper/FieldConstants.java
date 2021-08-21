@@ -26,7 +26,7 @@ public final class FieldConstants {
     public static final String ROLE_DEFAULT = "S";
 
     //todo attribute behaviors
-    public static final String CODE_PRIMARY = "primary";
+    public static final String CODE_PRIMARY = "primaryKey";
     public static final String CODE_ACTIVE = "active";
     public static final String CODE_CREATETS = "createTs";
     public static final String CODE_UPDATETS = "updateTs";
