@@ -1,4 +1,5 @@
 
+    @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(value = "/${concept_apipath}", method = RequestMethod.POST)
     public ${concept_name} create${concept_name}(
             @Valid @RequestBody ${concept_name} ${concept_varname}

@@ -9,18 +9,21 @@ import java.util.stream.Collectors;
 
 /**
  * base class for all database entities
+ * avoid functions starting with get or set
  */
 public interface StoredObject<T> {
 
-    default String getEntityName() {
+    T fetchEntity();
+
+    default String fetchEntityName() {
         return this.getClass().getSimpleName();
     }
 
-    default String getEntityClassPath() {
+    default String fetchEntityClassPath() {
         return this.getClass().getName();
     }
 
-    default String getTableName() {
+    default String fetchTableName() {
         Table tableAnnotation = this.getClass().getAnnotation(Table.class);
         if(tableAnnotation == null)
             return null;
@@ -29,14 +32,14 @@ public interface StoredObject<T> {
         return schema.isBlank() ? table : schema+"."+table;
     }
 
-    default List<String> getFieldNamesAsList() {
+    default List<String> fetchFieldNamesAsList() {
         Field[] fields = this.getClass().getDeclaredFields();
         return Arrays.stream(fields)
                 .map(f -> f.getName())
                 .collect(Collectors.toList());
     }
 
-    default List<String> getColumnNamesAsList() {
+    default List<String> fetchColumnNamesAsList() {
         Field[] fields = this.getClass().getDeclaredFields();
         return Arrays.stream(fields)
                 .filter(f -> f.getAnnotation(Column.class) != null)

@@ -15,6 +15,8 @@ public final class FieldConstants {
     public static final String TYPE_DATETIME = "Date";
     public static final String TYPE_BOOLEAN = "Boolean";
 
+    public static final String TYPE_PRIMARY = TYPE_INTEGER;
+
     //attribute roles
     public static final String ROLE_PRIMARY = "K";
     public static final String ROLE_HIDDEN = "H";
@@ -27,11 +29,11 @@ public final class FieldConstants {
 
     //todo attribute behaviors
     public static final String CODE_PRIMARY = "primaryKey";
-    public static final String CODE_ACTIVE = "active";
+    public static final String CODE_ACTIVE = "activeInd";
     public static final String CODE_CREATETS = "createTs";
     public static final String CODE_UPDATETS = "updateTs";
     public static final String CODE_STATUS = "statusCd";
-    public static final String CODE_WORKFLOW = "workflow";
+    public static final String CODE_WORKFLOW = "workflowSt";
     public static final String CODE_VERSION = "version";
 
     public static final String KEY_PRIMARY = "pk";

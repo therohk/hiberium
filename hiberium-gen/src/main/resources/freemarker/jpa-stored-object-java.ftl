@@ -27,6 +27,12 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
     private ${attribute.attribute_java} ${attribute.attribute_name};
 </#list>
 
+    public ${concept_name}() { }
+
+    public ${concept_name} fetchEntity() {
+        return this;
+    }
+
 <#assign primary_key = attributes?filter(a -> a.attribute_role?contains("K"))?first>
     public ${primary_key.attribute_java} primaryKey() {
         return get${primary_key.attribute_name?cap_first}();
