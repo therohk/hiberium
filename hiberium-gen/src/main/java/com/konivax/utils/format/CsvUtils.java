@@ -76,6 +76,9 @@ public final class CsvUtils {
                 case TYPE_BOOLEAN:
                     processors[i] = new Optional(new ParseBool());
                     break;
+                case TYPE_CHARACTER:
+                    processors[i] = new Optional(new ParseChar());
+                    break;
             }
         }
         return processors;

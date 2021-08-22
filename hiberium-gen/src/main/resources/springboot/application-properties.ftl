@@ -2,17 +2,17 @@ spring.datasource.url=jdbc:h2:mem:test;MODE=Mysql;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_
 spring.datasource.username=sa
 spring.datasource.password=
 
-spring.datasource.type=com.zaxxer.hikari.HikariDataSource
 spring.datasource.driverClassName=org.h2.Driver
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
+#spring.jpa.hibernate.ddl-auto=validate
+#spring.jpa.hibernate.hbm2ddl.auto=validate
 spring.h2.console.enabled=false
 
+spring.datasource.type=com.zaxxer.hikari.HikariDataSource
 spring.datasource.hikari.maximum-pool-size=12
 spring.datasource.hikari.minimum-idle=4
 spring.datasource.hikari.pool-name=spring-${project_name}
 
-#spring.jpa.hibernate.ddl-auto=validate
-#spring.jpa.hibernate.hbm2ddl.auto=validate
 spring.jpa.properties.hibernate.jdbc.batch_size=30
 spring.jpa.properties.hibernate.order_inserts=true
 spring.jpa.properties.hibernate.format_sql=false

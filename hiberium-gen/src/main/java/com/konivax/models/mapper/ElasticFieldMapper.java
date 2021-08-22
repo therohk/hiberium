@@ -20,6 +20,8 @@ public final class ElasticFieldMapper {
                     return "keyword";
                 else
                     return "text";
+            case TYPE_CHARACTER:
+                return "keyword";
             case TYPE_INTEGER:
             case TYPE_LONG:
                 return "long";

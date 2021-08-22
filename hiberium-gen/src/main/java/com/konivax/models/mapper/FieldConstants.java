@@ -14,6 +14,7 @@ public final class FieldConstants {
     public static final String TYPE_DOUBLE = "Double";
     public static final String TYPE_DATETIME = "Date";
     public static final String TYPE_BOOLEAN = "Boolean";
+    public static final String TYPE_CHARACTER = "Character";
 
     public static final String TYPE_PRIMARY = TYPE_INTEGER;
 

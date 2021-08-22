@@ -1,6 +1,6 @@
 concept_name,attribute_name,field_name,field_type,attribute_role,foreign_key,field_scale,default_value
 # -------------------------------------
-ConceptOne,fieldOneOne,field_one_one,int4,K,,,
+ConceptOne,fieldOneOne,field_one_one,serial,K,,,
 ConceptOne,fieldOneTwo,field_one_two,varchar,N,,,
 ConceptOne,fieldOneThree,field_one_three,varchar,N,,,
 ConceptOne,fieldOneFour,field_one_four,varchar,N,,,

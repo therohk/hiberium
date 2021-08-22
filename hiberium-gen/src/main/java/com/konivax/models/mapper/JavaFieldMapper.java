@@ -75,8 +75,10 @@ public final class JavaFieldMapper {
             case "real":
             case "numeric":
                 return TYPE_DOUBLE;
-            case "string":
             case "char":
+            case "bpchar":
+                return TYPE_CHARACTER;
+            case "string":
             case "nchar":
             case "varchar":
             case "nvarchar":
@@ -102,6 +104,8 @@ public final class JavaFieldMapper {
                 return Double.class;
             case TYPE_DATETIME:
                 return Date.class;
+            case TYPE_CHARACTER:
+                return Character.class;
             case TYPE_BOOLEAN:
                 return Boolean.class;
         }
@@ -120,6 +124,8 @@ public final class JavaFieldMapper {
                 return Double.class.getName();
             case TYPE_DATETIME:
                 return Date.class.getName();
+            case TYPE_CHARACTER:
+                return Character.class.getName();
             case TYPE_BOOLEAN:
                 return Boolean.class.getName();
         }
