@@ -1,10 +1,8 @@
 package com.konivax.utils;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.nio.file.*;
 
 public final class FileUtils {
 
@@ -59,12 +57,34 @@ public final class FileUtils {
         return false;
     }
 
+    public static boolean isFolder(String location) {
+        return Files.isDirectory(getPath(location), LinkOption.NOFOLLOW_LINKS);
+    }
+
+    public static boolean isFile(String location) {
+        return Files.isRegularFile(getPath(location), LinkOption.NOFOLLOW_LINKS);
+    }
+
     public static boolean createFolder(String location, boolean recursive) {
         if(exists(location)) {
             return false;
         }
         new File(location).mkdirs();
         return true;
+    }
+
+    public static boolean copyFile(String source, String target, boolean overwrite) {
+        if(!exists(source) || !isFile(source))
+            return false;
+        try {
+            if(overwrite)
+                Files.copy(getPath(source), getPath(target), StandardCopyOption.REPLACE_EXISTING);
+            else
+                Files.copy(getPath(source), getPath(target));
+            return true;
+        } catch (IOException ioe) {
+            return false;
+        }
     }
 
 }

@@ -11,7 +11,8 @@ import java.util.Date;
 
 <#if concept_desc??>
 /**
- * Table - ${concept_desc}
+ * does not follow stored object model
+ * desc : ${concept_desc}
  */
 </#if>
 @Getter
@@ -26,8 +27,16 @@ public class ${concept_name} implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     </#if>
-    @Column(name = "${attribute.field_name}")
+    @Column(name = "${attribute.field_name}" <@printcoldef attribute=attribute/>)
     private ${attribute.attribute_java} ${attribute.attribute_name};
 </#list>
 
 }
+
+<#macro printcoldef attribute>
+<@compress single_line=true>
+<#if attribute.field_type == "numeric">
+, columnDefinition = "${attribute.field_type}(${attribute.field_scale!15},${attribute.field_precision!4})"
+</#if>
+</@compress>
+</#macro>

@@ -72,8 +72,12 @@ public class Attribute {
     private String elasticIndexType; //for elastic index json
 
     private String formFieldType;
+    private String fieldQuantity;
+    private String fieldUnit;
 
     //nullable; searchable; indexable; analysable
+
+    public Attribute() { }
 
     public void applyScalePrecision(Integer scale, Integer precision) {
         this.fieldScale = scale;

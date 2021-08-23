@@ -1,6 +1,7 @@
 package com.konivax.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,11 +52,12 @@ public class Concept {
     @Column(name = "dynamic_update")
     private Boolean dynamicUpdate = false;
 
-    //requires foreign key
-    @Column(name = "concept_parent")
+    //for joins and grouping, requires foreign key
     private String conceptParent;
-    @Column(name = "concept_cardinality")
-    private String cardinalityParent; //parent:child is 1:1 or 1:n
+    //parent:child is 1:1 or 1:n
+    private String cardinalityParent;
+    //for relational algebra
+    private String conceptSymbol;
 
     private Boolean selectable = true;
     private Boolean insertable = true;
@@ -65,6 +67,7 @@ public class Concept {
     @Transient
     private List<Attribute> attributeXref;
 
+    public Concept() { }
 
     public void createDerivedNames() {
         List<String> parts = StringUtils.splitByCharacterType(conceptName, true);
@@ -89,6 +92,12 @@ public class Concept {
                     .map(s -> s.toLowerCase())
                     .collect(Collectors.joining("-"));
         }
+        if(StringUtils.isBlank(conceptSymbol)) {
+            conceptSymbol = parts.stream()
+                    .map(s -> s.substring(0, 1))
+                    .map(s -> s.toUpperCase())
+                    .collect(Collectors.joining(""));
+        }
     }
 
     public List<String> listRequiredFunctions() {
@@ -107,5 +116,12 @@ public class Concept {
     public void generateHiberiumLocation() {
         Double latitude = null;
         Double longitude = null;
+    }
+
+    public void addAttribute(Attribute attribute) {
+        if(CollectionUtils.isEmpty(attributeXref))
+            attributeXref = new ArrayList<Attribute>();
+        attribute.setConceptName(conceptName);
+        attributeXref.add(attribute);
     }
 }

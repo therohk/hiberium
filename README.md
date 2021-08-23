@@ -10,7 +10,7 @@ Generate a high quality deployable web application using freemarker templates to
 
 3. Prepare the concept and attribute definition file. See the [schema](SCHEMA.md)
 
-4. Run the gradle command `gradle render`
+4. Run the code from `RenderProject.java` or `gradle render`
 
 5. Code has been generated under the child project `hiberium-war`
 

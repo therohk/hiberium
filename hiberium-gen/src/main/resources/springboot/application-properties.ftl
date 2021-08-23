@@ -17,6 +17,7 @@ spring.jpa.properties.hibernate.jdbc.batch_size=30
 spring.jpa.properties.hibernate.order_inserts=true
 spring.jpa.properties.hibernate.format_sql=false
 spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+spring.jpa.properties.template.model=hiberium
 spring.jpa.show-sql=true
 spring.jpa.open-in-view=true
 
