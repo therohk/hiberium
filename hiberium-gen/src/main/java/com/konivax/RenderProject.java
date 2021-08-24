@@ -41,14 +41,17 @@ public class RenderProject {
         attachConceptAttributes(conceptList, attributeList);
 
         //create freemarker model
-        String targetPath = projectPath + "\\" + project.getProjectName() + "\\";
         Map<String, Object> root = new HashMap<String, Object>();
         root.putAll(ReflectUtils.toColumnObjectMap(project));
+
+        //code source and target
+        String sourcePath = projectPath + "\\hiberium-gen\\";
+        String targetPath = projectPath + "\\" + project.getProjectName() + "\\";
 
         //process project files
         System.out.println("processing common project files");
         for (Template template : project.getProjections()) {
-            FtlBuilder.renderFtlTemplate(root, targetPath, template);
+            FtlBuilder.renderFtlTemplate(root, sourcePath, targetPath, template);
         }
 
         //process concept files
@@ -59,7 +62,7 @@ public class RenderProject {
             conceptData.putAll(root);
 
             for (Template template : project.getConceptions()) {
-                FtlBuilder.renderFtlTemplate(conceptData, targetPath, template);
+                FtlBuilder.renderFtlTemplate(conceptData, sourcePath, targetPath, template);
             }
         }
     }

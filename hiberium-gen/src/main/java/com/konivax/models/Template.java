@@ -14,15 +14,17 @@ import java.util.stream.Collectors;
 @Setter
 public class Template {
 
+    //source details
     private String template;
+    private String sourcePath; //blank for classpath template
+    //target details
     private String packagePath;
     private String filename;
 
     private List<String> dependencies;
-
-    private String sourcePath;
-    private String targetPath;
     private Boolean skipRender = false;
+
+    public Template() { }
 
     public static String getTemplateBaseName(String template) {
         if(template.endsWith(".ftl"))
@@ -31,6 +33,7 @@ public class Template {
     }
 
     /**
+     * generate name for injected dependency
      * appears as file render-name1-name2.ftl
      * maps to freemarker variable render_name1_name2
      */
@@ -47,18 +50,19 @@ public class Template {
      * avoid usage : set manually in yaml instead of detecting
      */
     @Deprecated
-    public void findTemplateDependencies() {
+    public List<String> findTemplateDependencies() {
         if(!template.endsWith(".ftl"))
-            return;
+            return null;
         Set<String> variables = FtlUtils.getTemplateVariables(template);
         if(variables == null || variables.isEmpty())
-            return;
+            return null;
         List<String> dependencies = variables.stream()
                 .filter(v -> v.startsWith("render_"))
                 .map(v -> v.substring(8)+".ftl")
                 .map(v -> v.replaceAll("[_]", "\\-"))
                 .collect(Collectors.toList());
-//        setDependencies(dependencies); not used
+//        setDependencies(dependencies);
+        return dependencies;
     }
 
 }

@@ -138,18 +138,16 @@ public final class FtlUtils {
         }
         StringWriter stringWriter = new StringWriter();
         Map<String, Object> dataModel = new HashMap<String, Object>();
-        boolean exceptionCaught;
+        boolean missingVar;
         do {
-            exceptionCaught = false;
+            missingVar = false;
             try {
                 template.process(dataModel, stringWriter);
             } catch (InvalidReferenceException ire) {
-                exceptionCaught = true;
+                missingVar = true;
                 dataModel.put(ire.getBlamedExpressionString(), "");
-            } catch (IOException | TemplateException ioe) {
-//                throw new IllegalStateException("template load failed: " + templateName, ioe);
-            }
-        } while (exceptionCaught);
+            } catch (IOException | TemplateException ioe) { }
+        } while (missingVar);
 
         return dataModel.keySet();
     }

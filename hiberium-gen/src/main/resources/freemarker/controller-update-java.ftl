@@ -2,7 +2,8 @@
     @RequestMapping(value = "/${concept_apipath}/{id}", method = RequestMethod.PUT)
     public ResponseEntity<${concept_name}> update${concept_name}(
             @PathVariable(value = "id") Integer ${concept_varname}Id,
-            @Valid @RequestBody ${concept_name} ${concept_varname}Request
+            @Valid @RequestBody ${concept_name} ${concept_varname}Request,
+            @RequestParam(value = "strategy", defaultValue = "Y") String strategy
             ) throws Exception {
 
         if (!${concept_varname}Id.equals(${concept_varname}Request.primaryKey()))

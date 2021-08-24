@@ -3,6 +3,7 @@ package com.konivax.files;
 import com.konivax.models.Template;
 import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.FileUtils;
+import com.konivax.utils.StringUtils;
 import com.konivax.utils.Validate;
 import com.konivax.utils.format.FtlUtils;
 
@@ -15,17 +16,21 @@ public final class FtlBuilder {
 
     /**
      * render freemarker template with dependencies
-     * dependant templates are rendered before the main templates
+     * dependant templates are rendered before the base template
      * their outputs are added back to the data map variable
-     * they are accessed and injected as text into main template
+     * they are accessed and injected as text by the base template
      */
-    public static String renderFtlTemplate(final Map<String,Object> dataModel, String basePath, Template template) {
+    public static String renderFtlTemplate(final Map<String,Object> dataModel, String sourceBase, String basePath, Template template) {
+
+        String templateName = template.getTemplate();
+        if(!templateName.endsWith(".ftl"))
+            return renderFileSimple(dataModel,
+                    sourceBase, template.getSourcePath(), templateName,
+                    basePath, template.getPackagePath(), template.getFilename());
 
         if(CollectionUtils.isEmpty(template.getDependencies()))
-            return renderFtlTemplate(dataModel, template.getTemplate(), basePath, template.getPackagePath(), template.getFilename());
-
-        String packagePath = FtlUtils.parseLocalTemplate(dataModel, template.getPackagePath());
-        String fileName = FtlUtils.parseLocalTemplate(dataModel, template.getFilename());
+            return renderFtlTemplate(dataModel, templateName,
+                    basePath, template.getPackagePath(), template.getFilename());
 
         Map<String,Object> localData = new HashMap<String,Object>();
         for(String dependency : template.getDependencies()) {
@@ -35,14 +40,7 @@ public final class FtlBuilder {
         }
         localData.putAll(dataModel);
 
-        String folderPath = FileUtils.getFilePath(basePath, packagePath);
-        String filePath = FileUtils.getFilePath(basePath, packagePath, fileName);
-
-        FileUtils.createFolder(folderPath, true);
-        FtlUtils.flushNamedTemplate(localData, template.getTemplate(), filePath);
-
-        Validate.isTrue(FileUtils.exists(filePath), "template render failed");
-        return filePath;
+        return renderFtlTemplate(localData, templateName, basePath, template.getPackagePath(), template.getFilename());
     }
 
     /**
@@ -62,6 +60,37 @@ public final class FtlBuilder {
         FtlUtils.flushNamedTemplate(dataModel, templateName, filePath);
 
         Validate.isTrue(FileUtils.exists(filePath), "template render failed");
+        return filePath;
+    }
+
+    /**
+     * file is not processed as a template and just copied
+     * suitable for non source code blob files
+     */
+    public static String renderFileSimple(final Map<String,Object> dataModel,
+                                          String sourceBase, String sourcePackage, String templateName,
+                                          String basePath, String packagePath, String fileName) {
+
+        if(StringUtils.isBlank(packagePath))
+            packagePath = sourcePackage;
+        if(StringUtils.isBlank(fileName))
+            fileName = templateName;
+
+        String sourcePackageRender = FtlUtils.parseLocalTemplate(dataModel, sourcePackage);
+        String packagePathRender = FtlUtils.parseLocalTemplate(dataModel, packagePath);
+        String fileNameRender = FtlUtils.parseLocalTemplate(dataModel, fileName);
+
+        String sourcePath = FileUtils.getFilePath(sourceBase, sourcePackageRender, templateName);
+        String folderPath = FileUtils.getFilePath(basePath, packagePathRender);
+        String filePath = FileUtils.getFilePath(basePath, packagePathRender, fileNameRender);
+
+        Validate.isTrue(FileUtils.exists(sourcePath), "source file not found");
+
+        FileUtils.createFolder(folderPath, true);
+        FileUtils.copyFile(sourcePath, filePath, true);
+        System.out.println("copied "+sourcePackage+"."+templateName+" -> "+filePath);
+
+        Validate.isTrue(FileUtils.exists(filePath), "file copy failed");
         return filePath;
     }
 }

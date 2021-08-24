@@ -11,7 +11,7 @@
 
     @RequestMapping(value = "/${concept_apipath}/submit", method = RequestMethod.POST)
     public ResponseEntity<${concept_name}> submit${concept_name}Form(
-             @ModelAttribute("${concept_varname}") @Valid ${concept_name} ${concept_varname},
+             @Valid @ModelAttribute("${concept_varname}") ${concept_name} ${concept_varname},
              BindingResult result
              ) throws Exception {
 
