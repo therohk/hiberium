@@ -36,6 +36,9 @@ projections :
   - template : "stored-object-java.ftl"
     packagePath : "src.main.java.${package_base}.models"
     filename : "StoredObject.java"
+  - template : "merge-object-java.ftl"
+    packagePath : "src.main.java.${package_base}.models"
+    filename : "MergeObject.java"
 conceptions :
   - template : "jpa-stored-object-java.ftl"
     packagePath : "src.main.java.${package_base}.models.${module_name}"

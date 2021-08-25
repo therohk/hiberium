@@ -29,7 +29,8 @@ public class ${concept_name}Service {
         return ${concept_varname}Match.get();
     }
 
-    public List<${concept_name}> searchByExample(${concept_name} ${concept_varname}Sample, Integer pageNum, Integer perPage,
+    public List<${concept_name}> searchByExample(${concept_name} ${concept_varname}Sample,
+                                               Integer pageNum, Integer perPage,
                                                List<String> sortFields, boolean ascending) {
         if(${concept_varname}Sample == null)
             ${concept_varname}Sample = new ${concept_name}();
@@ -63,7 +64,7 @@ public class ${concept_name}Service {
             ${concept_varname}Id = ${concept_varname}Target.primaryKey();
             log.info("INSERT ${concept_name} WHERE id={}", ${concept_varname}Id);
         } else {
-            ${concept_varname}Target.handleFieldsForUpdate(${concept_varname}Source, strategy);
+            ${concept_varname}Target.handleFieldsForMerge(${concept_varname}Source, strategy);
             ${concept_varname}Repository.save(${concept_varname}Target);
             ${concept_varname}Id = ${concept_varname}Target.primaryKey();
             log.info("UPDATE ${concept_name} WHERE id={}", ${concept_varname}Id);
@@ -71,8 +72,10 @@ public class ${concept_name}Service {
         return ${concept_varname}Id;
     }
 
-    public void handle${concept_name}InsertOrUpdate(List<${concept_name}> ${concept_varname}SourceList) {
+    public void handle${concept_name}InsertOrUpdate(List<${concept_name}> ${concept_varname}SourceList, String strategy) {
         if(${concept_varname}SourceList == null || ${concept_varname}SourceList.isEmpty())
+            return;
+        if("N".equals(strategy))
             return;
 
         List<Integer> ${concept_varname}IdList = ${concept_varname}SourceList.stream()
@@ -89,16 +92,19 @@ public class ${concept_name}Service {
 
         //choose insert or update
         for(${concept_name} ${concept_varname}Source : ${concept_varname}SourceList) {
-             Optional<${concept_name}> ${concept_varname}Match = ${concept_varname}TargetList.stream()
-                 .filter(p -> p.primaryKey().equals(${concept_varname}Source.primaryKey()))
-                 .findFirst();
+             Optional<${concept_name}> ${concept_varname}Match = Optional.empty();
+             if(${concept_varname}Source.primaryKey() != null && !"C".equals(strategy)) {
+                 ${concept_varname}Match = ${concept_varname}TargetList.stream()
+                     .filter(p -> p.primaryKey().equals(${concept_varname}Source.primaryKey()))
+                     .findFirst();
+             }
 
-             if(${concept_varname}Source.primaryKey() == null || !${concept_varname}Match.isPresent()) {
+             if(${concept_varname}Match.isEmpty()) {
                  ${concept_varname}Source.handleFieldsForInsert();
                  ${concept_varname}InsertList.add(${concept_varname}Source);
              } else {
                  ${concept_name} ${concept_varname}Target = ${concept_varname}Match.get();
-                 ${concept_varname}Target.handleFieldsForUpdate(${concept_varname}Source);
+                 ${concept_varname}Target.handleFieldsForMerge(${concept_varname}Source, strategy);
                  ${concept_varname}UpdateList.add(${concept_varname}Target);
              }
         }
@@ -107,7 +113,6 @@ public class ${concept_name}Service {
             ${concept_varname}Repository.saveAll(${concept_varname}InsertList);
             log.info("INSERT ${concept_name} for total={}", ${concept_varname}InsertList.size());
         }
-
         if(!${concept_varname}UpdateList.isEmpty()) {
             ${concept_varname}Repository.saveAll(${concept_varname}UpdateList);
             log.info("UPDATE ${concept_name} for total {}", ${concept_varname}UpdateList.size());

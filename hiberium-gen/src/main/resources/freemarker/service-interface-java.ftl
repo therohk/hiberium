@@ -9,7 +9,8 @@ public interface ${concept_name}ServiceSpec {
 
     ${concept_name} findByPrimaryKey(Integer primaryKey);
 
-    List<${concept_name}> searchByExample(${concept_name} ${concept_varname}Sample, Integer pageNum, Integer perPage,
+    List<${concept_name}> searchByExample(${concept_name} ${concept_varname}Sample,
+                                          Integer pageNum, Integer perPage,
                                           List<String> sortFields, boolean ascending)
 
     /**
@@ -22,9 +23,9 @@ public interface ${concept_name}ServiceSpec {
      * naive approach to multiple updates
      * implementation should support bulk calls with no more than three queries
      */
-    default void handle${concept_name}InsertOrUpdate(List<${concept_name}> ${concept_varname}SourceList) {
+    default void handle${concept_name}InsertOrUpdate(List<${concept_name}> ${concept_varname}SourceList, String strategy) {
         for(${concept_name} ${concept_varname} : ${concept_varname}List)
-            handle${concept_name}InsertOrUpdate(${concept_varname}, "B");
+            handle${concept_name}InsertOrUpdate(${concept_varname}, strategy);
     }
 
 }

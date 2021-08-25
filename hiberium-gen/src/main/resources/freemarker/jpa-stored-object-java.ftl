@@ -10,11 +10,16 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+<#if concept_desc??>
+/**
+ * does not follow stored object model
+ * desc ${concept_symbol} : ${concept_desc}
+ */
+</#if>
 @Getter
 @Setter
 @Entity
-<#if dynamic_insert>@DynamicInsert</#if>
-<#if dynamic_update>@DynamicUpdate</#if>
+<#if dynamic_insert>@DynamicInsert</#if><#if dynamic_update>@DynamicUpdate</#if>
 @Table(name = "${concept_table}", schema = "${concept_schema}")
 public class ${concept_name} implements StoredObject<${concept_name}>, Serializable {
 
@@ -52,6 +57,8 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
      }
 
     public void handleFieldsForUpdate(${concept_name} source) {
+        if(source == null)
+            return;
 <#list attributes as attribute>
     <#if attribute.attribute_role?contains("K")><#continue></#if>
     <#if attribute.attribute_role?contains("I")><#continue></#if>
@@ -60,17 +67,18 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
         //updateTs
     }
 
-    public ${concept_name} handleFieldsForUpdate(${concept_name} source, String strategy) {
-        handleFieldsForUpdate(source);
+    public void handleFieldsForMerge(${concept_name} source, String strategy) {
+        if(source == null || "N".equals(strategy))
+            return;
 <#list attributes as attribute>
-        //handleFieldForUpdate(this, source, "${attribute.attribute_name}", <@printstrtgy attribute=attribute/>);
+        handleFieldForMerge(this, source, "${attribute.attribute_name}", <@printstrtgy attribute=attribute/>);
 </#list>
-        return this;
+        //updateTs
     }
 
-//    public String toString() {
-//        return JsonUtils.serializeJavaObject(this);
-//    }
+    public String toString() {
+        return invokeToString();
+    }
 
 }
 
@@ -95,6 +103,7 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
 <#if attribute.attribute_role?contains("K")>"N"
 <#elseif attribute.attribute_role?contains("I")>"I"
 <#elseif attribute.update_code??>"${attribute.update_code}"
+<#elseif attribute.attribute_role?contains("N")>"B"
 <#elseif update_code??>"${update_code}"
 <#else>strategy
 </#if>
