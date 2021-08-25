@@ -57,6 +57,7 @@ public class Concept {
     //parent:child is 1:1 or 1:n
     private String cardinalityParent;
     //for relational algebra
+    @Column(name = "concept_symbol")
     private String conceptSymbol;
 
     private Boolean selectable = true;
@@ -92,6 +93,7 @@ public class Concept {
                     .map(s -> s.toLowerCase())
                     .collect(Collectors.joining("-"));
         }
+        //concept symbol
         if(StringUtils.isBlank(conceptSymbol)) {
             conceptSymbol = parts.stream()
                     .map(s -> s.substring(0, 1))
@@ -114,6 +116,7 @@ public class Concept {
     }
 
     public void generateHiberiumLocation() {
+        Integer conceptHash = conceptName.hashCode();
         Double latitude = null;
         Double longitude = null;
     }

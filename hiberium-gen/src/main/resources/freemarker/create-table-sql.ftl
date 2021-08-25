@@ -31,7 +31,8 @@ CREATE TABLE ${concept_schema}.${concept_table} (
 
 <#macro printnull attribute>
 <@compress single_line=true>
-<#if !attribute.attribute_role?contains("N")>NOT</#if> NULL
+<#assign notnull_roles = ['N', 'K']>
+<#if notnull_roles?seq_contains(attribute.attribute_role)>NOT</#if> NULL
 </@compress>
 </#macro>
 

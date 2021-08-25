@@ -10,12 +10,12 @@ public final class JsonUtils {
 
     private JsonUtils() { }
 
-    public static <T> T deserializeFile(String yamlFile, Class<T> clazz) {
-        if(yamlFile == null)
+    public static <T> T deserializeFile(String jsonFile, Class<T> clazz) {
+        if(jsonFile == null)
             return null;
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.readValue(new File(yamlFile), clazz);
+            return mapper.readValue(new File(jsonFile), clazz);
         } catch(IOException e) {
             e.printStackTrace();
             return null;
