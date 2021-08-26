@@ -1,18 +1,26 @@
 
     @RequestMapping(value = "/${concept_apipath}/{id}", method = RequestMethod.DELETE)
-    public Map<String, Boolean> delete${concept_name}(
+    public ${concept_name} delete${concept_name}(
             @PathVariable(value = "id") Integer ${concept_varname}Id
             ) throws Exception {
 
-        ${concept_name} ${concept_varname} = repository.getOne(${concept_varname}Id);
-        if (${concept_varname} == null)
-            throw new Exception("${concept_name} " + ${concept_varname}Id + " not found");
-
-        ${concept_varname}.handleFieldsForDelete();
-        repository.save(${concept_varname});
-
-        log.info("DELETE ${concept_name} where id={}", ${concept_varname}Id);
-        Map<String, Boolean> response = new HashMap<String, Boolean>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
+        ${concept_name} ${concept_varname} = service.findByPrimaryKey(${concept_varname}Id);
+        repository.deleteById(${concept_varname}Id);
+        return ${concept_varname};
     }
+
+<#--
+    //soft delete not implemented
+    @RequestMapping(value = "/${concept_apipath}/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Boolean> delete${concept_name}(
+            @PathVariable(value = "id") Integer ${concept_varname}Id
+            ) throws Exception {
+
+        ${concept_name} ${concept_varname} = new ${concept_name}();
+        ${concept_varname}.primaryKey(${concept_varname}Id);
+        ${concept_varname}.handleFieldsForDelete();
+
+        service.handle${concept_name}InsertOrUpdate(${concept_varname}, "B");
+        return ResponseEntity.ok(true);
+    }
+-->

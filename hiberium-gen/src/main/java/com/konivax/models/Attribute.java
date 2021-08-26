@@ -24,6 +24,7 @@ public class Attribute {
     @Id
     @Column(name = "attribute_id")
     private Integer attributeId;
+    private Integer attributePos;
     @Column(name = "concept_name")
     private String conceptName;
 
@@ -119,7 +120,7 @@ public class Attribute {
         if(StringUtils.notBlank(foreignKey)) {
             foreignKeyTable = foreignKey.split("\\.", 2)[0];
             foreignKeyField = foreignKey.split("\\.", 2)[1];
-            foreignConstraintName = fieldName+"_fk";
+            foreignConstraintName = fieldName+"_"+FieldConstants.KEY_FOREIGN;
             applyAttributeFlag(FieldConstants.ROLE_FOREIGN);
         }
 

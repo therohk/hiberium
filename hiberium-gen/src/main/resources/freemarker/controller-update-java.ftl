@@ -1,6 +1,6 @@
 
     @RequestMapping(value = "/${concept_apipath}/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<${concept_name}> update${concept_name}(
+    public ${concept_name} update${concept_name}(
             @PathVariable(value = "id") Integer ${concept_varname}Id,
             @Valid @RequestBody ${concept_name} ${concept_varname}Request,
             @RequestParam(value = "strategy", defaultValue = "Y") String strategy
@@ -9,13 +9,16 @@
         if (!${concept_varname}Id.equals(${concept_varname}Request.primaryKey()))
             throw new Exception("${concept_name} Id mismatch for put object");
 
-        ${concept_name} ${concept_varname} = repository.getOne(${concept_varname}Id);
-        if (${concept_varname} == null)
-            throw new Exception("${concept_name} " + ${concept_varname}Id + " not found");
+        ${concept_varname}Id = service.handle${concept_name}InsertOrUpdate(${concept_varname}Request, strategy);
+        return service.findByPrimaryKey(${concept_varname}Id);
+    }
 
-        ${concept_varname}.handleFieldsForUpdate(${concept_varname}Request);
-        final ${concept_name} ${concept_varname}Updated = repository.save(${concept_varname});
+    @RequestMapping(value = "/${concept_apipath}/bulk", method = RequestMethod.PUT)
+    public ResponseEntity<Boolean> update${concept_name}Bulk(
+            @Valid @RequestBody List<${concept_name}> ${concept_varname}RequestList,
+            @RequestParam(value = "strategy", defaultValue = "B") String strategy
+            ) throws Exception {
 
-        log.info("UPDATE ${concept_name} where id={}", ${concept_varname}Id);
-        return ResponseEntity.ok(${concept_varname}Updated);
+        service.handle${concept_name}InsertOrUpdate(${concept_varname}RequestList, strategy);
+        return ResponseEntity.ok(true);
     }

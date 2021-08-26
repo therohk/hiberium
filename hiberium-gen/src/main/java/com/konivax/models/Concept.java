@@ -125,6 +125,7 @@ public class Concept {
         if(CollectionUtils.isEmpty(attributeXref))
             attributeXref = new ArrayList<Attribute>();
         attribute.setConceptName(conceptName);
+        attribute.setAttributePos(attributeXref.size());
         attributeXref.add(attribute);
     }
 }

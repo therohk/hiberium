@@ -1,12 +1,10 @@
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(value = "/${concept_apipath}", method = RequestMethod.POST)
-    public ${concept_name} create${concept_name}(
+    public ${concept_name} insert${concept_name}(
             @Valid @RequestBody ${concept_name} ${concept_varname}
             ) throws Exception {
 
-        ${concept_varname}.handleFieldsForInsert();
-        ${concept_name} ${concept_varname}Inserted = repository.save(${concept_varname});
-        log.info("INSERT ${concept_name} where id={}", ${concept_varname}Inserted.primaryKey());
-        return ${concept_varname}Inserted;
+        Integer ${concept_varname}Id = service.handle${concept_name}InsertOrUpdate(${concept_varname}, "C");
+        return service.findByPrimaryKey(${concept_varname}Id);
     }

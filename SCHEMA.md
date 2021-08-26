@@ -20,7 +20,7 @@ Implement further business logic and connect to a real database.
 
 # Concept
 
-concept = entity = table = class = model = bean = type = container
+concept = entity = table = document = class = model = type = relation = container
 
 This configuration is loaded from [concept-def.csv](hiberium-gen/src/main/resources/concept-def.csv) by default.
 
@@ -35,13 +35,14 @@ This configuration is loaded from [concept-def.csv](hiberium-gen/src/main/resour
 | concept_schema | `[0-9a-z_]+` | db schema name ; lower case separated by underscore |
 | concept_apipath | optional `[0-9a-z\-]+` | api context path ; default is hyphen separated concept_name |
 | concept_desc | optional text | description of concept |
+| concept_index | optional `[0-9a-z_]+` | elastic index name ; defaults to table name |
 | update_code | optional | default update strategy for fields |
 | dynamic_insert | `true` | enable hibernate dynamic insert |
 | dynamic_update | `false` | enable hibernate dynamic update |
 
 # Attribute
 
-attribute = column = field = subtype
+attribute = column = field = subtype = dimension
 
 This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/resources/attribute-xref.csv) by default.
 
@@ -58,8 +59,8 @@ This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/res
 | field_scale | if applicable | length for varchar or scale for numeric type |
 | field_precision | if applicable | precision for numeric type |
 | default_value | optional | default value for field |
-| elastic_type | optional | elastic search field type |
-| update_code | optional | update strategy for field |
+| elastic_type | optional | override elastic search field type |
+| update_code | optional see [codes](#strategy-codes) | update strategy for field |
 
 ## Attribute Roles
 
@@ -77,16 +78,41 @@ Todo, any boolean setting configured from the role can be over-ridden individual
 | N | Non-Nullable | field value cannot be null |
 | R | Searchable | field can be used for table lookup |
 | O | Orderable | field can be used for sorting |
-| G | Groupable | field can be used for grouping |
+| G | Groupable | field can be used for grouping and facetting |
 
 # Update Strategy
 
-This flag describes how updates to an entity via the PUT api are handled. 
+This single letter flag describes how updates to an entity for a PUT/UPDATE operation should be handled.
+ 
+It decides whether a change to the value of the field is allowed during a merge operation between two entities.
 
-It decides how the value of each field is handled during a merge operation between two entities.
-
-Options include always insert, overwrite/replace, finalize and merge. 
+This flag can be set at both concept and attribute level. An incoming api request can override this setting.
 
 ## Strategy Codes
 
-This feature will be implemented using reflections api and is not yet available. 
+The same field within the source and target tuple are shown as s and t respectively.
+
+Whether the strategy requires data to be present for the field, is shown by { 0=no, 1=yes, X=dontcare }. 
+
+The value of the source field is written to the target field only if the predicate passes.
+
+See the implementation of this logic in [MergeObject.java](hiberium-gen/src/main/java/com/konivax/models/merge/MergeObject.java).
+
+| Code Value | Predicate | Meaning |
+|----|----|----|
+| C | n/a | always create new instance |
+| N | `0` | always reject ; ignore change |
+| Y | `sX & tX` | always accept ; insert, update or delete |
+| B | `s1 & tX` | insert or update, no delete |
+| H | `s1 & t1` | update value only if exists |
+| U | `sX & t1` | update or delete only, no insert |
+| I | `sX & t0` | insert only, no update or delete |
+| D | `s0 & tX` | delete only, no update or insert |
+
+Here the insert, update and delete refer to the value transition for each attribute.
+
+| Modify Type | Target Transition |
+|----|----|
+| insert | null <- non-null |
+| delete | non-null <- null |
+| update | non-null <- non-null |
