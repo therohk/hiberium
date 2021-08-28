@@ -43,7 +43,7 @@ conceptions :
   - template : "jpa-stored-object-java.ftl"
     packagePath : "src.main.java.${package_base}.models.${module_name}"
     filename : "${concept_name}.java"
-  - template : "spring-repository-java.ftl"
+  - template : "repository-entity-java.ftl"
     packagePath : "src.main.java.${package_base}.jdbc.repository.${module_name}"
     filename : "${concept_name}Repository.java"
   - template : "service-implementation-java.ftl"

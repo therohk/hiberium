@@ -1,6 +1,5 @@
 package ${package_base}.models.${module_name};
 
-import ${package_base}.models.StoredObject;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
