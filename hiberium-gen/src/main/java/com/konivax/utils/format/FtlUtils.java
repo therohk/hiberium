@@ -81,6 +81,14 @@ public final class FtlUtils {
         return writer.toString();
     }
 
+    public static boolean parseLocalExpression(final Map<String,Object> dataModel, String expression, boolean defaultBool) {
+        if(StringUtils.isBlank(expression))
+            return defaultBool;
+        String conditionCode = "<#if "+expression+">true<#else>false</#if>";
+        String valueBool = parseLocalTemplate(dataModel, conditionCode);
+        return Boolean.parseBoolean(valueBool);
+    }
+
     public static String parseLocalTemplate(String templateCode
             , String label1, String value1
             , String label2, String value2
@@ -121,7 +129,6 @@ public final class FtlUtils {
             parseNamedTemplateToWriter(dataModel, templateName, writer);
             writer.flush();
             writer.close();
-            System.out.println("rendered "+templateName+" -> "+filePath);
         } catch (IOException ioe) {
             throw new RuntimeException("template render failed: " + templateName, ioe);
         }

@@ -41,10 +41,6 @@ public final class FieldConstants {
     public static final String KEY_UNIQUE = "uk";
     public static final String KEY_FOREIGN = "fk";
 
-    //cardinality
-    public static final String ONE_TO_ONE = "1:1";
-    public static final String ONE_TO_MANY = "1:n";
-
     //data constants
     public static final Integer DEFAULT_LENGTH = 128;
     public static final Integer DEFAULT_SCALE = 15;

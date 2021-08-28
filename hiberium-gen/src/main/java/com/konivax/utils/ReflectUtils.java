@@ -36,12 +36,18 @@ public final class ReflectUtils {
         Field[] fields = clazz.getDeclaredFields();
 
         for(String header : headers) {
+            boolean matched = false;
             for(Field field : fields) {
                 if(field.getAnnotation(Column.class) == null)
                     continue;
-                if(header.equals(field.getAnnotation(Column.class).name()))
+                if(header.equals(field.getAnnotation(Column.class).name())) {
                     fieldNames.add(field.getName());
+                    matched = true;
+                    break;
+                }
             }
+            if(!matched)
+                throw new RuntimeException("field "+header+" not available");
         }
         if(headers.length != fieldNames.size())
             throw new RuntimeException("fields not available or mismatched");

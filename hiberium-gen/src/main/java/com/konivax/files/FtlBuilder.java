@@ -21,8 +21,13 @@ public final class FtlBuilder {
      * they are accessed and injected as text by the base template
      */
     public static String renderFtlTemplate(final Map<String,Object> dataModel, String sourceBase, String basePath, Template template) {
-
         String templateName = template.getTemplate();
+
+        if(!FtlUtils.parseLocalExpression(dataModel, template.getCondition(), true)) {
+            System.out.println("skipped "+templateName+" as per condition");
+            return null;
+        }
+
         if(!templateName.endsWith(".ftl"))
             return renderFileSimple(dataModel,
                     sourceBase, template.getSourcePath(), templateName,
@@ -40,14 +45,15 @@ public final class FtlBuilder {
         }
         localData.putAll(dataModel);
 
-        return renderFtlTemplate(localData, templateName, basePath, template.getPackagePath(), template.getFilename());
+        return renderFtlTemplate(localData, templateName,
+                basePath, template.getPackagePath(), template.getFilename());
     }
 
     /**
      * render freemarker template without dependencies
      * packagePath and fileName strings are evaluated as templates
      */
-    public static String renderFtlTemplate(final Map<String,Object> dataModel, String templateName,
+    protected static String renderFtlTemplate(final Map<String,Object> dataModel, String templateName,
                                             String basePath, String packagePath, String fileName) {
 
         String packagePathRender = FtlUtils.parseLocalTemplate(dataModel, packagePath);
@@ -60,6 +66,7 @@ public final class FtlBuilder {
         FtlUtils.flushNamedTemplate(dataModel, templateName, filePath);
 
         Validate.isTrue(FileUtils.exists(filePath), "template render failed");
+        System.out.println("rendered "+templateName+" -> "+filePath);
         return filePath;
     }
 
@@ -67,7 +74,7 @@ public final class FtlBuilder {
      * file is not processed as a template and just copied
      * suitable for non source code blob files
      */
-    public static String renderFileSimple(final Map<String,Object> dataModel,
+    protected static String renderFileSimple(final Map<String,Object> dataModel,
                                           String sourceBase, String sourcePackage, String templateName,
                                           String basePath, String packagePath, String fileName) {
 
@@ -88,9 +95,9 @@ public final class FtlBuilder {
 
         FileUtils.createFolder(folderPath, true);
         FileUtils.copyFile(sourcePath, filePath, true);
-        System.out.println("copied "+sourcePackage+"."+templateName+" -> "+filePath);
 
         Validate.isTrue(FileUtils.exists(filePath), "file copy failed");
+        System.out.println("copied "+sourcePackage+"."+templateName+" -> "+filePath);
         return filePath;
     }
 }

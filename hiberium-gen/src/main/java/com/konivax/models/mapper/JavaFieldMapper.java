@@ -53,6 +53,7 @@ public final class JavaFieldMapper {
             case "int":
             case "int4":
             case "integer":
+            case "mediumint":
             case "smallint":
             case "tinyint":
             case "serial":

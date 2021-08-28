@@ -42,8 +42,6 @@ public class Concept {
     private String variableName;
     @Column(name = "concept_apipath")
     private String contextName;
-    @Column(name = "concept_class")
-    private String className;
     @Column(name = "update_code")
     private String updateCode;
 
@@ -52,10 +50,10 @@ public class Concept {
     @Column(name = "dynamic_update")
     private Boolean dynamicUpdate = false;
 
-    //for joins and grouping, requires foreign key
+    //for composites, requires foreign key
+    //unique key decides cardinality
+    @Column(name = "concept_parent")
     private String conceptParent;
-    //parent:child is 1:1 or 1:n
-    private String cardinalityParent;
     //for relational algebra
     @Column(name = "concept_symbol")
     private String conceptSymbol;
@@ -64,6 +62,7 @@ public class Concept {
     private Boolean insertable = true;
     private Boolean updateable = true;
     private Boolean deleteable = true;
+    private Boolean browseable = true;
 
     @Transient
     private List<Attribute> attributeXref;
@@ -112,6 +111,8 @@ public class Concept {
             functions.add("update");
         if(deleteable)
             functions.add("delete");
+        if(browseable)
+            functions.add("browse");
         return functions;
     }
 

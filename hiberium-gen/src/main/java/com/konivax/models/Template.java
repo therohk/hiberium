@@ -20,9 +20,9 @@ public class Template {
     //target details
     private String packagePath;
     private String filename;
+    private String condition;
 
     private List<String> dependencies;
-    private Boolean skipRender = false;
 
     public Template() { }
 
