@@ -1,5 +1,7 @@
 package com.konivax.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.konivax.utils.FileUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +13,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Project {
 
     private String projectType;
@@ -27,13 +30,17 @@ public class Project {
     @Column(name = "project_schema")
     private String projectSchema;
 
-    @Column(name = "context_base")
-    private String contextBase;
+    //tomcat jetty undertow
+    @Column(name = "server_type")
+    private String serverType;
     @Column(name = "server_port")
     private String serverPort;
+    @Column(name = "context_base")
+    private String contextBase;
 
     //rendered once per project
     private List<Template> projections;
     //rendered once per concept
     private List<Template> conceptions;
+
 }

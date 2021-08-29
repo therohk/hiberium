@@ -37,9 +37,9 @@ To change the concept and attributes in the sample definition refer to the [sche
 
 3. Run the code from `RenderProject.java` or `gradle render`
 
-4. Code has been generated under the child project `hiberium-war`
+4. Webapp has been generated under the child project `hiberium-war`
 
-5. Open `settings.gradle` and remove comment for the child project
+5. Open `settings.gradle` and uncomment the child project
 
 6. Run the gradle command `gradle clean build`
 
@@ -65,7 +65,9 @@ Start writing business logic and setup connection details in `application.proper
 
 6. Optional entity insert using form submission.
 
-Code contributions are welcome!
+---
+
+Code contributions are welcome via issues and pull requests.
 
 ### License
 

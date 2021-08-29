@@ -32,7 +32,9 @@ repositories {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
     compile('org.springframework.boot:spring-boot-starter-jdbc')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-validation')
@@ -65,6 +67,9 @@ dependencies {
     //annotations
     providedCompile("org.projectlombok:lombok:1.18.16")
     annotationProcessor("org.projectlombok:lombok:1.18.16")
+
+    //embedded server
+    compile('org.springframework.boot:spring-boot-starter-${server_type!tomcat}')
 
     //default database
     runtimeOnly("com.h2database:h2")
