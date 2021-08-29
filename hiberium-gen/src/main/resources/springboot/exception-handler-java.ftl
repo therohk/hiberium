@@ -1,6 +1,7 @@
 package ${package_base}.filter;
 
 import ${package_base}.models.response.ExceptionResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @ControllerAdvice
 public class GenericExceptionHandler {
 
@@ -26,6 +28,7 @@ public class GenericExceptionHandler {
             : exception.getMessage();
         ExceptionResponse error = new ExceptionResponse();
         error.setExceptionObject(request, message, 400);
+        log.error(message, exception);
         return error;
     }
 
@@ -34,9 +37,10 @@ public class GenericExceptionHandler {
     public @ResponseBody ExceptionResponse handleIllegalArgumentException(
             final Exception exception, final HttpServletRequest request) {
 
-        String message = exception.getMessage() != null ? exception.getMessage() : "Unknown Error";
+        String message = exception.getMessage() != null ? exception.getMessage() : "Illegal Argument";
         ExceptionResponse error = new ExceptionResponse();
         error.setExceptionObject(request, message, 400);
+        log.error(message, exception);
         return error;
     }
 
@@ -48,6 +52,7 @@ public class GenericExceptionHandler {
         String message = exception.getMessage() != null ? exception.getMessage() : "Forbidden Resource";
         ExceptionResponse error = new ExceptionResponse();
         error.setExceptionObject(request, message, 403);
+        log.error(message, exception);
         return error;
     }
 
@@ -59,6 +64,7 @@ public class GenericExceptionHandler {
         String message = exception.getMessage() != null ? exception.getMessage() : "Missing Resource";
         ExceptionResponse error = new ExceptionResponse();
         error.setExceptionObject(request, message, 404);
+        log.error(message, exception);
         return error;
     }
 
@@ -70,6 +76,7 @@ public class GenericExceptionHandler {
         String message = exception.getMessage() != null ? exception.getMessage() : "Unknown Error";
         ExceptionResponse error = new ExceptionResponse();
         error.setExceptionObject(request, message, 500);
+        log.error(message, exception);
         return error;
     }
 

@@ -16,6 +16,15 @@ public final class FileUtils {
         return new File(file);
     }
 
+    public static String getProjectBase() {
+        String workingDir = System.getProperty("user.dir");
+        if(workingDir.endsWith("\\"))
+            workingDir = workingDir.substring(0, workingDir.length()-1);
+        if(!isFile(workingDir+"\\settings.gradle"))
+            throw new RuntimeException("wrong project base folder");
+        return workingDir;
+    }
+
     public static String getCurrentPath(String projectName) {
         String workingDir = System.getProperty("user.dir");
         String projectPath = workingDir.substring(0, workingDir.indexOf(projectName)+projectName.length());
@@ -66,9 +75,8 @@ public final class FileUtils {
     }
 
     public static boolean createFolder(String location, boolean recursive) {
-        if(exists(location)) {
+        if(exists(location))
             return false;
-        }
         new File(location).mkdirs();
         return true;
     }

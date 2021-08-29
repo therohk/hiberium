@@ -7,7 +7,6 @@ import com.konivax.models.Project;
 import com.konivax.models.Template;
 import com.konivax.utils.FileUtils;
 import com.konivax.utils.ReflectUtils;
-import com.konivax.utils.Validate;
 import com.konivax.utils.format.CsvUtils;
 import com.konivax.utils.format.JsonUtils;
 import com.konivax.utils.format.YamlUtils;
@@ -16,12 +15,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class RenderProject {
 
     public static void main(String[] args) {
-        String projectPath = FileUtils.getCurrentPath("hiberium");
+        String projectPath = FileUtils.getProjectBase();
         String configPath = projectPath + "\\hiberium-gen\\src\\main\\resources\\";
         String projectYaml = configPath + "hibernate-render.yaml";
         String conceptCsv = configPath + "concept-def.csv";
@@ -69,17 +69,16 @@ public class RenderProject {
 
     public static void attachConceptAttributes(List<Concept> conceptList, List<Attribute> attributeList) {
         for (Concept concept : conceptList) {
-            String conceptName = concept.getConceptName();
             List<Attribute> attributeReq = attributeList.stream()
-                    .filter(a -> a.getConceptName().equals(conceptName))
+                    .filter(a -> concept.getConceptName().equals(a.getConceptName()))
                     .collect(Collectors.toList());
-
+            AtomicInteger attrIndex = new AtomicInteger(0);
+            attributeReq.forEach(a -> a.setAttributePos(attrIndex.getAndIncrement()));
             concept.setAttributeXref(attributeReq);
         }
     }
 
-    public static Map<String, Object> exportConceptToModel(Concept concept) {
-        Validate.notNull(concept, "concept is not defined");
+     public static Map<String, Object> exportConceptToModel(Concept concept) {
         Map<String, Object> model = new HashMap<String, Object>();
 
         concept.createDerivedNames();

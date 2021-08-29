@@ -16,7 +16,7 @@ public class RenderConfig {
         render.configure();
         render.parse(args);
 
-        String projectPath = FileUtils.getCurrentPath("hiberium");
+        String projectPath = FileUtils.getProjectBase();
         String configPath = projectPath+"\\hiberium-gen\\src\\main\\resources\\";
         String projectYaml = null;
         String conceptCsv = null;
