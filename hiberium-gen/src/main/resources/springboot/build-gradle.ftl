@@ -18,15 +18,6 @@ buildscript {
     }
 }
 
-sourceSets {
-    main {
-        resources {
-            exclude '**/database/*'
-            exclude '**/elastic/*'
-        }
-    }
-}
-
 repositories {
     mavenCentral()
 }
@@ -69,7 +60,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.16")
 
     //embedded server
-    compile('org.springframework.boot:spring-boot-starter-${server_type!tomcat}')
+    compile('org.springframework.boot:spring-boot-starter-${server_type!"tomcat"}')
 
     //default database
     runtimeOnly("com.h2database:h2")

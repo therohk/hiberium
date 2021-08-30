@@ -4,19 +4,19 @@
 
 The project to be rendered is defined under [hibernate-render.yaml](hiberium-gen/src/main/resources/hibernate-render.yaml).
 
-The yaml configuration stores the templates and their target package which are rendered in order.
+The yaml configuration stores the templates and their target packages which are rendered in order.
 
-The templates under the section [projections](hiberium-gen/src/main/resources/freemarker) are rendered once per project.
+The templates under the section [projections](hiberium-gen/src/main/resources/freemarker) are rendered only once.
 
 The templates under the section [conceptions](hiberium-gen/src/main/resources/springboot) are rendered once per concept.
 
 A runnable spring web application is generated under the hiberium-war folder.
 
-Run the sample project main function under [RenderProject.java](hiberium-gen/src/main/java/com/konivax/RenderProject.java) to get started.
+Run the sample project from the main function in [RenderProject.java](hiberium-gen/src/main/java/com/konivax/RenderProject.java) to get started.
 
-Build and run the generated CRUD web application from [Application.java](hiberium-war/src/main/java/com/konivax/Application.java).
+Build then run the generated web application from [Application.java](hiberium-war/src/main/java/com/konivax/Application.java).
 
-Implement further business logic and connect to a real database.  
+Implement further business logic and connect to an external database.  
 
 # Concept
 
@@ -37,6 +37,7 @@ This configuration is loaded from [concept-def.csv](hiberium-gen/src/main/resour
 | concept_desc | optional text | description of concept |
 | concept_index | optional `[0-9a-z_]+` | elastic index name ; defaults to table name |
 | update_code | optional | default update strategy for fields |
+| concept_parent | not available | for composite objects and nesting |
 | dynamic_insert | `true` | enable hibernate dynamic insert |
 | dynamic_update | `false` | enable hibernate dynamic update |
 
@@ -59,6 +60,7 @@ This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/res
 | field_scale | if applicable | length for varchar or scale for numeric type |
 | field_precision | if applicable | precision for numeric type |
 | default_value | optional | default value for field |
+| attribute_format | not available | regex validation pattern for string types |
 | elastic_type | optional | override elastic search field type |
 | update_code | optional see [codes](#strategy-codes) | update strategy for field |
 
@@ -66,7 +68,7 @@ This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/res
 
 A string of chained alphabetic roles can be used to configure an attribute.
 
-Todo, any boolean setting configured from the role can be over-ridden individually.
+The templates take these flags into account to generate more accurate endpoints and functions.
 
 | Role Value | Meaning | Effect |
 |----|----|----|
@@ -78,19 +80,19 @@ Todo, any boolean setting configured from the role can be over-ridden individual
 | N | Non-Nullable | field value cannot be null |
 | R | Searchable | field can be used for table lookup |
 | O | Orderable | field can be used for sorting |
-| G | Groupable | field can be used for grouping and facetting |
+| G | Groupable | field can be used for grouping and faceting |
 
 # Update Strategy
 
-This single letter flag describes how updates to an entity for a PUT/UPDATE operation should be handled.
+This single letter flag describes how modifications to an entity for a PUT/UPDATE operation should be handled.
  
 It decides whether a change to the value of the field is allowed during a merge operation between two entities.
 
-This flag can be set at both concept and attribute level. An incoming api request can override this setting.
+This flag can be set at both concept and attribute level. An incoming api request can attempt to override this setting.
 
 ## Strategy Codes
 
-The same field within the source and target tuple are shown as s and t respectively.
+The same field within the source and target tuple is represented by s and t respectively.
 
 Whether the strategy requires data to be present for the field, is shown by { 0=no, 1=yes, X=dontcare }. 
 
@@ -109,10 +111,11 @@ See the implementation of this logic in [MergeObject.java](hiberium-gen/src/main
 | I | `sX & t0` | insert only, no update or delete |
 | D | `s0 & tX` | delete only, no update or insert |
 
-Here the insert, update and delete refer to the value transition for each attribute.
+Here the insert, update and delete refer to the value transition for a single attribute in the target tuple.
 
-| Modify Type | Target Transition |
+| Modify Type | Transition |
 |----|----|
-| insert | null <- non-null |
-| delete | non-null <- null |
-| update | non-null <- non-null |
+| ignore | `null <- null` or `non-null == non-null` |
+| insert | `null <- non-null` |
+| delete | `non-null <- null` |
+| update | `non-null <- non-null` |
