@@ -5,6 +5,8 @@ import com.konivax.models.Attribute;
 import com.konivax.models.Concept;
 import com.konivax.models.Project;
 import com.konivax.models.Template;
+import com.konivax.models.mapper.ModelValidator;
+import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.FileUtils;
 import com.konivax.utils.ReflectUtils;
 import com.konivax.utils.format.CsvUtils;
@@ -39,6 +41,7 @@ public class RenderProject {
         List<Concept> conceptList = CsvUtils.readCsvFileData(conceptCsv, Concept.class);
         List<Attribute> attributeList = CsvUtils.readCsvFileData(attributeCsv, Attribute.class);
         attachConceptAttributes(conceptList, attributeList);
+        ModelValidator.validateModel(conceptList);
 
         //create freemarker model
         Map<String, Object> root = new HashMap<String, Object>();
@@ -76,20 +79,29 @@ public class RenderProject {
             attributeReq.forEach(a -> a.setAttributePos(attrIndex.getAndIncrement()));
             concept.setAttributeXref(attributeReq);
         }
+        //verify and derive
+        for(Concept concept : conceptList) {
+            if(CollectionUtils.isEmpty(concept.getAttributeXref()))
+                throw new IllegalStateException("no attributes found for concept "+concept.getConceptName());
+            concept.createDerivedNames();
+        }
+        for(Attribute attribute : attributeList) {
+            if(attribute.getAttributePos() == null)
+                throw new IllegalStateException("no concept found for attribute " +
+                        attribute.getConceptName()+"."+attribute.getAttributeName());
+            attribute.createDerivedNames();
+        }
     }
 
-     public static Map<String, Object> exportConceptToModel(Concept concept) {
+    public static Map<String, Object> exportConceptToModel(Concept concept) {
         Map<String, Object> model = new HashMap<String, Object>();
-
-        concept.createDerivedNames();
         model.putAll(ReflectUtils.toColumnObjectMap(concept));
 
         List<Map<String, Object>> attributes = new ArrayList<Map<String, Object>>();
-        for (Attribute attribute : concept.getAttributeXref()) {
-            attribute.createDerivedNames();
+        for (Attribute attribute : concept.getAttributeXref())
             attributes.add(ReflectUtils.toColumnObjectMap(attribute));
-        }
         model.put("attributes", attributes);
+
         return model;
     }
 

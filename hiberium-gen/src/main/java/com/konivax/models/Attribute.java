@@ -63,7 +63,7 @@ public class Attribute {
     @Column(name = "foreign_key_field")
     private String foreignKeyField;
     private String foreignConstraintName;
-    private String foreignKeyType;
+    private String foreignKeyType; // = FieldConstants.TYPE_PRIMARY;
 
     @Column(name = "update_code")
     private String updateCode;
@@ -99,8 +99,6 @@ public class Attribute {
     }
 
     public void createDerivedNames() {
-        //todo validate
-
         if(StringUtils.isBlank(fieldName)) {
             List<String> parts = StringUtils.splitByCharacterType(attributeName, true);
             fieldName = parts.stream()

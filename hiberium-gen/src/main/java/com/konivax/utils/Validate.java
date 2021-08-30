@@ -29,4 +29,11 @@ public final class Validate {
             throw new NullPointerException(String.format(message, values));
         return object;
     }
+
+    public static void isMatch(final String string, String pattern) {
+        notBlank(string, "string is not present");
+        if (!string.matches(pattern))
+            throw new IllegalArgumentException(
+                    String.format("%s does not match pattern: %s", string, pattern));
+    }
 }
