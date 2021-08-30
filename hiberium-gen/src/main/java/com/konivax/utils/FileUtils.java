@@ -20,6 +20,9 @@ public final class FileUtils {
         String workingDir = System.getProperty("user.dir");
         if(workingDir.endsWith("\\"))
             workingDir = workingDir.substring(0, workingDir.length()-1);
+        String subProject = "hiberium-gen";
+        if(workingDir.endsWith("\\"+subProject))
+            workingDir = workingDir.substring(0, workingDir.length()-subProject.length()-1);
         if(!isFile(workingDir+"\\settings.gradle"))
             throw new RuntimeException("wrong project base folder");
         return workingDir;

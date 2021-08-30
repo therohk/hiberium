@@ -39,13 +39,11 @@ To change the concept and attributes in the sample definition refer to the [sche
 
 4. Webapp has been generated under the child project `hiberium-war`
 
-5. Open `settings.gradle` and uncomment the child project
+5. Run the gradle command `gradle clean build`
 
-6. Run the gradle command `gradle clean build`
+6. Run the spring webapp from `Application.java` or `gradle bootRun`
 
-7. Run the spring webapp from `Application.java` or `gradle bootRun`
-
-8. Explore the swagger api docs at `localhost:8080/hiberium/1.0/swagger-ui.html#`
+7. Explore the swagger api docs at `localhost:8080/hiberium/1.0/swagger-ui.html#`
 
 Start writing business logic and setup connection details in `application.properties`.
 
@@ -59,7 +57,7 @@ Start writing business logic and setup connection details in `application.proper
 
 3. Dependency ordering for sql create table statements.
 
-4. Optional spring security integration with and JWT tokens.
+4. Optional spring security integration with JWT tokens.
 
 5. Full support for spring elastic search client.
 
@@ -71,4 +69,4 @@ Code contributions are welcome via issues and pull requests.
 
 ### License
 
-This project is licensed under the terms of the MIT license.
+This project is licensed under the terms of the Apache License 2.0.
