@@ -97,27 +97,6 @@ public final class MergeObject {
         return approveSetter;
     }
 
-    public static String pickStrategyCode(String opCode) {
-        switch (opCode.toLowerCase()) {
-            case "create":
-            case "insert":
-            case "post":
-                return PROC_INSERT;
-            case "update":
-            case "modify":
-            case "put":
-                return PROC_UPDATE;
-            case "remove":
-            case "delete":
-                return PROC_DELETE;
-            case "select":
-            case "ignore":
-            case "get":
-            default:
-                return PROC_N;
-        }
-    }
-
     public static Object invokeGetter(Object obj, String fieldName) {
         try {
             PropertyDescriptor pd = new PropertyDescriptor(fieldName, obj.getClass());

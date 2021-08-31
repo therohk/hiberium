@@ -85,7 +85,7 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
 <#macro printcoldef attribute>
 <@compress single_line=true>
 <#if attribute.field_type == "numeric">
-, columnDefinition = "${attribute.field_type}(${attribute.field_scale!15},${attribute.field_precision!4})"
+, columnDefinition = "${attribute.field_type}(${attribute.field_precision!22},${attribute.field_scale!4})"
 </#if>
 </@compress>
 </#macro>

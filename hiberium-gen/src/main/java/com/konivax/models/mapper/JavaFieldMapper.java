@@ -57,10 +57,13 @@ public final class JavaFieldMapper {
             case "smallint":
             case "tinyint":
             case "serial":
+            case "serial4":
                 return TYPE_INTEGER;
             case "long":
             case "int8":
             case "serial8":
+            case "bigint":
+            case "bigserial":
                 return TYPE_LONG;
             case "date":
             case "time":

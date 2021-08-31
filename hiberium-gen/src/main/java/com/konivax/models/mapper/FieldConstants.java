@@ -26,7 +26,7 @@ public final class FieldConstants {
     public static final String ROLE_NOTNULL = "N";
     public static final String ROLE_FINAL = "I"; //immutable
     public static final String ROLE_SEARCH = "R";
-    public static final String ROLE_DEFAULT = "S";
+    public static final String ROLE_DEFAULT = "S"; //standard
 
     //todo attribute behaviors
     public static final String CODE_PRIMARY = "primaryKey";
@@ -43,8 +43,8 @@ public final class FieldConstants {
 
     //data constants
     public static final Integer DEFAULT_LENGTH = 128;
-    public static final Integer DEFAULT_SCALE = 15;
-    public static final Integer DEFAULT_PRECISION = 4;
+    public static final Integer DEFAULT_SCALE = 4;
+    public static final Integer DEFAULT_PRECISION = 22;
     public static final String DEFAULT_CHARSET = "UTF-8";
 
     public static final String DATA_ACTIVE = "1";

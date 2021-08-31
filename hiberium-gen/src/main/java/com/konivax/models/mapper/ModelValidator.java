@@ -110,11 +110,16 @@ public final class ModelValidator {
         if(attribute.getFieldStartPos() != null)
             Validate.isTrue(attribute.getFieldStartPos() > 0 && attribute.getFieldStartPos() <= 8192,
                     "field start pos out of bounds for "+attributeName);
-        if(attribute.getFieldScale() != null)
+
+        if(attribute.getFieldScale() != null && FieldConstants.TYPE_STRING.equals(attribute.getJavaFieldType()))
             Validate.isTrue(attribute.getFieldScale() > 0 && attribute.getFieldScale() <= 1024,
-                    "scale out of bounds for "+attributeName+". consider using text");
+                    "length out of bounds for "+attributeName+". consider using text");
+
+        if(attribute.getFieldScale() != null && FieldConstants.TYPE_DOUBLE.equals(attribute.getJavaFieldType()))
+            Validate.isTrue(attribute.getFieldScale() > 0 && attribute.getFieldScale() <= 56,
+                    "scale out of bounds for "+attributeName);
         if(attribute.getFieldPrecision() != null)
-            Validate.isTrue(attribute.getFieldPrecision() > 0 && attribute.getFieldPrecision() <= 15,
+            Validate.isTrue(attribute.getFieldPrecision() > 0 && attribute.getFieldPrecision() <= 128,
                     "precision out of bounds for "+attributeName);
     }
 

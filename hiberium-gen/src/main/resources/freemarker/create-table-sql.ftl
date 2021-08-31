@@ -3,7 +3,7 @@
 -- ${concept_schema}.${concept_table} -> ${module_name}.${concept_name}
 -- Generated at ${.now}
 
--- DROP TABLE ${concept_schema}.${concept_table}
+-- DROP TABLE IF EXISTS ${concept_schema}.${concept_table}
 
 CREATE TABLE ${concept_schema}.${concept_table} (
 <#list attributes as attribute>
@@ -23,7 +23,7 @@ CREATE TABLE ${concept_schema}.${concept_table} (
 <#macro printtype attribute>
 <@compress single_line=true>
 <#if attribute.field_type == "varchar">${attribute.field_type}(${attribute.field_scale!128})
-<#elseif attribute.field_type == "numeric">${attribute.field_type}(${attribute.field_scale!15},${attribute.field_precision!4})
+<#elseif attribute.field_type == "numeric">${attribute.field_type}(${attribute.field_precision!22},${attribute.field_scale!4})
 <#else>${attribute.field_type}
 </#if>
 </@compress>
