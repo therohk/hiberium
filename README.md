@@ -39,7 +39,7 @@ To change the concept and attributes in the sample definition refer to the [sche
 
 4. Webapp has been generated under the child project `hiberium-war`
 
-5. Run the gradle command `gradle clean build`
+5. Reimport/Refresh the gradle project then run `gradle clean build`
 
 6. Run the spring webapp from `Application.java` or `gradle bootRun`
 
