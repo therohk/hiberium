@@ -34,6 +34,6 @@ public final class Validate {
         notBlank(string, "string is not present");
         if (!string.matches(pattern))
             throw new IllegalArgumentException(
-                    String.format("%s does not match pattern: %s", string, pattern));
+                    String.format("'%s' does not match pattern: %s", string, pattern));
     }
 }

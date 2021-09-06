@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.konivax.models.mapper.FieldConstants.*;
-
 public final class CsvUtils {
 
     private CsvUtils() { }
@@ -61,22 +59,25 @@ public final class CsvUtils {
 
             String className = field.getType().getSimpleName();
             switch (className) {
-                case TYPE_STRING:
+                case "String":
                     processors[i] = null;
                     break;
-                case TYPE_INTEGER:
+                case "Integer":
                     processors[i] = new Optional(new ParseInt());
                     break;
-                case TYPE_DOUBLE:
+                case "Long":
+                    processors[i] = new Optional(new ParseLong());
+                    break;
+                case "Double":
                     processors[i] = new Optional(new ParseDouble());
                     break;
-                case TYPE_DATETIME:
+                case "Date":
                     processors[i] = new Optional(new ParseDate("yyyy-MM-dd HH:mm:ss.SSSSS", true));
                     break;
-                case TYPE_BOOLEAN:
+                case "Boolean":
                     processors[i] = new Optional(new ParseBool());
                     break;
-                case TYPE_CHARACTER:
+                case "Character":
                     processors[i] = new Optional(new ParseChar());
                     break;
             }
@@ -115,7 +116,7 @@ public final class CsvUtils {
             }
 
         } catch (IOException ioe) {
-            throw new RuntimeException("failed to parse csv file : " + ioe.getMessage());
+            throw new RuntimeException("failed to read csv file : " + ioe.getMessage());
         } catch (SuperCsvException sce) {
             CsvContext context = sce.getCsvContext();
             String errorText = String.format("error on lineNum=%s ; rowNum=%s ; colNum=%s",
@@ -128,15 +129,17 @@ public final class CsvUtils {
         return entityList;
     }
 
-    public static <T> void writeCsvResponseData(PrintWriter writer, List<T> items, Class<T> clazz) throws IOException {
+    public static <T> void writeCsvWriterData(PrintWriter writer, List items, Class<T> clazz) {
         ICsvBeanWriter csvWriter = new CsvBeanWriter(writer, getCsvPreferences());
         String[] columnMapping = ReflectUtils.getColumnNamesAsArray(clazz);
         String[] fieldMapping = ReflectUtils.getFieldNamesAsArray(clazz);
-
-        csvWriter.writeHeader(columnMapping);
-        for (T item : items) {
-            csvWriter.write(item, fieldMapping);
+        try {
+            csvWriter.writeHeader(columnMapping);
+            for (Object item : items)
+                csvWriter.write(item, fieldMapping);
+            csvWriter.close();
+        } catch (IOException ioe) {
+            throw new RuntimeException("failed to write csv file : " + ioe.getMessage());
         }
-        csvWriter.close();
     }
 }

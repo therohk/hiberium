@@ -3,7 +3,7 @@
 -- ${concept_schema}.${concept_table} -> ${module_name}.${concept_name}
 -- Generated at ${.now}
 
--- DROP TABLE IF EXISTS ${concept_schema}.${concept_table}
+-- DROP TABLE IF EXISTS ${concept_schema}.${concept_table};
 
 CREATE TABLE ${concept_schema}.${concept_table} (
 <#list attributes as attribute>

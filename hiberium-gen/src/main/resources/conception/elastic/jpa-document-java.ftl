@@ -26,4 +26,5 @@ public class ${concept_name}Document {
     private ${attribute.attribute_java} ${attribute.attribute_name};
 </#list>
 
+    //convert between document and entity
 }
