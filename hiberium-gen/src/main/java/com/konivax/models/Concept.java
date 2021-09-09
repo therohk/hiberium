@@ -66,6 +66,8 @@ public class Concept {
 
     @Transient
     private List<Attribute> attributeXref;
+    @Transient
+    private List<Attribute> relationXref;
 
     public Concept() { }
 
@@ -117,7 +119,7 @@ public class Concept {
     }
 
     public void generateHiberiumLocation() {
-        Integer conceptHash = conceptName.hashCode();
+        Integer conceptHash = (moduleName+conceptName).hashCode();
         Double latitude = null;
         Double longitude = null;
     }

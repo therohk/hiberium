@@ -133,6 +133,8 @@ public final class ModelValidator {
         Set<String> attributeNameSet = concept.getAttributeXref().stream()
                 .map(Attribute::getAttributeName)
                 .collect(Collectors.toSet());
+        Validate.isTrue(attributeCount > 0 && attributeCount <= 1024,
+                "attribute count out of bounds for "+conceptName);
         Validate.isTrue(attributeCount == attributeNameSet.size(),
                 "duplicate attribute name in "+conceptName);
 

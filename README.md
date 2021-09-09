@@ -21,7 +21,8 @@ The key features are :
 * **Production Quality** : Integration with swagger, actuator, logback apis. Proper error handling and response.
 * **Configurable** : Configure complex attribute and merge behaviors using simple alphabetic flags.
 * **Extensible** : Easily modify the project model or implement your own templates and coding patterns.
-* **Pragmatic** : Explore other useful endpoints like paginated table search and bulk entity update. 
+* **Pragmatic** : Explore other useful endpoints like paginated table search, bulk entity update and csv import. 
+* **Composition** : Support for two-level nesting for concepts. Seamlessly transform between nested and flat/relational models.
 
 ---
 
@@ -29,7 +30,7 @@ The key features are :
 
 Follow these steps to render the sample project and bring up the application server.
 
-To change the concept and attributes in the sample definition refer to the [schema](SCHEMA.md) document.
+To change the concepts and attributes in the sample definition refer to the [schema](SCHEMA.md) document.
 
 1. Download this repository and open with Intellij
 
@@ -51,17 +52,15 @@ Start writing business logic and setup connection details in `application.proper
 
 ### Upcoming Features
 
-1. Bulk import and export endpoint via csv files to support data seeding.
+1. Full support for spring mongo and elastic search client.
 
-2. Composite entities that allow nested concepts and child tables.
+2. Optional spring security integration with JWT tokens.
 
 3. Dependency ordering for sql create table statements.
 
-4. Optional spring security integration with JWT tokens.
+4. Optional entity insert using form submission.
 
-5. Full support for spring elastic search client.
-
-6. Optional entity insert using form submission.
+5. Encrypted data in service layer for any attribute.
 
 ---
 

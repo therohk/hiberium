@@ -5,6 +5,7 @@ import com.konivax.models.Attribute;
 import com.konivax.models.Concept;
 import com.konivax.models.Project;
 import com.konivax.models.Template;
+import com.konivax.models.mapper.FieldConstants;
 import com.konivax.models.mapper.ModelValidator;
 import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.FileUtils;
@@ -41,8 +42,13 @@ public class RenderProject {
         List<Concept> conceptList = CsvUtils.readCsvFileData(conceptCsv, Concept.class);
         List<Attribute> attributeList = CsvUtils.readCsvFileData(attributeCsv, Attribute.class);
         attachConceptAttributes(conceptList, attributeList);
+        attachConceptRelations(conceptList, attributeList);
         ModelValidator.validateModel(conceptList);
 
+        renderFromModel(projectPath, project, conceptList);
+    }
+
+    public static void renderFromModel(String projectPath, Project project, List<Concept> conceptList) {
         //create freemarker model
         Map<String, Object> root = new HashMap<String, Object>();
         root.putAll(ReflectUtils.toColumnObjectMap(project));
@@ -70,6 +76,11 @@ public class RenderProject {
         }
     }
 
+    //-------------------------------------------------------------------------
+
+    /**
+     * concept inner join on attribute
+     */
     public static void attachConceptAttributes(List<Concept> conceptList, List<Attribute> attributeList) {
         for (Concept concept : conceptList) {
             List<Attribute> attributeReq = attributeList.stream()
@@ -93,6 +104,28 @@ public class RenderProject {
         }
     }
 
+    public static void attachConceptRelations(List<Concept> conceptList, List<Attribute> attributeList) {
+        for (Concept concept : conceptList) {
+            List<String> childConceptList = conceptList.stream()
+                    .filter(c -> concept.getConceptName().equals(c.getConceptParent()))
+                    .filter(c -> concept.getModuleName().equals(c.getModuleName()))
+                    .map(c -> c.getConceptName())
+                    .collect(Collectors.toList());
+            if(childConceptList.isEmpty())
+                continue;
+            List<Attribute> childAttributeList = attributeList.stream()
+                    .filter(a -> CollectionUtils.in(a.getConceptName(), childConceptList))
+                    .filter(a -> a.getForeignKey() != null)
+                    .filter(a -> a.getForeignKey().startsWith(concept.getSqlTableName()+"."))
+                    .collect(Collectors.toList());
+            if(childAttributeList.isEmpty())
+                continue;
+            childAttributeList.forEach(a -> a.applyAttributeFlag(FieldConstants.ROLE_NOTNULL));
+            childAttributeList.forEach(a -> a.applyAttributeFlag(FieldConstants.ROLE_FINAL));
+            concept.setRelationXref(childAttributeList);
+        }
+    }
+
     public static Map<String, Object> exportConceptToModel(Concept concept) {
         Map<String, Object> model = new HashMap<String, Object>();
         model.putAll(ReflectUtils.toColumnObjectMap(concept));
@@ -101,6 +134,13 @@ public class RenderProject {
         for (Attribute attribute : concept.getAttributeXref())
             attributes.add(ReflectUtils.toColumnObjectMap(attribute));
         model.put("attributes", attributes);
+
+        if(CollectionUtils.isEmpty(concept.getRelationXref()))
+            return model;
+        List<Map<String, Object>> relations = new ArrayList<Map<String, Object>>();
+        for (Attribute relation : concept.getRelationXref())
+            relations.add(ReflectUtils.toColumnObjectMap(relation));
+        model.put("relations", relations);
 
         return model;
     }
