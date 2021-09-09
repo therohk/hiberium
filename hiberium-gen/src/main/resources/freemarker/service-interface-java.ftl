@@ -16,6 +16,7 @@ public interface ${concept_name}ServiceSpec {
     /**
      * handle any operation like insert, update or soft delete
      * reads record from database if present and merges source data into it
+     * always returns the primary key of the entity
      */
     Integer handle${concept_name}InsertOrUpdate(${concept_name} ${concept_varname}Source, String strategy);
 

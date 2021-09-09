@@ -39,6 +39,7 @@ public class BulkEntityController {
     public void exportTableToCsv(
             HttpServletResponse response,
             @PathVariable(value = "entity") String entityName
+            //@RequestParam(value = "dateFormat", required = false) String dateFormat,
             //@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             //@RequestParam(value = "perPage", defaultValue = "1000") Integer perPage
     ) throws Exception {

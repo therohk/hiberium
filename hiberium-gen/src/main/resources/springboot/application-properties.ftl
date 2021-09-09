@@ -11,7 +11,7 @@ spring.h2.console.enabled=false
 spring.datasource.type=com.zaxxer.hikari.HikariDataSource
 spring.datasource.hikari.maximum-pool-size=12
 spring.datasource.hikari.minimum-idle=4
-spring.datasource.hikari.pool-name=spring-${project_name}
+spring.datasource.hikari.pool-name=hikari-${project_name}
 
 spring.jpa.properties.hibernate.jdbc.batch_size=30
 spring.jpa.properties.hibernate.order_inserts=true
