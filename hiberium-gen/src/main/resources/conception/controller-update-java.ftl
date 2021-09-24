@@ -3,7 +3,7 @@
     public ${concept_name} update${concept_name}(
             @PathVariable(value = "id") Integer ${concept_varname}Id,
             @Valid @RequestBody ${concept_name} ${concept_varname}Request,
-            @RequestParam(value = "strategy", defaultValue = "Y") String strategy
+            @RequestParam(value = "strategy", defaultValue = "B") String strategy
             ) throws Exception {
 
         if (!${concept_varname}Id.equals(${concept_varname}Request.primaryKey()))

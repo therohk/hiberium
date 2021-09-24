@@ -48,7 +48,7 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
     }
 
     public void handleFieldsForInsert() {
-        set${primary_key.attribute_name?cap_first}(null);
+        //set${primary_key.attribute_name?cap_first}(null);
         //activeInd + createTs + updateTs
     }
 
