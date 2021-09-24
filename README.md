@@ -11,7 +11,7 @@
 
 Hiberium is a code generator to create working springboot+hibernate projects from a schema definition in csv.
 
-**Hiberium** uses freemarker templates for all the required java classes to render a high-quality deployable webapp. 
+**Hiberium** uses freemarker templates to render all the java classes required for a high-quality deployable webapp. 
 
 The key features are :
 

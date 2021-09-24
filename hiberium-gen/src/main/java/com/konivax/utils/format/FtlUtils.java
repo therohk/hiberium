@@ -36,12 +36,10 @@ public final class FtlUtils {
         }
 
         MultiTemplateLoader mtl = null;
-        ClassTemplateLoader ctl1 = new ClassTemplateLoader(FtlUtils.class, "/freemarker/");
-        ClassTemplateLoader ctl2 = new ClassTemplateLoader(FtlUtils.class, "/springboot/");
-        ClassTemplateLoader ctl3 = new ClassTemplateLoader(FtlUtils.class, "/projection/");
-        ClassTemplateLoader ctl4 = new ClassTemplateLoader(FtlUtils.class, "/conception/");
+        ClassTemplateLoader ctl1 = new ClassTemplateLoader(FtlUtils.class, "/projection/");
+        ClassTemplateLoader ctl2 = new ClassTemplateLoader(FtlUtils.class, "/conception/");
 //        FileTemplateLoader ftl2 = new FileTemplateLoader(new File("/templates/"));
-        mtl = new MultiTemplateLoader(new TemplateLoader[]{ctl1, ctl2, ctl3, ctl4});
+        mtl = new MultiTemplateLoader(new TemplateLoader[]{ctl1, ctl2});
         configuration.setTemplateLoader(mtl);
 
         return configuration;

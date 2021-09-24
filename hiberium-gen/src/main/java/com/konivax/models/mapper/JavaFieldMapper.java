@@ -30,7 +30,7 @@ public final class JavaFieldMapper {
     private JavaFieldMapper() { }
 
     public static Boolean validateJavaFieldName(String fieldName) {
-        return !javaKeywords.contains(fieldName);
+        return !javaKeywords.contains(fieldName.toLowerCase());
     }
 
     public static String mapStringToBoolean(String strValue, boolean invert) {

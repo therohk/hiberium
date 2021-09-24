@@ -6,9 +6,9 @@ The project to be rendered is defined under [hibernate-render.yaml](hiberium-gen
 
 The yaml configuration stores the templates and their target packages which are rendered in order.
 
-The templates under the section [projections](hiberium-gen/src/main/resources/freemarker) are rendered only once.
+The templates under the section [projections](hiberium-gen/src/main/resources/projection) are rendered only once.
 
-The templates under the section [conceptions](hiberium-gen/src/main/resources/springboot) are rendered once per concept.
+The templates under the section [conceptions](hiberium-gen/src/main/resources/conception) are rendered once per concept.
 
 A runnable spring web application is generated under the hiberium-war folder.
 
@@ -38,12 +38,13 @@ This configuration is loaded from [concept-def.csv](hiberium-gen/src/main/resour
 | concept_index | optional `[0-9a-z_]+` | elastic index name ; defaults to table name |
 | update_code | optional | default update strategy for fields |
 | concept_parent | not available | for composite objects and nesting |
+| concept_symbol | optional `[0-9A-Z]+` | notation for relational algebra |
 | dynamic_insert | `true` | enable hibernate dynamic insert |
 | dynamic_update | `false` | enable hibernate dynamic update |
 
 # Attribute
 
-attribute = column = field = subtype = dimension
+attribute = column = field = label = subtype = dimension
 
 This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/resources/attribute-xref.csv) by default.
 
@@ -53,7 +54,7 @@ This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/res
 |----|----|----|
 | concept_name | defined name | concept which contains attribute |
 | attribute_name | `[a-z][0-9A-Za-z]+` | java field name exposed via rest api |
-| field_name | `[0-9a-z_]+` | database field name |
+| field_name | optional `[0-9a-z_]+` | database field name |
 | field_type | `[0-9a-z]+` | database field type |
 | attribute_role | optional see [roles](#attribute-roles) | alphabetic field configuration |
 | foreign_key | `tablename.fieldname` | foreign key relation added on field |
@@ -73,11 +74,11 @@ The templates take these flags into account to generate more accurate endpoints 
 | Role Value | Meaning | Effect |
 |----|----|----|
 | K | Primary Key | single primary key in table |
-| I | Immutable | value cannot be changed once set |
-| F | Foreign Key | foreign key constraint on field |
-| H | Hidden | field is excluded from json response |
-| U | Unique Key | unique key constraint on field |
 | N | Non-Nullable | field value cannot be null |
+| F | Foreign Key | foreign key constraint on field |
+| U | Unique Key | unique key constraint on field |
+| H | Hidden | field is excluded from json response |
+| I | Immutable | value cannot be changed once set |
 | R | Searchable | field can be used for table lookup |
 | O | Orderable | field can be used for sorting |
 | G | Groupable | field can be used for grouping and faceting |

@@ -1,7 +1,6 @@
 package com.konivax.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.konivax.utils.FileUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +26,7 @@ public class Project {
     private String packageBase;
     @Column(name = "artifact_version")
     private String artifactVersion;
+    private String databaseType;
     @Column(name = "project_schema")
     private String projectSchema;
 
