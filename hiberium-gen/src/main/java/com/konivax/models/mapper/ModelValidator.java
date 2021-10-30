@@ -2,6 +2,7 @@ package com.konivax.models.mapper;
 
 import com.konivax.models.Attribute;
 import com.konivax.models.Concept;
+import com.konivax.models.Project;
 import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.StringUtils;
 import com.konivax.utils.Validate;
@@ -20,9 +21,15 @@ public final class ModelValidator {
     public static final String REGEXP_HYPEN = "^[0-9a-z\\-]+$";
     public static final String REGEXP_ALNUM = "^[0-9a-z]+$";
     public static final String REGEXP_SYMBOL = "^[A-Z]+$";
+    public static final String REGEXP_NUMBER = "^[0-9]+$";
+    public static final String REGEXP_VERSION = "^[0-9A-Z\\.\\-]+$";
+    public static final String REGEXP_URLPATH = "^/[0-9a-zA-Z\\.\\-/]+$";
 
     public static final String ALLOW_ROLES = "^[KHUFNIRS]+$";
     public static final String ALLOW_CODES = "[NHDIUBYC]";
+
+    public static final String[] ALLOW_SERVER_DB = {"h2", "sybase", "postgres", "mysql", "oracle", "db2", "sqlserver"};
+    public static final String[] ALLOW_SERVER_APP = {"tomcat", "jetty", "undertow"};
 
     private ModelValidator() { }
 
@@ -38,6 +45,19 @@ public final class ModelValidator {
 
             validateConceptAttributes(concept);
         }
+    }
+
+    public static void validateProject(Project project) {
+        Validate.isMatch(project.getProjectName(), REGEXP_HYPEN);
+        Validate.isMatch(project.getPackageBase(), REGEXP_PACKAGE);
+        Validate.isMatch(project.getArtifactVersion(), REGEXP_VERSION);
+
+        Validate.isOption(project.getDatabaseType(), ALLOW_SERVER_DB);
+        Validate.isMatch(project.getProjectSchema(), REGEXP_TABLE);
+
+        Validate.isOption(project.getServerType(), ALLOW_SERVER_APP);
+        Validate.isMatch(project.getServerPort(), REGEXP_NUMBER);
+        Validate.isMatch(project.getContextBase(), REGEXP_URLPATH);
     }
 
     private static void validateAllConcepts(List<Concept> concepts) {
@@ -64,8 +84,9 @@ public final class ModelValidator {
     }
 
     public static void validateSingleConcept(Concept concept) {
+        String conceptName = concept.getConceptName();
         //check required fields
-        Validate.isMatch(concept.getConceptName(), REGEXP_CLASS);
+        Validate.isMatch(conceptName, REGEXP_CLASS);
         Validate.isMatch(concept.getModuleName(), REGEXP_MODULE);
         Validate.isMatch(concept.getContextName(), REGEXP_HYPEN);
 
@@ -73,6 +94,11 @@ public final class ModelValidator {
         Validate.isMatch(concept.getSqlSchemaName(), REGEXP_TABLE);
         Validate.isMatch(concept.getConceptIndex(), REGEXP_TABLE);
         Validate.isMatch(concept.getConceptSymbol(), REGEXP_SYMBOL);
+
+        Validate.isTrue(JavaFieldMapper.validateJavaFieldName(conceptName),
+                "illegal concept name for "+conceptName);
+        Validate.isTrue(DatabaseMapper.validateSqlFieldName(conceptName),
+                "illegal concept name for "+conceptName);
 
         if(StringUtils.notBlank(concept.getUpdateCode()))
             Validate.isMatch(concept.getUpdateCode(), ALLOW_CODES);
@@ -83,6 +109,10 @@ public final class ModelValidator {
         String conceptName = attribute.getConceptName();
         Validate.isMatch(attributeName, REGEXP_FIELD);
         Validate.isMatch(conceptName, REGEXP_CLASS);
+        Validate.isTrue(JavaFieldMapper.validateJavaFieldName(attributeName),
+                "illegal attribute name for "+attributeName);
+        Validate.isTrue(DatabaseMapper.validateSqlFieldName(attributeName),
+                "illegal attribute name for "+attributeName);
 
         Validate.isMatch(attribute.getFieldType(), REGEXP_ALNUM);
         Validate.isMatch(attribute.getFieldName(), REGEXP_TABLE);

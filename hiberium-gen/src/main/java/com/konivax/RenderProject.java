@@ -5,6 +5,7 @@ import com.konivax.models.Attribute;
 import com.konivax.models.Concept;
 import com.konivax.models.Project;
 import com.konivax.models.Template;
+import com.konivax.models.mapper.DatabaseMapper;
 import com.konivax.models.mapper.FieldConstants;
 import com.konivax.models.mapper.ModelValidator;
 import com.konivax.utils.CollectionUtils;
@@ -34,15 +35,16 @@ public class RenderProject {
     }
 
     public static void renderFromConfig(String projectPath, String projectYaml, String conceptCsv, String attributeCsv) {
-        //load project config
-        Project project = YamlUtils.deserializeFile(projectYaml, Project.class);
-        System.out.println(JsonUtils.serializeJavaObject(project));
-
         //load data model
+        Project project = YamlUtils.deserializeFile(projectYaml, Project.class);
+//        System.out.println(JsonUtils.serializeJavaObject(project));
         List<Concept> conceptList = CsvUtils.readCsvFileData(conceptCsv, Concept.class);
         List<Attribute> attributeList = CsvUtils.readCsvFileData(attributeCsv, Attribute.class);
+
+        //build and validate
         attachConceptAttributes(conceptList, attributeList);
         attachConceptRelations(conceptList, attributeList);
+        ModelValidator.validateProject(project);
         ModelValidator.validateModel(conceptList);
 
         renderFromModel(projectPath, project, conceptList);
@@ -104,6 +106,10 @@ public class RenderProject {
         }
     }
 
+    /**
+     * for composite models that support two level nesting
+     * further nesting is discouraged due to explosion in number of queries
+     */
     public static void attachConceptRelations(List<Concept> conceptList, List<Attribute> attributeList) {
         for (Concept concept : conceptList) {
             List<String> childConceptList = conceptList.stream()

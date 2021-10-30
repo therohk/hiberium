@@ -36,4 +36,11 @@ public final class Validate {
             throw new IllegalArgumentException(
                     String.format("'%s' does not match pattern: %s", string, pattern));
     }
+
+    public static void isOption(final String string, final String[] values) {
+        notBlank(string, "string is not present");
+        if(!CollectionUtils.in(string, values))
+            throw new IllegalArgumentException(
+                    String.format("illegal option '%s' selected", string));
+    }
 }
