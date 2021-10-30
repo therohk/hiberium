@@ -4,7 +4,7 @@ apply plugin: 'application'
 
 group = 'com.konivax'
 version = '0.1.8-SNAPSHOT'
-sourceCompatibility = 1.11
+sourceCompatibility = '11'
 
 ext.libraryVersions = [
     lombok : '1.18.16',
@@ -17,7 +17,7 @@ ext.libraryVersions = [
     commonslang : '3.12.0',
     nekohtml : '1.9.21',
     jakarta : '2.2.3',
-    junit : '5.3.1'
+    junit : '5.8.1'
 ]
 
 repositories {
@@ -35,18 +35,18 @@ task render(type: JavaExec) {
 }
 
 dependencies {
-    compile("org.freemarker:freemarker:${libraryVersions.freemarker}")
-    compile("javax.xml.bind:jaxb-api:${libraryVersions.xmljaxb}")
+    implementation("org.freemarker:freemarker:${libraryVersions.freemarker}")
+    implementation("javax.xml.bind:jaxb-api:${libraryVersions.xmljaxb}")
 
-    compile("commons-cli:commons-cli:${libraryVersions.cli}")
-    compile("net.sf.supercsv:super-csv:${libraryVersions.supercsv}")
+    implementation("commons-cli:commons-cli:${libraryVersions.cli}")
+    implementation("net.sf.supercsv:super-csv:${libraryVersions.supercsv}")
 
-    compile("com.fasterxml.jackson.core:jackson-core:${libraryVersions.jackson}")
-    compile("com.fasterxml.jackson.core:jackson-databind:${libraryVersions.jackson}")
-    compile("com.fasterxml.jackson.core:jackson-annotations:${libraryVersions.jackson}")
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${libraryVersions.jackson}")
+    implementation("com.fasterxml.jackson.core:jackson-core:${libraryVersions.jackson}")
+    implementation("com.fasterxml.jackson.core:jackson-databind:${libraryVersions.jackson}")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:${libraryVersions.jackson}")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${libraryVersions.jackson}")
 
-    compile("jakarta.persistence:jakarta.persistence-api:${libraryVersions.jakarta}")
+    implementation("jakarta.persistence:jakarta.persistence-api:${libraryVersions.jakarta}")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${libraryVersions.junit}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libraryVersions.junit}")

@@ -7,7 +7,7 @@ apply plugin: 'io.spring.dependency-management'
 
 group = '${package_base}'
 version = '${artifact_version}'
-sourceCompatibility = 1.11
+sourceCompatibility = '11'
 
 buildscript {
     repositories {
@@ -23,48 +23,50 @@ repositories {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web') {
+    implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
-    compile('org.springframework.boot:spring-boot-starter-jdbc')
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-validation')
-    compile('org.springframework.boot:spring-boot-starter-actuator')
+    implementation('org.springframework.boot:spring-boot-starter-jdbc')
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('org.springframework.boot:spring-boot-starter-validation')
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
 
-    compile("javax.xml.bind:jaxb-api:2.3.0")
+    implementation("javax.xml.bind:jaxb-api:2.3.0")
 
     //hibernate
-    compile("org.hibernate:hibernate-core:5.4.29.Final")
-    compile("org.hibernate:hibernate-entitymanager:5.4.29.Final")
+    implementation("org.hibernate:hibernate-core:5.4.29.Final")
+    implementation("org.hibernate:hibernate-entitymanager:5.4.29.Final")
 
     //utilities
-    compile("net.sf.supercsv:super-csv:2.4.0")
-    compile("org.apache.commons:commons-lang3:3.12.0")
+    implementation("net.sf.supercsv:super-csv:2.4.0")
+    implementation("org.apache.commons:commons-lang3:3.12.0")
 
     //security libraries
-//    compile('org.springframework.boot:spring-boot-starter-security')
-//    compile('org.springframework.boot:spring-boot-starter-oauth2-client')
-//    compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
-//    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-//    compile("net.sourceforge.nekohtml:nekohtml:1.9.21")
-    compile("io.jsonwebtoken:jjwt:0.9.1")
+//    implementation('org.springframework.cloud:spring-cloud-starter-vault-config')
+//    implementation('org.springframework.boot:spring-boot-starter-security')
+//    implementation('org.springframework.boot:spring-boot-starter-oauth2-client')
+//    implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
+//    implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+//    implementation("net.sourceforge.nekohtml:nekohtml:1.9.21")
+//    implementation("io.jsonwebtoken:jjwt:0.9.1")
 
-    compile("org.webjars:bootstrap:3.3.7")
-    compile("org.webjars:jquery:3.2.1")
+    implementation("org.webjars:bootstrap:3.3.7")
+    implementation("org.webjars:jquery:3.2.1")
 
-    compile("io.springfox:springfox-swagger2:2.9.2")
-    compile("io.springfox:springfox-swagger-ui:2.9.2")
+    implementation("io.springfox:springfox-swagger2:2.9.2")
+    implementation("io.springfox:springfox-swagger-ui:2.9.2")
 
     //annotations
-    providedCompile("org.projectlombok:lombok:1.18.16")
+    compileOnly("org.projectlombok:lombok:1.18.16")
     annotationProcessor("org.projectlombok:lombok:1.18.16")
 
     //embedded server
-    compile('org.springframework.boot:spring-boot-starter-${server_type!"tomcat"}')
+    implementation('org.springframework.boot:spring-boot-starter-${server_type!"tomcat"}')
 
-    //default database
+    //database
     runtimeOnly("com.h2database:h2")
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    //unit testing
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
 
 }
