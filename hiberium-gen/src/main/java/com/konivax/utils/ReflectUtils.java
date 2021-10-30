@@ -2,6 +2,7 @@ package com.konivax.utils;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Array;
@@ -16,6 +17,29 @@ import java.util.Map;
 public final class ReflectUtils {
 
     private ReflectUtils() { }
+
+    /**
+     * create instance using empty constructor for entity
+     */
+    public static <T> T constructInstance(Class<T> entityClass) {
+        if(entityClass == null)
+            return null;
+        String className = entityClass.getSimpleName();
+        Table tableAnnotation = entityClass.getAnnotation(Table.class);
+        if(tableAnnotation == null)
+            throw new RuntimeException("class "+className+" is not an entity");
+        try {
+            return entityClass.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException ie) {
+            throw new RuntimeException(ie);
+        } catch (IllegalAccessException iae) {
+            throw new RuntimeException(iae);
+        } catch (InvocationTargetException ite) {
+            throw new RuntimeException(ite);
+        } catch (NoSuchMethodException nsme) {
+            throw new RuntimeException(nsme);
+        }
+    }
 
     public static <T> List<String> getFieldNamesAsList(Class<T> clazz) {
         List<String> fieldNames = new ArrayList<String>();

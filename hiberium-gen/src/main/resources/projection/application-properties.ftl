@@ -6,11 +6,11 @@ spring.datasource.driverClassName=org.h2.Driver
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
 #spring.jpa.hibernate.ddl-auto=validate
 #spring.jpa.hibernate.hbm2ddl.auto=validate
-spring.h2.console.enabled=false
+spring.h2.console.enabled=true
 
 spring.datasource.type=com.zaxxer.hikari.HikariDataSource
-spring.datasource.hikari.maximum-pool-size=12
-spring.datasource.hikari.minimum-idle=4
+spring.datasource.hikari.maximum-pool-size=8
+spring.datasource.hikari.minimum-idle=1
 spring.datasource.hikari.pool-name=hikari-${project_name}
 
 spring.jpa.properties.hibernate.jdbc.batch_size=30
@@ -21,6 +21,7 @@ spring.jpa.properties.template.model=hiberium
 spring.jpa.show-sql=true
 spring.jpa.open-in-view=true
 
+spring.application.name=${project_name}
 server.context-path=${context_base}
 server.servlet.context-path=${context_base}
 

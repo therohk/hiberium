@@ -40,6 +40,7 @@ dependencies {
     //utilities
     implementation("net.sf.supercsv:super-csv:2.4.0")
     implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("com.github.tennaito:rsql-jpa:2.0.2")
 
     //security libraries
 //    implementation('org.springframework.cloud:spring-cloud-starter-vault-config')

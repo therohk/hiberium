@@ -21,6 +21,8 @@
         </rollingPolicy>
     </appender>
 
+    <logger name="com.github.tennaito.rsql" level="ERROR"/>
+
     <root level="INFO">
         <!-- <appender-ref ref="RollingFile" /> -->
         <appender-ref ref="Console" />
