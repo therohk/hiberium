@@ -5,7 +5,7 @@ import com.konivax.utils.Validate;
 import java.util.Random;
 
 /**
- * assign a point on the surface of a sphere
+ * assign integer to a point on the surface of a sphere
  */
 public final class ModelLocator {
 

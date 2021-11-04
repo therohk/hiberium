@@ -64,7 +64,7 @@ public final class ModelValidator {
         long conceptCount = concepts.size();
 
         Set<String> conceptNameSet = concepts.stream()
-                .map(Concept::getConceptName)
+                .map(c -> c.getConceptName().toLowerCase())
                 .collect(Collectors.toSet());
         Validate.isTrue(conceptCount == conceptNameSet.size(), "duplicate concept name");
 
@@ -75,8 +75,8 @@ public final class ModelValidator {
                 "duplicate sql table name");
 
         Set<String> invalidRelationSet = concepts.stream()
-                .filter(c -> c.getConceptParent() != null)
-                .map(c -> c.getConceptParent())
+                .filter(c -> StringUtils.notBlank(c.getConceptParent()))
+                .map(c -> c.getConceptParent().toLowerCase())
                 .filter(s -> !conceptNameSet.contains(s))
                 .collect(Collectors.toSet());
         Validate.isTrue(invalidRelationSet.isEmpty(),
@@ -95,6 +95,7 @@ public final class ModelValidator {
         Validate.isMatch(concept.getConceptIndex(), REGEXP_TABLE);
         Validate.isMatch(concept.getConceptSymbol(), REGEXP_SYMBOL);
 
+        //reserved keywords
         Validate.isTrue(JavaFieldMapper.validateJavaFieldName(conceptName),
                 "illegal concept name for "+conceptName);
         Validate.isTrue(DatabaseMapper.validateSqlFieldName(conceptName),
@@ -161,7 +162,7 @@ public final class ModelValidator {
         //check duplicate names
         long attributeCount = attributeList.size();
         Set<String> attributeNameSet = concept.getAttributeXref().stream()
-                .map(Attribute::getAttributeName)
+                .map(a -> a.getAttributeName().toLowerCase())
                 .collect(Collectors.toSet());
         Validate.isTrue(attributeCount > 0 && attributeCount <= 1024,
                 "attribute count out of bounds for "+conceptName);

@@ -53,7 +53,7 @@ public final class FtlBuilder {
      * render freemarker template without dependencies
      * packagePath and fileName strings are evaluated as templates
      */
-    protected static String renderFtlTemplate(final Map<String,Object> dataModel, String templateName,
+    public static String renderFtlTemplate(final Map<String,Object> dataModel, String templateName,
                                             String basePath, String packagePath, String fileName) {
 
         String packagePathRender = FtlUtils.parseLocalTemplate(dataModel, packagePath);
@@ -74,7 +74,7 @@ public final class FtlBuilder {
      * file is not processed as a template and just copied
      * suitable for non source code blob files
      */
-    protected static String renderFileSimple(final Map<String,Object> dataModel,
+    public static String renderFileSimple(final Map<String,Object> dataModel,
                                           String sourceBase, String sourcePackage, String templateName,
                                           String basePath, String packagePath, String fileName) {
 
@@ -91,7 +91,7 @@ public final class FtlBuilder {
         String folderPath = FileUtils.getFilePath(basePath, packagePathRender);
         String filePath = FileUtils.getFilePath(basePath, packagePathRender, fileNameRender);
 
-        Validate.isTrue(FileUtils.exists(sourcePath), "source file not found");
+        Validate.isTrue(FileUtils.exists(sourcePath), "source file not found "+sourcePath);
 
         FileUtils.createFolder(folderPath, true);
         FileUtils.copyFile(sourcePath, filePath, true);
