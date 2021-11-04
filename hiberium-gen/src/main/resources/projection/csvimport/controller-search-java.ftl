@@ -84,8 +84,7 @@ public class SearchEntityController {
             CriteriaQuery<T> querySpec = rootNode.accept(visitor, entityManager);
             return querySpec;
         } catch (Exception e) {
-            log.error("failed to parse rsql query", e);
-            throw new RuntimeException(e);
+            throw new RuntimeException("failed to parse rsql query", e);
         }
     }
 
@@ -97,14 +96,10 @@ public class SearchEntityController {
             CriteriaQuery<Long> countSpec = rootNode.accept(visitor, entityManager);
             return countSpec;
         } catch (Exception e) {
-            log.error("failed to parse rsql query", e);
-            throw new RuntimeException(e);
+            throw new RuntimeException("failed to parse rsql query", e);
         }
     }
 
-    /**
-     * create instance using empty constructor for entity
-     */
     private static <T> T constructInstance(Class<T> entityClass) {
         if(entityClass == null)
             return null;

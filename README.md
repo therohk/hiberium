@@ -18,11 +18,11 @@ The key features are :
 * **Easy to Use** : **No coding required!** Generate the entire web application from one yaml and two csv files.
 * **Compatible** : Generates accurate jpa entities, table spec (postgresql dialect) and elastic index mappings from schema.
 * **Clean Architecture** : Generates the repository, service and controller layers for each entity.
-* **Production Quality** : Integration with swagger, actuator, logback apis. Proper error handling and response.
-* **Configurable** : Configure complex attribute and merge behaviors using simple alphabetic flags.
+* **Production Quality** : Integration with swagger, actuator, vault apis. Proper error handling and response.
+* **Pragmatic** : Explore other useful endpoints like **paginated [rsql](RSQLEXP.md) search**, bulk entity merge and **csv import**.
+* **Configurable** : Configure attributes and merge behaviors using simple alphabetic flags.
 * **Extensible** : Easily modify the project model or implement your own templates and coding patterns.
-* **Pragmatic** : Explore other useful endpoints like paginated table search, bulk entity update and csv import. 
-* **Composition** : Support for two-level nesting for concepts. Seamlessly transform between nested and flat/relational models.
+* **Composable** : Support for two-level nesting of concepts. Seamlessly transform between nested and flat/relational models.
 
 ---
 
@@ -42,7 +42,7 @@ To change the concepts and attributes in the sample definition refer to the [sch
 
 5. Reimport/Refresh the gradle project then run `gradle clean build`
 
-6. Run the spring webapp from `Application.java` or `gradle bootRun`
+6. Raise the spring webapp from `Application.java` or `gradle bootRun`
 
 7. Explore the swagger api docs at `localhost:8080/hiberium/1.0/swagger-ui.html#`
 
@@ -52,15 +52,17 @@ Start writing business logic and setup connection details in `application.proper
 
 ### Upcoming Features
 
-1. Full support for spring mongo and elastic search client.
+1. Docker compose for webapp with local postgres container.
 
-2. Optional spring security integration with JWT tokens.
+2. Full support for spring mongo and elastic search client.
 
-3. Dependency ordering for sql create table statements.
+3. Support for binary and blob data types.
 
-4. Optional entity insert using form submission.
+4. Optional spring security integration with JWT tokens.
 
-5. Encrypted data in service layer for any attribute.
+5. Dependency ordering for sql create table statements.
+
+6. Optional insert using form submission and lightweight browser.
 
 ---
 
