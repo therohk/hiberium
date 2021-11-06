@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 @BootstrapConfiguration
 public class VaultConfig {
 
-    @Value("${r"${spring.cloud.vault.application-name}"}")
+    @Value("${r"$"}{spring.cloud.vault.application-name}")
     private String vaultTargets;
 
     @Bean

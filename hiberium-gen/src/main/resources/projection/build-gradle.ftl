@@ -31,13 +31,12 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-validation')
     implementation('org.springframework.boot:spring-boot-starter-actuator')
 
-    implementation("javax.xml.bind:jaxb-api:2.3.0")
-
     //hibernate
     implementation("org.hibernate:hibernate-core:5.4.29.Final")
     implementation("org.hibernate:hibernate-entitymanager:5.4.29.Final")
 
     //utilities
+    implementation("javax.xml.bind:jaxb-api:2.3.0")
     implementation("net.sf.supercsv:super-csv:2.4.0")
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("com.github.tennaito:rsql-jpa:2.0.2")
@@ -66,6 +65,7 @@ dependencies {
 
     //database
     runtimeOnly("com.h2database:h2")
+    runtimeOnly("org.postgresql:postgresql")
 
     //unit testing
     testImplementation('org.springframework.boot:spring-boot-starter-test')

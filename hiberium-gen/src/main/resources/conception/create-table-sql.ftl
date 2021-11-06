@@ -5,6 +5,8 @@
 
 -- DROP TABLE IF EXISTS ${concept_schema}.${concept_table};
 
+CREATE SCHEMA IF NOT EXISTS ${concept_schema};
+
 CREATE TABLE ${concept_schema}.${concept_table} (
 <#list attributes as attribute>
     ${attribute.field_name} <@printtype attribute=attribute/> <@printnull attribute=attribute/> <@printdefault attribute=attribute/> <#sep>,</#sep>

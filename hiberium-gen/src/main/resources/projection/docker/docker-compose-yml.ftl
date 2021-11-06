@@ -1,15 +1,15 @@
 version: "3"
 services:
   pgsql:
-    image: postgres:14
+    build:
+      context: .
+      dockerfile: Dockerfile-pgsql
     container_name: postgres-local
     volumes:
       - pgsql-data:/var/lib/postgresql/data:rw
-      - ./resources/database:/docker-entrypoint-initdb.d
-    user: pgsql
     environment:
-      - POSTGRES_USER=sa
-      - POSTGRES_PASSWORD=
+      - POSTGRES_USER=hiberium
+      - POSTGRES_PASSWORD=password
       - POSTGRES_DB=${project_schema}
     ports:
       - "5432:5432"
@@ -23,7 +23,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - "SPRING_PROFILES_ACTIVE=${r"$"}{ENV}"
+      - "SPRING_PROFILES_ACTIVE=local"
     depends_on:
       - pgsql
 

@@ -5,14 +5,12 @@ import com.konivax.models.Attribute;
 import com.konivax.models.Concept;
 import com.konivax.models.Project;
 import com.konivax.models.Template;
-import com.konivax.models.mapper.DatabaseMapper;
 import com.konivax.models.mapper.FieldConstants;
 import com.konivax.models.mapper.ModelValidator;
 import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.FileUtils;
 import com.konivax.utils.ReflectUtils;
 import com.konivax.utils.format.CsvUtils;
-import com.konivax.utils.format.JsonUtils;
 import com.konivax.utils.format.YamlUtils;
 
 import java.util.ArrayList;
@@ -54,6 +52,7 @@ public class RenderProject {
         //create freemarker model
         Map<String, Object> root = new HashMap<String, Object>();
         root.putAll(ReflectUtils.toColumnObjectMap(project));
+//        root.putAll(DatabaseMapper.mapDatabaseToDriver(project.getDatabaseType()));
 
         //code source and target
         String sourcePath = projectPath + "\\hiberium-gen\\";
@@ -84,12 +83,14 @@ public class RenderProject {
      * concept inner join on attribute
      */
     public static void attachConceptAttributes(List<Concept> conceptList, List<Attribute> attributeList) {
+        AtomicInteger conceptIndex = new AtomicInteger(2);
         for (Concept concept : conceptList) {
+            concept.setConceptId(conceptIndex.getAndIncrement());
             List<Attribute> attributeReq = attributeList.stream()
                     .filter(a -> concept.getConceptName().equals(a.getConceptName()))
                     .collect(Collectors.toList());
-            AtomicInteger attrIndex = new AtomicInteger(0);
-            attributeReq.forEach(a -> a.setAttributePos(attrIndex.getAndIncrement()));
+            AtomicInteger attributeIndex = new AtomicInteger(0);
+            attributeReq.forEach(a -> a.setAttributePos(attributeIndex.getAndIncrement()));
             concept.setAttributeXref(attributeReq);
         }
         //verify and derive
@@ -128,6 +129,7 @@ public class RenderProject {
                 continue;
             childAttributeList.forEach(a -> a.applyAttributeFlag(FieldConstants.ROLE_NOTNULL));
             childAttributeList.forEach(a -> a.applyAttributeFlag(FieldConstants.ROLE_FINAL));
+            //todo special flag to indicate composition
             concept.setRelationXref(childAttributeList);
         }
     }
