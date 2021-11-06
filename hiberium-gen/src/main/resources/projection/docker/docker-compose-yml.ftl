@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-pgsql
+    image: pgsql-${project_schema}
     container_name: postgres-local
     volumes:
       - pgsql-data:/var/lib/postgresql/data:rw
@@ -17,6 +18,7 @@ services:
       - dev
   hiberium:
     build: .
+    image: ${project_name}
     container_name: ${project_name}-local
     networks:
       - dev
@@ -25,6 +27,8 @@ services:
     environment:
       - "SPRING_PROFILES_ACTIVE=local"
     depends_on:
+      - pgsql
+    links:
       - pgsql
 
 networks:
