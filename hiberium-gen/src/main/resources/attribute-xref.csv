@@ -16,7 +16,7 @@ ConceptTwo,doubleFieldOne,,numeric,,,,
 ConceptTwo,booleanField,,bool,,,,
 ConceptTwo,longFieldTwo,,int8,N,,,
 ConceptTwo,dateFieldOne,,timestamptz,N,,,
-ConceptTwo,stringFieldFour,,varchar,,,2,
+ConceptTwo,stringFieldFour,,varchar,,,6,
 ConceptTwo,dateFieldTwo,,timestamptz,,,,
 # -------------------------------------
 # workflow process fields
@@ -27,7 +27,7 @@ WorkflowProcess,workflowDesc,workflow_desc,varchar,,,64,
 WorkflowProcess,workflowTable,workflow_table,varchar,NI,,64,
 WorkflowProcess,workflowAudit,workflow_audit,varchar,I,,64,
 WorkflowProcess,activeInd,workflow_active_ind,int4,R,,,1
-WorkflowProcess,lastModCd,last_mod_cd,varchar,,,2,I
+WorkflowProcess,lastModCd,last_mod_cd,varchar,,,6,I
 WorkflowProcess,lastModTs,last_mod_ts,timestamptz,,,,
 # -------------------------------------
 # workflow state fields
@@ -37,7 +37,7 @@ WorkflowState,workflowStateName,state_name,varchar,N,,32,
 WorkflowState,workflowStateType,state_type,int4,N,,,
 WorkflowState,workflowStateDesc,state_desc,varchar,,,64,
 WorkflowState,activeInd,state_active_ind,int4,,,,1
-WorkflowState,lastModCd,last_mod_cd,varchar,,,2,I
+WorkflowState,lastModCd,last_mod_cd,varchar,,,6,I
 WorkflowState,lastModTs,last_mod_ts,timestamptz,,,,
 # -------------------------------------
 # workflow transition fields
@@ -48,7 +48,7 @@ WorkflowTransition,stateTargetId,fkstate_target_id,int4,NFR,workflow_state_xref.
 WorkflowTransition,stateTriggerType,trans_trigger_type,int4,N,,,
 WorkflowTransition,workflowTransDesc,trans_desc,varchar,,,64,
 WorkflowTransition,activeInd,trans_active_ind,int4,,,,1
-WorkflowTransition,lastModCd,last_mod_cd,varchar,,,2,I
+WorkflowTransition,lastModCd,last_mod_cd,varchar,,,6,I
 WorkflowTransition,lastModTs,last_mod_ts,timestamptz,,,,
 # -------------------------------------
 # application role fields
@@ -56,7 +56,7 @@ Role,roleId,pkrole_id,serial,K,,,
 Role,roleName,role_name,varchar,NUI,,,
 Role,roleDesc,role_desc,varchar,,,,
 Role,activeInd,role_active_ind,int4,,,,1
-Role,lastModCd,last_mod_cd,varchar,,,2,I
+Role,lastModCd,last_mod_cd,varchar,,,6,I
 Role,lastModTs,last_mod_ts,timestamptz,,,,
 # -------------------------------------
 # application user fields
@@ -73,7 +73,7 @@ User,signInTs,signin_ts,timestamptz,,,,
 User,workflowSt,fkuser_wf_state,int4,R,,,
 User,workflowTs,user_wf_ts,timestamptz,,,,
 User,activeInd,user_active_ind,int4,,,,1
-User,lastModCd,last_mod_cd,varchar,,,2,I
+User,lastModCd,last_mod_cd,varchar,,,6,I
 User,lastModTs,last_mod_ts,timestamptz,,,,
 # -------------------------------------
 # user to role mapping
@@ -81,5 +81,5 @@ UserRoleMap,userRoleId,pkuserrole_id,serial,K,,,
 UserRoleMap,userId,fkuser_id,int4,NF,user_detail_def.pkuser_id,,
 UserRoleMap,roleId,fkrole_id,int4,NF,role_detail_def.pkrole_id,,
 UserRoleMap,activeInd,userrole_active_ind,int4,,,,1
-UserRoleMap,lastModCd,last_mod_cd,varchar,,,2,I
+UserRoleMap,lastModCd,last_mod_cd,varchar,,,6,I
 UserRoleMap,lastModTs,last_mod_ts,timestamptz,,,,
