@@ -46,23 +46,25 @@ To change the concepts and attributes in the sample definition refer to the [sch
 
 7. Explore the swagger api docs at `localhost:8080/hiberium/1.0/swagger-ui.html#`
 
-Start writing business logic and setup connection details in `application.properties`.
+OR use local Docker:
+
+6. Raise the webapp and postgres containers with `docker-compose up -d`
+
+Start writing business logic and setup connection details in `application-{env}.properties`.
 
 ---
 
 ### Upcoming Features
 
-1. Docker compose for webapp with local postgres container.
+1. Full support for spring mongo and elastic search client.
 
-2. Full support for spring mongo and elastic search client.
+2. Support for binary and blob data types.
 
-3. Support for binary and blob data types.
+3. Optional spring security integration with JWT tokens.
 
-4. Optional spring security integration with JWT tokens.
+4. Dependency ordering for sql create table statements.
 
-5. Dependency ordering for sql create table statements.
-
-6. Optional insert using form submission and lightweight browser.
+5. Optional insert using form submission and lightweight browser.
 
 ---
 
