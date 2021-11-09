@@ -1,6 +1,7 @@
 package com.konivax.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.konivax.models.mapper.ModelLocator;
 import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.StringUtils;
 import lombok.Getter;
@@ -44,6 +45,10 @@ public class Concept {
     private String contextName;
     @Column(name = "update_code")
     private String updateCode;
+    @Column(name = "concept_perpage")
+    private Integer conceptPage;
+    @Column(name = "concept_access")
+    private String conceptAccess; //not implemented
 
     @Column(name = "dynamic_insert")
     private Boolean dynamicInsert = true;
@@ -57,12 +62,6 @@ public class Concept {
     //for relational algebra
     @Column(name = "concept_symbol")
     private String conceptSymbol;
-
-    private Boolean selectable = true;
-    private Boolean insertable = true;
-    private Boolean updateable = true;
-    private Boolean deleteable = true;
-    private Boolean browseable = true;
 
     @Transient
     private List<Attribute> attributeXref;
@@ -103,32 +102,19 @@ public class Concept {
         }
     }
 
-    public List<String> listRequiredFunctions() {
-        List<String> functions = new ArrayList<String>();
-        if(selectable)
-            functions.add("select");
-        if(insertable)
-            functions.add("insert");
-        if(updateable)
-            functions.add("update");
-        if(deleteable)
-            functions.add("delete");
-        if(browseable)
-            functions.add("browse");
-        return functions;
-    }
-
-    public void generateHiberiumLocation() {
-        Integer conceptHash = (moduleName+conceptName).hashCode();
-        Double latitude = null;
-        Double longitude = null;
-    }
-
     public void addAttribute(Attribute attribute) {
         if(CollectionUtils.isEmpty(attributeXref))
             attributeXref = new ArrayList<Attribute>();
         attribute.setConceptName(conceptName);
-        attribute.setAttributePos(attributeXref.size());
+        attribute.setAttributeIndex(attributeXref.size());
         attributeXref.add(attribute);
+    }
+
+    public void generateHiberiumLocation() {
+        //tbd integration with visual schema
+        String conceptRef = moduleName+"."+conceptName;
+        double[] location = ModelLocator.locateObject(conceptRef);
+        Double longitude = location[0];
+        Double latitude = location[1];
     }
 }

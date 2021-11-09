@@ -24,7 +24,8 @@ public class Attribute {
     @Id
     @Column(name = "attribute_id")
     private Integer attributeId;
-    private Integer attributePos;
+    @Column(name = "attribute_index")
+    private Integer attributeIndex;
     @Column(name = "concept_name")
     private String conceptName;
 
@@ -80,9 +81,9 @@ public class Attribute {
 
     public Attribute() { }
 
-    public void applyScalePrecision(Integer scale, Integer precision) {
-        this.fieldScale = scale;
+    public void applyScalePrecision(Integer precision, Integer scale) {
         this.fieldPrecision = precision;
+        this.fieldScale = scale;
     }
 
     public boolean hasAttributeFlag(String attributeFlag) {

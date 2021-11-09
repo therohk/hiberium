@@ -83,14 +83,17 @@ public class RenderProject {
      * concept inner join on attribute
      */
     public static void attachConceptAttributes(List<Concept> conceptList, List<Attribute> attributeList) {
-        AtomicInteger conceptIndex = new AtomicInteger(2);
+        AtomicInteger conceptIdGen = new AtomicInteger(2);
+        AtomicInteger attributeIdGen = new AtomicInteger(0);
+        //link and assign ids
         for (Concept concept : conceptList) {
-            concept.setConceptId(conceptIndex.getAndIncrement());
+            concept.setConceptId(conceptIdGen.getAndIncrement());
             List<Attribute> attributeReq = attributeList.stream()
                     .filter(a -> concept.getConceptName().equals(a.getConceptName()))
                     .collect(Collectors.toList());
-            AtomicInteger attributeIndex = new AtomicInteger(0);
-            attributeReq.forEach(a -> a.setAttributePos(attributeIndex.getAndIncrement()));
+            attributeReq.forEach(a -> a.setAttributeId(attributeIdGen.getAndIncrement()));
+            AtomicInteger attributePos = new AtomicInteger(0);
+            attributeReq.forEach(a -> a.setAttributeIndex(attributePos.getAndIncrement()));
             concept.setAttributeXref(attributeReq);
         }
         //verify and derive
@@ -100,7 +103,7 @@ public class RenderProject {
             concept.createDerivedNames();
         }
         for(Attribute attribute : attributeList) {
-            if(attribute.getAttributePos() == null)
+            if(attribute.getAttributeIndex() == null)
                 throw new IllegalStateException("no concept found for attribute " +
                         attribute.getConceptName()+"."+attribute.getAttributeName());
             attribute.createDerivedNames();
@@ -129,7 +132,7 @@ public class RenderProject {
                 continue;
             childAttributeList.forEach(a -> a.applyAttributeFlag(FieldConstants.ROLE_NOTNULL));
             childAttributeList.forEach(a -> a.applyAttributeFlag(FieldConstants.ROLE_FINAL));
-            //todo special flag to indicate composition
+            //todo flag to indicate composition
             concept.setRelationXref(childAttributeList);
         }
     }
