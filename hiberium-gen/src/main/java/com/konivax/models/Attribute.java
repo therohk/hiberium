@@ -24,8 +24,8 @@ public class Attribute {
     @Id
     @Column(name = "attribute_id")
     private Integer attributeId;
-    @Column(name = "attribute_index")
-    private Integer attributeIndex;
+    @Column(name = "attribute_order")
+    private Integer attributeOrder;
     @Column(name = "concept_name")
     private String conceptName;
 

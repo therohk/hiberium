@@ -106,7 +106,7 @@ public class Concept {
         if(CollectionUtils.isEmpty(attributeXref))
             attributeXref = new ArrayList<Attribute>();
         attribute.setConceptName(conceptName);
-        attribute.setAttributeIndex(attributeXref.size());
+        attribute.setAttributeOrder(attributeXref.size());
         attributeXref.add(attribute);
     }
 

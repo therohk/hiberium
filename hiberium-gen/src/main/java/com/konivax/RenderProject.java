@@ -93,7 +93,7 @@ public class RenderProject {
                     .collect(Collectors.toList());
             attributeReq.forEach(a -> a.setAttributeId(attributeIdGen.getAndIncrement()));
             AtomicInteger attributePos = new AtomicInteger(0);
-            attributeReq.forEach(a -> a.setAttributeIndex(attributePos.getAndIncrement()));
+            attributeReq.forEach(a -> a.setAttributeOrder(attributePos.getAndIncrement()));
             concept.setAttributeXref(attributeReq);
         }
         //verify and derive
@@ -103,7 +103,7 @@ public class RenderProject {
             concept.createDerivedNames();
         }
         for(Attribute attribute : attributeList) {
-            if(attribute.getAttributeIndex() == null)
+            if(attribute.getAttributeOrder() == null)
                 throw new IllegalStateException("no concept found for attribute " +
                         attribute.getConceptName()+"."+attribute.getAttributeName());
             attribute.createDerivedNames();
