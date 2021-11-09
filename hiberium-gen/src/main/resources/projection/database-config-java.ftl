@@ -16,23 +16,23 @@ import java.util.Properties;
 @Configuration
 public class DatabaseConfig {
 
-    @Value("${r"${spring.datasource.driverClassName}"}")
+    @Value("${r"$"}{spring.datasource.driverClassName}")
     private String dbDriver;
-    @Value("${r"${spring.datasource.url}"}")
+    @Value("${r"$"}{spring.datasource.url}")
     private String dbUrl;
-    @Value("${r"${spring.datasource.username}"}")
+    @Value("${r"$"}{spring.datasource.username}")
     private String dbUsername;
-    @Value("${r"${spring.datasource.password}"}")
+    @Value("${r"$"}{spring.datasource.password}")
     private String dbPassword;
 
-    @Value("${r"${spring.jpa.properties.hibernate.dialect}"}")
+    @Value("${r"$"}{spring.jpa.properties.hibernate.dialect}")
     private String hibernateDialect;
-    @Value("${r"${spring.jpa.show-sql}"}")
+    @Value("${r"$"}{spring.jpa.show-sql}")
     private String hibernateShowSql;
-    @Value("${r"${spring.jpa.hibernate.hbm2ddl.auto"}:create-drop}")
+    @Value("${r"$"}{spring.jpa.hibernate.hbm2ddl.auto:create-drop}")
     private String hibernateDdlAuto;
 
-    @Value("${r"${entity.scan.packages:"}${package_base}.models}")
+    @Value("${r"$"}{entity.scan.packages:${package_base}.models}")
     private String entityScanPath;
 
     @Bean

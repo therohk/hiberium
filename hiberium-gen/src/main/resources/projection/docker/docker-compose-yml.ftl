@@ -25,7 +25,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - "SPRING_PROFILES_ACTIVE=local"
+      - SPRING_PROFILES_ACTIVE=local
     depends_on:
       - pgsql
     links:
