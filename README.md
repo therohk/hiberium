@@ -16,13 +16,13 @@ Hiberium is a code generator to create working springboot+hibernate projects fro
 The key features are :
 
 * **Easy to Use** : **No coding required!** Generate the entire web application from one yaml and two csv files.
-* **Compatible** : Generates accurate jpa entities, table spec (postgresql dialect) and elastic index mappings from schema.
 * **Clean Architecture** : Generates the repository, service and controller layers for each entity.
-* **Production Quality** : Integration with swagger, actuator, vault apis. Proper error handling and response.
-* **Pragmatic** : Explore other useful endpoints like **paginated [rsql](RSQLEXP.md) search**, bulk entity merge and **csv import**.
+* **Compatible** : Generates accurate jpa entities, table spec (postgres dialect) and elastic mappings from schema. Creates a docker **postgres container** with generated tables.
+* **Production Quality** : Integration with swagger, actuator, vault apis. Proper request logging and error handling.
+* **Pragmatic** : Explore other useful endpoints like **paginated [rsql](RSQLEXP.md) search**, bulk entity merge and **csv import/export**.
 * **Configurable** : Configure attributes and merge behaviors using simple alphabetic flags.
 * **Extensible** : Easily modify the project model or implement your own templates and coding patterns.
-* **Composable** : Support for two-level nesting of concepts. Seamlessly transform between nested and flat/relational models.
+* **Composable** : Supports two-level nesting of concepts. Seamlessly transform between nested and flat/relational models.
 
 ---
 
@@ -32,7 +32,7 @@ Follow these steps to render the sample project and bring up the application ser
 
 To change the concepts and attributes in the sample definition refer to the [schema](SCHEMA.md) document.
 
-1. Download this repository and open with Intellij
+1. Clone this repository and open with Intellij
 
 2. Run the gradle command `gradle clean build`
 
@@ -48,9 +48,9 @@ To change the concepts and attributes in the sample definition refer to the [sch
 
 OR use local Docker:
 
-6. Raise the webapp and postgres containers with `docker-compose up -d`
+6. Raise the webapp with a postgres container using `docker-compose up -d`
 
-Start writing business logic and setup connection details in `application-{env}.properties`.
+Start writing business logic and setup connection details in `application-{profile}.properties`.
 
 ---
 
@@ -60,11 +60,11 @@ Start writing business logic and setup connection details in `application-{env}.
 
 2. Support for binary and blob data types.
 
-3. Optional spring security integration with JWT tokens.
+3. Integrate spring security with JWT tokens and user roles.
 
-4. Dependency ordering for sql create table statements.
+4. Option to insert using form submission and a lightweight browser.
 
-5. Optional insert using form submission and lightweight browser.
+5. Ability to view the diff between any entity vs its persisted copy.
 
 ---
 

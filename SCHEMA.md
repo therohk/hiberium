@@ -36,9 +36,10 @@ This configuration is loaded from [concept-def.csv](hiberium-gen/src/main/resour
 | concept_desc | optional text | description of concept |
 | concept_index | optional `[0-9a-z_]+` | elastic index name ; defaults to table name |
 | update_code | optional | default update strategy for fields |
+| concept_perpage | optional `[0-9]+` | default page size for browsing |
 | concept_parent | not available | for composite objects and nesting |
 | concept_symbol | optional `[0-9A-Z]+` | notation for relational algebra |
-| concept_id | optional `[0-9]+` | internal numeric identifier for concept |
+| concept_id | derived | internal numeric identifier for concept |
 | dynamic_insert | `true` | enable hibernate dynamic insert |
 | dynamic_update | `false` | enable hibernate dynamic update |
 
@@ -61,8 +62,10 @@ This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/res
 | field_scale | if applicable | length for varchar or scale for numeric type |
 | field_precision | if applicable | precision for numeric type |
 | default_value | optional | default value for field |
-| attribute_format | not available | regex validation pattern for string types |
-| attribute_id | optional `[0-9]+` | internal numeric identifier for attribute |
+| attribute_desc | optional text | description of attribute |
+| attribute_format | not implemented | regex validation pattern for string types |
+| attribute_id | derived | internal numeric identifier for attribute |
+| attribute_order | derived | internal position within concept |
 | elastic_type | optional | override elastic search field type |
 | update_code | optional see [codes](#strategy-codes) | update strategy for field |
 

@@ -29,9 +29,10 @@ public class Attribute {
     @Column(name = "concept_name")
     private String conceptName;
 
-    //java api options
     @Column(name = "attribute_name")
     private String attributeName;
+    @Column(name = "attribute_desc")
+    private String attributeDesc;
     @Column(name = "attribute_role")
     private String attributeRole;
     @Column(name = "attribute_format")
@@ -39,8 +40,9 @@ public class Attribute {
     @Column(name = "attribute_java")
     private String javaFieldType;
     private String javaFullFieldType;
+    @Column(name = "update_code")
+    private String updateCode;
 
-    //database options
     @Column(name = "field_name")
     private String fieldName;
     @Column(name = "field_type")
@@ -66,18 +68,12 @@ public class Attribute {
     private String foreignConstraintName;
     private String foreignKeyType; // = FieldConstants.TYPE_PRIMARY;
 
-    @Column(name = "update_code")
-    private String updateCode;
-
-    //elastic options
     @Column(name = "elastic_type")
     private String elasticIndexType; //for elastic index json
 
     private String formFieldType;
     private String fieldQuantity;
     private String fieldUnit;
-
-    //nullable; searchable; indexable; analysable
 
     public Attribute() { }
 

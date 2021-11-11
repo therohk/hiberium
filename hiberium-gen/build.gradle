@@ -3,7 +3,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 group = 'com.konivax'
-version = '0.1.8-SNAPSHOT'
+version = '0.1.9'
 sourceCompatibility = '11'
 
 ext.libraryVersions = [
