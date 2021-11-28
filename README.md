@@ -7,6 +7,8 @@
 
 **Documentation** : [Readme](README.md) | [Schema](SCHEMA.md) | [Sample](hiberium-gen/src/main/resources/hibernate-render.yaml)
 
+![](https://github.com/therohk/hiberium/actions/workflows/gradle.yml/badge.svg)
+
 ---
 
 Hiberium is a code generator to create working springboot+hibernate projects from a schema definition in csv.

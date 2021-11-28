@@ -3,6 +3,8 @@ package com.konivax.utils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public final class FileUtils {
 
@@ -98,4 +100,16 @@ public final class FileUtils {
         }
     }
 
+    public static List<String> findFilesRecursive(String dir) {
+        List<String> files = null;
+        try {
+            files = Files.walk(Paths.get(dir))
+                    .filter(Files::isRegularFile)
+                    .map(p -> p.toString())
+                    .collect(Collectors.toList());
+        } catch (IOException ioe) {
+            return null;
+        }
+        return files;
+    }
 }

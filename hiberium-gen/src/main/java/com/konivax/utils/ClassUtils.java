@@ -17,22 +17,6 @@ public final class ClassUtils {
 
     private ClassUtils() { }
 
-//    public static Class<?> findClass(String className, String underPackage) {
-//        Class<?>[] clazzes;
-//        try {
-//            clazzes = getClasses(underPackage);
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        for (Class<?> clazz : clazzes) {
-//            if (clazz.getName().endsWith(className))
-//                return clazz;
-//        }
-//        return null;
-//    }
-
     public static Class<?> findClass(String className, String underPackage) {
         try {
             List<Class<?>> clazzes = getClassesForPackage(underPackage);
@@ -48,11 +32,13 @@ public final class ClassUtils {
     /**
      * scans all classes accessible from the context class loader
      * which belong to the given package and subpackages
-     *
      * @param packageName The base package
      * @return the classes
+     * @deprecated does not work with jar files
      */
-    public static Class[] getClasses(String packageName) throws ClassNotFoundException, IOException {
+    @Deprecated
+    public static Class[] getClasses(String packageName)
+            throws ClassNotFoundException, IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         assert classLoader != null;
         String path = packageName.replace('.', '/');
@@ -70,13 +56,14 @@ public final class ClassUtils {
     }
 
     /**
-     * recursive method used to find all classes in a given directory and sub directories
-     *
+     * recursive method used to find all classes within a given directory
      * @param directory   the base directory
      * @param packageName the package name for classes found inside the base directory
      * @return the classes
      */
-    public static List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
+    @Deprecated
+    public static List<Class> findClasses(File directory, String packageName)
+            throws ClassNotFoundException {
         List<Class> classes = new ArrayList<Class>();
         if (!directory.exists()) {
             return classes;
@@ -140,7 +127,7 @@ public final class ClassUtils {
 
     /**
      * @param directory the directory to start with
-     * @param packageName package name to search for. Needed for getting the Class object.
+     * @param packageName package name to search for
      * @param classes if a file is not loaded but still is in the directory
      * @throws ClassNotFoundException
      */
@@ -155,8 +142,7 @@ public final class ClassUtils {
                     try {
                         classes.add(Class.forName(packageName + '.' + file.substring(0, file.length() - 6)));
                     } catch (final NoClassDefFoundError e) {
-                        // do nothing. this class hasn't been found by the
-                        // loader, and we don't care.
+                        // do nothing. this class has not been found by the loader
                     }
                 } else if ((tmpDirectory = new File(directory, file)).isDirectory()) {
                     checkDirectory(tmpDirectory, packageName + "." + file, classes);
@@ -169,8 +155,8 @@ public final class ClassUtils {
      * @param connection the connection to the jar
      * @param packageName the package name to search for
      * @param classes the current ArrayList to add new classes
-     * @throws ClassNotFoundException if a file isn't loaded but still is in the jar file
-     * @throws IOException if it can't correctly read from the jar file.
+     * @throws ClassNotFoundException if a file is not loaded but still is in the jar file
+     * @throws IOException if it cannot correctly read from the jar file
      */
     private static void checkJarFile(JarURLConnection connection, String packageName, ArrayList<Class<?>> classes)
             throws ClassNotFoundException, IOException {
