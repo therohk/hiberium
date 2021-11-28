@@ -26,7 +26,7 @@ public class FtlTemplateTest {
     @Test
     public void testRenderTemplates() {
 
-        String projectPath = FileUtils.getProjectBase();
+        String projectPath = getTestProjectBase();
         System.out.println("project base: "+projectPath);
         String configPath = projectPath + "\\hiberium-gen\\src\\main\\resources\\";
 
@@ -80,5 +80,18 @@ public class FtlTemplateTest {
             System.out.println("rendering conception: "+template);
             FtlUtils.parseNamedTemplate(conceptData, template);
         }
+    }
+
+    private static String getTestProjectBase() {
+        String workingDir = System.getProperty("user.dir");
+        System.out.println("working directory: "+workingDir);
+        if(workingDir.endsWith("\\"))
+            workingDir = workingDir.substring(0, workingDir.length()-1);
+        String subProject = "hiberium-gen";
+        if(workingDir.endsWith("\\"+subProject))
+            workingDir = workingDir.substring(0, workingDir.length()-subProject.length()-1);
+        if(!FileUtils.isFile(workingDir+"\\settings.gradle"))
+            throw new RuntimeException("wrong project base folder: "+workingDir);
+        return workingDir;
     }
 }
