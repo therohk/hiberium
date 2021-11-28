@@ -15,6 +15,7 @@ jobs:
       run: gradle build
     - name: Archive test report
       uses: actions/upload-artifact@v2
+      if: success() || failure()
       with:
         name: Test report
         path: hiberium-gen/build/reports/tests/test
