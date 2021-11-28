@@ -6,7 +6,7 @@
 
     @RequestMapping(value = "/${concept_apipath}/form", method = RequestMethod.GET)
     public String show${concept_name}Form(Model model) {
-        return "${concept_apipath}";
+        return "submit-${concept_name}";
     }
 
     @RequestMapping(value = "/${concept_apipath}/submit", method = RequestMethod.POST)
@@ -14,9 +14,8 @@
              @Valid @ModelAttribute("${concept_varname}") ${concept_name} ${concept_varname},
              BindingResult result
              ) throws Exception {
-
         ${concept_varname}.handleFieldsForInsert();
         ${concept_name} ${concept_varname}Inserted = repository.save(${concept_varname});
         log.info("INSERT ${concept_name} where id={}", ${concept_varname}Inserted.primaryKey());
-        return ${concept_varname}Inserted;
+        return ResponseEntity.ok().body(${concept_varname}Inserted);
     }

@@ -1,1 +1,1 @@
-org.springframework.cloud.bootstrap.BootstrapConfiguration=${project_base}.VaultConfig
+org.springframework.cloud.bootstrap.BootstrapConfiguration=${package_base}.VaultConfig

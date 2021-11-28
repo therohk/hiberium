@@ -1,5 +1,5 @@
 
-    @Deprecated //use browseBySample
+    @Deprecated //use rsql-searchByQuery or browseBySample
     @RequestMapping(value = "/${concept_apipath}/find/{label}/{value}", method = RequestMethod.GET)
     public ResponseEntity<List<${concept_name}>> find${concept_name}BySearchField(
             @PathVariable(value = "label") String searchLabel,
@@ -12,15 +12,15 @@
         switch (searchField) {
 <#list attributes as attribute>
     <#if !attribute.attribute_role?contains("R")><#continue></#if>
-            case "${attribute_name}":
+            case "${attribute.attribute_name}":
     <#if attribute.attribute_java == "String">
-                ${concept_varname}List = repository.findBy${attribute_name?first_cap}(searchLabel);
+                ${concept_varname}List = repository.findBy${attribute.attribute_name?cap_first}(searchLabel);
     <#elseif attribute.attribute_java == "Integer">
-                ${concept_varname}List = repository.findBy${attribute_name?first_cap}(Integer.parseInt(searchLabel));
+                ${concept_varname}List = repository.findBy${attribute.attribute_name?cap_first}(Integer.parseInt(searchLabel));
     <#elseif attribute.attribute_java == "Long">
-                ${concept_varname}List = repository.findBy${attribute_name?first_cap}(Long.parseLong(searchLabel))
+                ${concept_varname}List = repository.findBy${attribute.attribute_name?cap_first}(Long.parseLong(searchLabel));
     <#elseif attribute.attribute_java == "Double">
-                ${concept_varname}List = repository.findBy${attribute_name?first_cap}(Double.parseDouble(searchLabel))
+                ${concept_varname}List = repository.findBy${attribute.attribute_name?cap_first}(Double.parseDouble(searchLabel));
     </#if>
                 break;
 </#list>
