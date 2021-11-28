@@ -29,8 +29,8 @@ public class ManualRenderTest {
         dataModel.putAll(RenderProject.exportConceptToModel(concept));
 
         String projectPath = FileUtils.getProjectBase();
-        String sourcePath = projectPath + "\\hiberium-gen\\";
-        String targetPath = projectPath + "\\" + project.getProjectName() + "\\";
+        String sourcePath = projectPath + "/hiberium-gen/";
+        String targetPath = projectPath + "/" + project.getProjectName() + "/";
 
         //ftl render template
         Template template = new Template();

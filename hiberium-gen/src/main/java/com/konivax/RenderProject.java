@@ -24,7 +24,7 @@ public class RenderProject {
 
     public static void main(String[] args) {
         String projectPath = FileUtils.getProjectBase();
-        String configPath = projectPath + "\\hiberium-gen\\src\\main\\resources\\";
+        String configPath = projectPath + "/hiberium-gen/src/main/resources/";
         String projectYaml = configPath + "hibernate-render.yaml";
         String conceptCsv = configPath + "concept-def.csv";
         String attributeCsv = configPath + "attribute-xref.csv";
@@ -55,8 +55,8 @@ public class RenderProject {
 //        root.putAll(DatabaseMapper.mapDatabaseToDriver(project.getDatabaseType()));
 
         //code source and target
-        String sourcePath = projectPath + "\\hiberium-gen\\";
-        String targetPath = projectPath + "\\" + project.getProjectName() + "\\";
+        String sourcePath = projectPath + "/hiberium-gen/";
+        String targetPath = projectPath + "/" + project.getProjectName() + "/";
 
         //process project files
         System.out.println("processing common project files");

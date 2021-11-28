@@ -28,7 +28,7 @@ public class FtlTemplateTest {
 
         String projectPath = FileUtils.getProjectBase();
         System.out.println("project base: "+projectPath);
-        String configPath = projectPath + "\\hiberium-gen\\src\\main\\resources\\";
+        String configPath = projectPath + "/hiberium-gen/src/main/resources/";
 
         Project project = ModelFactory.createSampleProject();
         List<Concept> conceptList = CsvUtils.readCsvFileData(configPath+"concept-def.csv", Concept.class);
@@ -41,6 +41,7 @@ public class FtlTemplateTest {
         root.putAll(DatabaseMapper.mapDatabaseToDriver("h2"));
 
         //scan available templates
+        System.out.println("scanning templates: "+configPath);
         List<String> templates = FileUtils.findFilesRecursive(configPath);
         List<String> projectTemplates = new ArrayList<String>();
         List<String> conceptTemplates = new ArrayList<String>();
@@ -48,8 +49,7 @@ public class FtlTemplateTest {
         for(String template : templates) {
             if(!template.endsWith(".ftl"))
                 continue;
-            if(template.startsWith(configPath))
-                template = template.substring(configPath.length());
+            template = template.substring(configPath.length());
             if(template.startsWith("projection")) {
                 template = template.substring("projection".length() + 1);
                 projectTemplates.add(template);

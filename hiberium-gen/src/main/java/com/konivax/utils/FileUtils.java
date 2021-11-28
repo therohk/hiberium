@@ -20,12 +20,12 @@ public final class FileUtils {
 
     public static String getProjectBase() {
         String workingDir = System.getProperty("user.dir");
-        if(workingDir.endsWith("\\") || workingDir.endsWith("/"))
+        if(workingDir.endsWith("/") || workingDir.endsWith("\\"))
             workingDir = workingDir.substring(0, workingDir.length()-1);
         String subProject = "hiberium-gen";
         if(workingDir.endsWith(subProject))
             workingDir = workingDir.substring(0, workingDir.length()-subProject.length()-1);
-        if(!isFile(workingDir+"\\settings.gradle"))
+        if(!isFile(workingDir+"/settings.gradle"))
             throw new RuntimeException("wrong project base folder: "+workingDir);
         return workingDir;
     }
@@ -48,18 +48,13 @@ public final class FileUtils {
     public static String getFilePath(String basePath, String packagePath) {
         StringBuilder b = new StringBuilder();
         b.append(basePath);
-        b.append(packagePath.replaceAll("[\\.]", "\\\\"));
-        b.append("\\\\");
+        b.append(packagePath.replaceAll("[\\.]", "/"));
+        b.append("/");
         return b.toString();
     }
 
     public static String getFilePath(String basePath, String packagePath, String fileName) {
-        StringBuilder b = new StringBuilder();
-        b.append(basePath);
-        b.append(packagePath.replaceAll("[\\.]", "\\\\"));
-        b.append("\\\\");
-        b.append(fileName);
-        return b.toString();
+        return getFilePath(basePath, packagePath) + fileName;
     }
 
     public static boolean exists(String location) {
