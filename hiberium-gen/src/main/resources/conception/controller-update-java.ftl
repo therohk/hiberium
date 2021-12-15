@@ -1,4 +1,5 @@
 
+    @ResponseBody
     @RequestMapping(value = "/${concept_apipath}/{id}", method = RequestMethod.PUT)
     public ${concept_name} update${concept_name}(
             @PathVariable(value = "id") Integer ${concept_varname}Id,

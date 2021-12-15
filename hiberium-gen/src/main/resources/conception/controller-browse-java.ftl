@@ -1,4 +1,5 @@
 
+    @ResponseBody
     @RequestMapping(value = "/${concept_apipath}/page/{pageNum}", method = RequestMethod.POST)
     public List<${concept_name}> browse${concept_name}BySample(
             @RequestBody(required = false) ${concept_name} ${concept_varname}Sample,

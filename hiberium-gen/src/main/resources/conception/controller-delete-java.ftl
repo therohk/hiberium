@@ -1,4 +1,5 @@
 
+    @ResponseBody
     @RequestMapping(value = "/${concept_apipath}/{id}", method = RequestMethod.DELETE)
     public ${concept_name} delete${concept_name}(
             @PathVariable(value = "id") Integer ${concept_varname}Id

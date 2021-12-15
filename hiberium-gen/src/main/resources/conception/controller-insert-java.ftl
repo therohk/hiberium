@@ -1,4 +1,5 @@
 
+    @ResponseBody
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(value = "/${concept_apipath}", method = RequestMethod.POST)
     public ${concept_name} insert${concept_name}(
