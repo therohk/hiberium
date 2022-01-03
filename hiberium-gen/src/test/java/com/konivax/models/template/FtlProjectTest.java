@@ -22,10 +22,11 @@ public class FtlProjectTest {
     @Test
     public void testDefinedTemplates() {
 
-        String projectPath = FileUtils.getCurrentPath("hiberium");
-        String basePath = projectPath+"/hiberium-gen/src/main/resources/";
+        String projectPath = FileUtils.getProjectBase();
+        System.out.println("project base: "+projectPath);
+        String configPath = projectPath+"/hiberium-gen/src/main/resources/";
 
-        Project project = YamlUtils.deserializeFile(basePath+"hibernate-render.yaml", Project.class);
+        Project project = YamlUtils.deserializeFile(configPath+"hibernate-render.yaml", Project.class);
         System.out.println(JsonUtils.serializeJavaObject(project));
 
         List<Concept> conceptList = new ArrayList<Concept>();
