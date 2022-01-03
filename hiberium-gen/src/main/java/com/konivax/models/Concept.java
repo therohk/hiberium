@@ -68,7 +68,10 @@ public class Concept {
     @Transient
     private List<Attribute> relationXref;
 
-    public Concept() { }
+    public Concept() {
+        attributeXref = new ArrayList<Attribute>();
+        relationXref = new ArrayList<Attribute>();
+    }
 
     public void createDerivedNames() {
         List<String> parts = StringUtils.splitByCharacterType(conceptName, true);
