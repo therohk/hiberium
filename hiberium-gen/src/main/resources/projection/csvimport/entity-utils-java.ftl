@@ -33,6 +33,8 @@ public final class EntityUtils {
      * create criteria query with where clause from rsql query
      */
     public static <T> CriteriaQuery<T> buildCriteriaQuery(EntityManager em, Class<T> entityClass, String query) {
+        if(query == null || query.isBlank())
+            return buildCriteriaQuery(em, entityClass);
         T entityObj = constructInstance(entityClass);
         RSQLVisitor<CriteriaQuery<T>, EntityManager> visitor = new JpaCriteriaQueryVisitor<T>(entityObj);
         try {
@@ -53,6 +55,8 @@ public final class EntityUtils {
     }
 
     public static <T> CriteriaQuery<Long> buildCountQuery(EntityManager em, Class<T> entityClass, String query) {
+        if(query == null || query.isBlank())
+            return buildCountQuery(em, entityClass);
         T entityObj = constructInstance(entityClass);
         RSQLVisitor<CriteriaQuery<Long>, EntityManager> visitor = new JpaCriteriaCountQueryVisitor<T>(entityObj);
         try {
