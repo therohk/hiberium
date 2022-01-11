@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,8 +38,6 @@ public class SearchEntityController {
             ) throws Exception {
 
         Class<?> entityClass = ClassUtils.findClass(entityName, "${package_base}.models");
-        Assert.notNull(entityClass, "entity not found for " + entityName);
-
         CriteriaQuery<?> querySpec = EntityUtils.buildCriteriaQuery(entityManager, entityClass, query);
         TypedQuery<?> typedSpec = EntityUtils.buildTypedQuery(entityManager, querySpec, pageNum, perPage);
         List<?> entityList = typedSpec.getResultList();
@@ -57,8 +54,6 @@ public class SearchEntityController {
             ) throws Exception {
 
         Class<?> entityClass = ClassUtils.findClass(entityName, "${package_base}.models");
-        Assert.notNull(entityClass, "entity not found for " + entityName);
-
         CriteriaQuery<Long> querySpec = EntityUtils.buildCountQuery(entityManager, entityClass, query);
         Long entityCount = entityManager.createQuery(querySpec).getSingleResult();
 

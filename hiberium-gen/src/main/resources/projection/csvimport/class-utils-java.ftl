@@ -17,7 +17,8 @@ public final class ClassUtils {
 
     private ClassUtils() { }
 
-    public static Class<?> findClass(String className, String underPackage) {
+    public static Class<?> findClass(String className, String underPackage)
+            throws ClassNotFoundException {
         try {
             List<Class<?>> clazzes = getClassesForPackage(underPackage);
             for (Class<?> clazz : clazzes)
@@ -26,7 +27,7 @@ public final class ClassUtils {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        throw new ClassNotFoundException("class not found for "+className);
     }
 
     /**
@@ -40,7 +41,6 @@ public final class ClassUtils {
             throws ClassNotFoundException {
 
         final ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
-
         try {
             final ClassLoader cld = Thread.currentThread().getContextClassLoader();
             if (cld == null)
@@ -74,7 +74,7 @@ public final class ClassUtils {
 
     /**
      * @param directory the directory to start with
-     * @param packageName package name to search for. Needed for getting the Class object.
+     * @param packageName package name to search for
      * @param classes if a file is not loaded but still is in the directory
      * @throws ClassNotFoundException
      */
@@ -89,8 +89,7 @@ public final class ClassUtils {
                     try {
                         classes.add(Class.forName(packageName + '.' + file.substring(0, file.length() - 6)));
                     } catch (final NoClassDefFoundError e) {
-                        // do nothing. this class hasn't been found by the
-                        // loader, and we don't care.
+                        // do nothing. this class has not been found by the loader
                     }
                 } else if ((tmpDirectory = new File(directory, file)).isDirectory()) {
                     checkDirectory(tmpDirectory, packageName + "." + file, classes);
@@ -103,8 +102,8 @@ public final class ClassUtils {
      * @param connection the connection to the jar
      * @param packageName the package name to search for
      * @param classes the current ArrayList to add new classes
-     * @throws ClassNotFoundException if a file isn't loaded but still is in the jar file
-     * @throws IOException if it can't correctly read from the jar file.
+     * @throws ClassNotFoundException if a file is not loaded but still is in the jar file
+     * @throws IOException if it cannot correctly read from the jar file
      */
     private static void checkJarFile(JarURLConnection connection, String packageName, ArrayList<Class<?>> classes)
             throws ClassNotFoundException, IOException {

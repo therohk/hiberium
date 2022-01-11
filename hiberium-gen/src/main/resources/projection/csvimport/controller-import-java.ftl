@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,14 +43,12 @@ public class BulkEntityController {
             //@RequestParam(value = "perPage", defaultValue = "1000") Integer perPage
     ) throws Exception {
 
-        Class<?> entityClass = ClassUtils.findClass(entityName, "${package_base}.models");
-        Assert.notNull(entityClass, "entity not found for " + entityName);
-
         String dateStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String fileName = entityName + "."+dateStamp+".csv";
         response.setHeader("Content-Disposition", "attachment; filename="+fileName);
         response.setContentType("text/csv; charset=UTF-8");
 
+        Class<?> entityClass = ClassUtils.findClass(entityName, "${package_base}.models");
         JpaRepository repository = genericRepository.getRepositoryInstance(entityClass);
         List<?> entityList = repository.findAll();
 
@@ -69,8 +66,6 @@ public class BulkEntityController {
     ) throws Exception {
 
         Class<?> entityClass = ClassUtils.findClass(entityName, "${package_base}.models");
-        Assert.notNull(entityClass, "entity not found for " + entityName);
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
         List<?> entityList = CsvUtils.readCsvReaderData(reader, entityClass);
 
