@@ -46,12 +46,14 @@ dependencies {
 //    implementation('org.springframework.boot:spring-boot-starter-security')
 //    implementation('org.springframework.boot:spring-boot-starter-oauth2-client')
 //    implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
-//    implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
-//    implementation("net.sourceforge.nekohtml:nekohtml:1.9.21")
 //    implementation("io.jsonwebtoken:jjwt:0.9.1")
 
-    implementation("org.webjars:bootstrap:3.3.7")
+    //ui libraries
+    implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+    implementation("net.sourceforge.nekohtml:nekohtml:1.9.21")
     implementation("org.webjars:jquery:3.2.1")
+    implementation("org.webjars:bootstrap:4.6.1")
+//    implementation("org.webjars:font-awesome:5.15.4")
 
     implementation("io.springfox:springfox-swagger2:2.9.2")
     implementation("io.springfox:springfox-swagger-ui:2.9.2")

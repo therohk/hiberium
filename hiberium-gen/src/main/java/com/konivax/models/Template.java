@@ -47,7 +47,17 @@ public class Template {
     /**
      * appears as template variable render_name1_name2
      * maps to resource file render-name1-name2.ftl
-     * avoid usage : set manually in yaml instead of detecting
+     */
+    public static String getTemplateFileName(String variable) {
+        if(!variable.startsWith("render_"))
+            return null;
+        String templateFile = variable.substring(7)+".ftl";
+        templateFile = templateFile.replaceAll("[_]", "\\-");
+        return templateFile;
+    }
+
+    /**
+     * @deprecated set manually in yaml instead of detecting
      */
     @Deprecated
     public List<String> findTemplateDependencies() {
@@ -58,8 +68,7 @@ public class Template {
             return null;
         List<String> dependencies = variables.stream()
                 .filter(v -> v.startsWith("render_"))
-                .map(v -> v.substring(8)+".ftl")
-                .map(v -> v.replaceAll("[_]", "\\-"))
+                .map(Template::getTemplateFileName)
                 .collect(Collectors.toList());
 //        setDependencies(dependencies);
         return dependencies;
