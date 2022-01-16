@@ -36,6 +36,9 @@ spring.servlet.multipart.max-request-size=20MB
 management.endpoints.web.exposure.include=health
 management.health.db.enabled=true
 
+spring.mvc.format.date=yyyy-MM-dd'T'HH:mm:ss
+spring.mvc.format.time=HH:mm:ss
+
 spring.thymeleaf.check-template-location=true
 spring.thymeleaf.prefix=classpath:/templates/
 spring.thymeleaf.suffix=.html
