@@ -18,9 +18,15 @@ public interface StoredObject<T> {
 
     T fetchEntity();
 
+    String apiPath();
+
     Integer primaryKey();
 
     void primaryKey(Integer primaryKey);
+
+    default void unsetPrimaryKey() {
+        primaryKey(null);
+    }
 
     /**
      * prepare eligible fields for new instance creation

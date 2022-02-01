@@ -17,12 +17,20 @@ import java.util.stream.Collectors;
  */
 public interface StoredObject<T> {
 
+    //-------------------------------------------------------------------------
     //mapped field behaviors
 
     Integer primaryKey();
 
+    String apiPath();
+
     void primaryKey(Integer primaryKey);
 
+    default void unsetPrimaryKey() {
+        primaryKey(null);
+    }
+
+    //-------------------------------------------------------------------------
     //database operations override
 
     /**
@@ -68,6 +76,7 @@ public interface StoredObject<T> {
         MergeObject.handleFieldForMerge(target, source, fieldName, strategy);
     }
 
+    //-------------------------------------------------------------------------
     //common entity reflections
 
     T fetchEntity();

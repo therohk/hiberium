@@ -44,4 +44,8 @@ public class ${concept_name}Composite implements Serializable {
         set${primary_key.attribute_name?cap_first}(${primary_key.attribute_name});
     }
 
+    public ${concept_name} compositeBase() {
+        return ${concept_varname};
+    }
+
 }

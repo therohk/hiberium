@@ -38,6 +38,10 @@ public class ${concept_name} implements StoredObject<${concept_name}>, Serializa
         return this;
     }
 
+    public String apiPath() {
+        return "${concept_apipath}";
+    }
+
 <#assign primary_key = attributes?filter(a -> a.attribute_role?contains("K"))?first>
     public ${primary_key.attribute_java} primaryKey() {
         return get${primary_key.attribute_name?cap_first}();
