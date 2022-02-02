@@ -14,20 +14,22 @@
 <body>
 <nav class="navbar navbar-dark bg-dark">
 <a class="navbar-brand" th:text="'Hiberium Browser : ' + ${r"$"}{entity}">Hiberium Browser</a>
-<span class="navbar-text" th:text="'Total : '+${r"$"}{totalItems}">Total</span>
+<span class="navbar-text" th:text="'Total : ' + ${r"$"}{totalItems}">Total</span>
 </nav>
 
 <div class="table-responsive">
 <table class="table table-sm table-striped text-center">
 <thead class="thead-light">
 <tr>
-<th scope="col" th:each="header: ${r"$"}{headers}" th:text="${r"$"}{header}" />
+<th scope="col">Edit</th>
+<th scope="col" th:each="header: ${r"$"}{headers}" th:text="${r"$"}{header}"></th>
 </tr>
 </thead>
 
 <tbody>
 <tr th:each="row: ${r"$"}{results}">
-<td th:each="col: ${r"$"}{headers}" th:text="${r"$"}{row.get(col)}" />
+<td><a target="_edit" th:href="@{'/' + ${r"$"}{apiPath} + '/form'(id=${r"$"}{row.get('id')})}">Edit</a></td>
+<td th:each="col: ${r"$"}{headers}" th:text="${r"$"}{row.get(col)}"></td>
 </tr>
 </tbody>
 </table>

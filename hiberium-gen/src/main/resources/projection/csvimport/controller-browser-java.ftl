@@ -1,5 +1,6 @@
 package ${package_base}.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ${package_base}.models.StoredObject;
 import ${package_base}.utils.ClassUtils;
@@ -46,11 +47,12 @@ public class BrowseEntityController {
     ) throws Exception {
 
         Class<?> entityClass = ClassUtils.findClass(entityName, "${package_base}.models");
-        StoredObject entityObj = (StoredObject) EntityUtils.constructInstance(entityClass);
+        StoredObject<?> entityObj = (StoredObject) EntityUtils.constructInstance(entityClass);
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
 
         perPage = Math.max(1, perPage);
         model.addAttribute("entity", entityName);
+        model.addAttribute("apiPath", entityObj.apiPath());
         model.addAttribute("headers", entityObj.fetchFieldNamesAsList());
         model.addAttribute("query", query);
         model.addAttribute("perPage", perPage);
@@ -77,8 +79,13 @@ public class BrowseEntityController {
         List<?> entityList = typedSpec.getResultList();
 
         ObjectMapper mapper = mapperBuilder.build();
-        for (Object entity : entityList)
-            results.add(mapper.convertValue(entity, Map.class));
+        TypeReference<Map<String,Object>> resultType = new TypeReference<Map<String,Object>>(){};
+        for (Object entity : entityList) {
+            StoredObject<?> storedObj = (StoredObject<?>) entity;
+            Map<String, Object> result = mapper.convertValue(storedObj, resultType);
+            result.put("id", storedObj.primaryKey());
+            results.add(result);
+        }
         model.addAttribute("results", results);
 
         log.info("SEARCH {} WHERE query AND page={} AND size={} ; total={} ; paged={}",
