@@ -20,7 +20,7 @@ Implement further business logic and connect to an external database.
 
 # Concept
 
-concept = entity = table = document = class = model = type = relation = container
+concept = entity = table = document = class = model = type = relation = container = vat
 
 This configuration is loaded from [concept-def.csv](hiberium-gen/src/main/resources/concept-def.csv) by default.
 
@@ -45,7 +45,7 @@ This configuration is loaded from [concept-def.csv](hiberium-gen/src/main/resour
 
 # Attribute
 
-attribute = column = field = label = subtype = dimension
+attribute = column = field = label = subtype = property = dimension
 
 This configuration is loaded from [attribute-xref.csv](hiberium-gen/src/main/resources/attribute-xref.csv) by default.
 

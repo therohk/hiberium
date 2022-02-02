@@ -25,6 +25,7 @@ The key features are :
 * **Configurable** : Configure attributes and merge behaviors using simple alphabetic flags.
 * **Extensible** : Easily modify the project model or implement your own templates and coding patterns.
 * **Composable** : Supports two-level nesting of concepts. Seamlessly transform between nested and flat/relational models.
+* **Browsable** : Generates **html forms** and submission endpoints along with a browser using sleek bootstrap interfaces. 
 
 ---
 
@@ -60,11 +61,11 @@ Start writing business logic and setup connection details in `application-{profi
 
 1. Full support for spring mongo and elastic search client.
 
-2. Support for binary and blob data types.
+2. Support rendering project from jar file and externalized config.
 
-3. Integrate spring security with JWT tokens and user roles.
+3. Support for binary and blob data types.
 
-4. Option to insert using form submission and a lightweight browser.
+4. Integrate spring security with JWT tokens and user roles.
 
 5. Ability to view the diff between any entity vs its persisted copy.
 

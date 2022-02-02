@@ -13,12 +13,18 @@ Since RSQL is a superset of the FIQL, it can be used for parsing FIQL as well.
 
 ### Integration
 
-The conversion from Rsql-query to Jpa-criteria is implemented in [SearchEntityController.java](/hiberium-gen/src/main/resources/projection/csvimport/controller-search-java.ftl).
+The conversion from Rsql-query to Jpa-criteria is implemented in [EntityUtils.java](/hiberium-gen/src/main/resources/projection/csvimport/entity-utils-java.ftl).
 
-Once the server is running, access the interface from the 
-[Endpoint](http://localhost:8080/hiberium/1.0/query/entityName?query=attribute=='value')
+Blank queries are also supported and are the same as using a select statement without a where clause.
+
+Once the server is running, access the interface through the 
+[Search API](http://localhost:8080/hiberium/1.0/query/ConceptName?query=attributeName=='value')
+or
+[Browser UI](http://localhost:8080/hiberium/1.0/browser/ConceptName?query=attributeName=='value')
 or
 [Swagger](http://localhost:8080/hiberium/1.0/swagger-ui.html#/search-entity-controller/searchByQueryUsingGET).  
+
+These endpoints also support pagination using the request parameters pageNum and perPage.
 
 ---
 
