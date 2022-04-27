@@ -33,7 +33,7 @@ server.tomcat.max-http-post-size=20MB
 spring.servlet.multipart.max-file-size=20MB
 spring.servlet.multipart.max-request-size=20MB
 
-management.endpoints.web.exposure.include=health
+management.endpoints.web.exposure.include=health,prometheus
 management.health.db.enabled=true
 
 spring.mvc.format.date=yyyy-MM-dd'T'HH:mm:ss

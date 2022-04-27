@@ -29,7 +29,10 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('org.springframework.boot:spring-boot-starter-validation')
+
+    //metrics
     implementation('org.springframework.boot:spring-boot-starter-actuator')
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus:1.6.5")
 
     //hibernate
     implementation("org.hibernate:hibernate-core:5.4.29.Final")
@@ -68,6 +71,7 @@ dependencies {
     //database
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("mysql:mysql-connector-java")
 
     //unit testing
     testImplementation('org.springframework.boot:spring-boot-starter-test')
