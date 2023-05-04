@@ -44,6 +44,7 @@ public final class DatabaseMapper {
                 sourceLibrary = "com.esen.jdbc:sybase-jconn3"+":6.0";
                 hibernateDialect = "org.hibernate.dialect.SybaseDialect";
                 break;
+            case "pgsql":
             case "postgres":
                 sourceDriver = "org.postgresql.Driver";
                 sourceLibrary = "org.postgresql:postgresql";

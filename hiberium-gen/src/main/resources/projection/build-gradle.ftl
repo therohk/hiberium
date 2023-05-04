@@ -22,6 +22,10 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
@@ -46,8 +50,8 @@ dependencies {
 
     //security libraries
 //    implementation('org.springframework.cloud:spring-cloud-starter-vault-config')
-//    implementation('org.springframework.boot:spring-boot-starter-security')
 //    implementation('org.springframework.boot:spring-boot-starter-oauth2-client')
+//    implementation('org.springframework.boot:spring-boot-starter-security')
 //    implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
 //    implementation("io.jsonwebtoken:jjwt:0.9.1")
 

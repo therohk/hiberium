@@ -10,8 +10,8 @@ import java.util.List;
 public interface ${concept_name}Repository extends JpaRepository<${concept_name}, Integer> {
 
 <#assign primary_key = attributes?filter(a -> a.attribute_role?contains("K"))?first>
-    default ${concept_name} getOne(Integer ${primary_key.attribute_java}) {
-        return findById(${primary_key.attribute_java}).orElse(null);
+    default ${concept_name} getOne(Integer ${primary_key.attribute_name}) {
+        return findById(${primary_key.attribute_name}).orElse(null);
     }
 
     @Query(value = " SELECT MAX(${primary_key.field_name}) FROM ${concept_schema}.${concept_table} "
