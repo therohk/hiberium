@@ -1,9 +1,7 @@
 package com.konivax.models;
 
-import com.konivax.RenderProject;
 import com.konivax.files.FtlBuilder;
 import com.konivax.utils.FileUtils;
-import com.konivax.utils.ReflectUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -25,8 +23,8 @@ public class ManualRenderTest {
         Concept concept = ModelFactory.createSampleConcept();
 
         Map<String,Object> dataModel = new HashMap<String,Object>();
-        dataModel.putAll(ReflectUtils.toColumnObjectMap(project));
-        dataModel.putAll(RenderProject.exportConceptToModel(concept));
+        dataModel.putAll(project.exportProjectToModel());
+        dataModel.putAll(concept.exportConceptToModel());
 
         String projectPath = FileUtils.getProjectBase();
         String sourcePath = projectPath + "/hiberium-gen/";

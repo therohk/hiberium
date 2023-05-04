@@ -7,7 +7,6 @@ import com.konivax.models.ModelFactory;
 import com.konivax.models.Project;
 import com.konivax.models.mapper.DatabaseMapper;
 import com.konivax.utils.FileUtils;
-import com.konivax.utils.ReflectUtils;
 import com.konivax.utils.format.CsvUtils;
 import com.konivax.utils.format.FtlUtils;
 import org.junit.jupiter.api.Test;
@@ -37,7 +36,7 @@ public class FtlTemplateTest {
         RenderProject.attachConceptRelations(conceptList, attributeList);
 
         Map<String,Object> root = new HashMap<String,Object>();
-        root.putAll(ReflectUtils.toColumnObjectMap(project));
+        root.putAll(project.exportProjectToModel());
         root.putAll(DatabaseMapper.mapDatabaseToDriver("h2"));
 
         //scan available templates
@@ -74,7 +73,7 @@ public class FtlTemplateTest {
         Concept conceptUse = conceptList.stream()
                 .filter(c -> c.getConceptName().equals("WorkflowProcess"))
                 .findFirst().get();
-        Map<String,Object> conceptData = RenderProject.exportConceptToModel(conceptUse);
+        Map<String,Object> conceptData = conceptUse.exportConceptToModel();
         conceptData.putAll(root);
         for(String template : conceptTemplates) {
             System.out.println("rendering conception: "+template);

@@ -4,7 +4,6 @@ import com.konivax.RenderProject;
 import com.konivax.models.*;
 import com.konivax.models.mapper.DatabaseMapper;
 import com.konivax.utils.FileUtils;
-import com.konivax.utils.ReflectUtils;
 import com.konivax.utils.format.FtlUtils;
 import com.konivax.utils.format.JsonUtils;
 import com.konivax.utils.format.YamlUtils;
@@ -37,7 +36,7 @@ public class FtlProjectTest {
         Concept conceptUse = conceptList.get(0);
 
         Map<String,Object> root = new HashMap<String,Object>();
-        root.putAll(ReflectUtils.toColumnObjectMap(project));
+        root.putAll(project.exportProjectToModel());
         root.putAll(DatabaseMapper.mapDatabaseToDriver("h2"));
 
         Set<String> templateSet = new HashSet<String>();
@@ -55,7 +54,7 @@ public class FtlProjectTest {
         }
 
         //validate conceptions
-        Map<String,Object> conceptData = RenderProject.exportConceptToModel(conceptUse);
+        Map<String,Object> conceptData = conceptUse.exportConceptToModel();
         conceptData.putAll(root);
         for (Template template : project.getConceptions()) {
             String templateName = template.getTemplate();
