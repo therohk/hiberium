@@ -3,6 +3,7 @@ package com.konivax.models;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.konivax.models.mapper.ModelLocator;
 import com.konivax.utils.CollectionUtils;
+import com.konivax.utils.ReflectUtils;
 import com.konivax.utils.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,9 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -120,4 +123,24 @@ public class Concept {
         Double longitude = location[0];
         Double latitude = location[1];
     }
+
+    public Map<String,Object> exportConceptToModel() {
+        Map<String,Object> model = new HashMap<String,Object>();
+        model.putAll(ReflectUtils.toColumnObjectMap(this));
+
+        List<Map<String,Object>> attributes = new ArrayList<Map<String,Object>>();
+        for (Attribute attribute : getAttributeXref())
+            attributes.add(attribute.exportAttributeToModel());
+        model.put("attributes", attributes);
+
+        if(CollectionUtils.isEmpty(getRelationXref()))
+            return model;
+        List<Map<String,Object>> relations = new ArrayList<Map<String,Object>>();
+        for (Attribute relation : getRelationXref())
+            relations.add(relation.exportAttributeToModel());
+        model.put("relations", relations);
+
+        return model;
+    }
+
 }

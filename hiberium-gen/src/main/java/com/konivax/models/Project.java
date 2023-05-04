@@ -1,11 +1,13 @@
 package com.konivax.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.konivax.utils.ReflectUtils;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author therohk 2021/06/25
@@ -42,5 +44,9 @@ public class Project {
     private List<Template> projections;
     //rendered once per concept
     private List<Template> conceptions;
+
+    public Map<String,Object> exportProjectToModel() {
+        return ReflectUtils.toColumnObjectMap(this);
+    }
 
 }

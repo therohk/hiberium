@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.konivax.models.mapper.ElasticFieldMapper;
 import com.konivax.models.mapper.FieldConstants;
 import com.konivax.models.mapper.JavaFieldMapper;
+import com.konivax.utils.ReflectUtils;
 import com.konivax.utils.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -118,7 +120,10 @@ public class Attribute {
             foreignConstraintName = fieldName+"_"+FieldConstants.KEY_FOREIGN;
             applyAttributeFlag(FieldConstants.ROLE_FOREIGN);
         }
+    }
 
+    public Map<String,Object> exportAttributeToModel() {
+        return ReflectUtils.toColumnObjectMap(this);
     }
 
 }
