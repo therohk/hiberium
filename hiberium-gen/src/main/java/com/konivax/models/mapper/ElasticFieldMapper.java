@@ -32,6 +32,8 @@ public final class ElasticFieldMapper {
                 return "date";
             case TYPE_BOOLEAN:
                 return "boolean";
+            case TYPE_BINARY:
+                return "binary";
         }
         return null;
     }
@@ -55,6 +57,8 @@ public final class ElasticFieldMapper {
                 return typePrefix+"Date";
             case "boolean":
                 return typePrefix+"Boolean";
+            case "binary":
+                return typePrefix+"Binary";
         }
        return typePrefix+"Auto";
     }

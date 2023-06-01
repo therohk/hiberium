@@ -92,6 +92,12 @@ public final class JavaFieldMapper {
             case "boolean":
             case "bit":
                 return TYPE_BOOLEAN;
+            case "binary":
+            case "varbinary":
+            case "longvarbinary":
+            case "blob":
+            case "bytea":
+                return TYPE_BINARY;
         }
         return null;
     }
@@ -112,6 +118,8 @@ public final class JavaFieldMapper {
                 return Character.class;
             case TYPE_BOOLEAN:
                 return Boolean.class;
+            case TYPE_BINARY:
+                return byte[].class;
         }
         return null;
     }
@@ -132,6 +140,8 @@ public final class JavaFieldMapper {
                 return Character.class.getName();
             case TYPE_BOOLEAN:
                 return Boolean.class.getName();
+            case TYPE_BINARY:
+                return byte[].class.getName();
         }
         return null;
     }
