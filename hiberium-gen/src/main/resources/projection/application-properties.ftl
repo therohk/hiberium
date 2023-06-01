@@ -32,11 +32,13 @@ server.tomcat.max-swallow-size=20MB
 server.tomcat.max-http-post-size=20MB
 spring.servlet.multipart.max-file-size=20MB
 spring.servlet.multipart.max-request-size=20MB
+spring.resources.cache.cachecontrol.max-age=1d
 
 management.endpoints.web.exposure.include=health,prometheus
 management.health.db.enabled=true
 
 spring.mvc.format.date=yyyy-MM-dd'T'HH:mm:ss
+spring.mvc.format.date-time=yyyy-MM-dd'T'HH:mm:ss
 spring.mvc.format.time=HH:mm:ss
 
 spring.thymeleaf.check-template-location=true

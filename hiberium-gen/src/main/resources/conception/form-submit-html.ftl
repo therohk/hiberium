@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <meta charset="utf-8" />
@@ -29,6 +29,7 @@
         <div class="col-md-6 col-md-offset-3">
             <h2 <#if concept_desc??>title="${concept_desc}"</#if>>${concept_name}</h2>
             <form th:action="@{/${concept_apipath}/submit}" th:object="${r"$"}{${concept_varname}}" method="post">
+            <fieldset>
                 <div class="alert alert-danger" th:if="${r"$"}{#fields.hasGlobalErrors()}">
                     <p th:each="error : ${r"$"}{#fields.errors('global')}" th:text="${r"$"}{error}"></p>
                 </div>
@@ -47,6 +48,7 @@
                         <a role="button" class="btn btn-secondary" id="form-clone">Clone</a>
                     </div>
                 </div>
+            </fieldset>
             </form>
         </div>
     </div>
@@ -88,6 +90,6 @@ ${attribute.attribute_name}
 
 <#macro printerror attribute>
 <@compress single_line=true>
-<p class="label label-danger" th:if="${r"$"}{#fields.hasErrors('${attribute.attribute_name}')}" th:errors="*{${attribute.attribute_name}}">Validation error</p>
+<p class="alert alert-danger" role="alert" th:if="${r"$"}{#fields.hasErrors('${attribute.attribute_name}')}" th:errors="*{${attribute.attribute_name}}">Validation error</p>
 </@compress>
 </#macro>
