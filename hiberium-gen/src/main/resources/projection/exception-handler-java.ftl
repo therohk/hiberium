@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.security.AccessControlException;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -44,7 +45,7 @@ public class GenericExceptionHandler {
         return error;
     }
 
-    @ExceptionHandler({IllegalAccessException.class})
+    @ExceptionHandler({IllegalAccessException.class, AccessControlException.class})
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public @ResponseBody ExceptionResponse handleIllegalAccessException(
             final Exception exception, final HttpServletRequest request) {
@@ -52,7 +53,7 @@ public class GenericExceptionHandler {
         String message = exception.getMessage() != null ? exception.getMessage() : "Forbidden Resource";
         ExceptionResponse error = new ExceptionResponse();
         error.setExceptionObject(request, message, 403);
-        log.error(message, exception);
+        log.warn(message);
         return error;
     }
 
@@ -64,7 +65,7 @@ public class GenericExceptionHandler {
         String message = exception.getMessage() != null ? exception.getMessage() : "Missing Resource";
         ExceptionResponse error = new ExceptionResponse();
         error.setExceptionObject(request, message, 404);
-        log.error(message, exception);
+        log.warn(message);
         return error;
     }
 
