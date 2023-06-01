@@ -49,7 +49,8 @@ public final class FileUtils {
         StringBuilder b = new StringBuilder();
         b.append(basePath);
         b.append(packagePath.replaceAll("[\\.]", "/"));
-        b.append("/");
+        if(b.length() != 0)
+            b.append("/");
         return b.toString();
     }
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 public final class JsonUtils {
 
@@ -28,6 +29,18 @@ public final class JsonUtils {
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(jsonString, clazz);
+        } catch(IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static <K,V> Map<K,V> deserializeJavaObjectMap(String jsonString, Class<K> keyClazz, Class<V> valClazz) {
+        if(jsonString == null)
+            return null;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(jsonString, mapper.getTypeFactory().constructMapType(Map.class, keyClazz, valClazz));
         } catch(IOException e) {
             e.printStackTrace();
             return null;

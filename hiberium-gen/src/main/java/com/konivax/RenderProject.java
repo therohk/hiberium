@@ -9,11 +9,9 @@ import com.konivax.models.mapper.FieldConstants;
 import com.konivax.models.mapper.ModelValidator;
 import com.konivax.utils.CollectionUtils;
 import com.konivax.utils.FileUtils;
-import com.konivax.utils.ReflectUtils;
 import com.konivax.utils.format.CsvUtils;
 import com.konivax.utils.format.YamlUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,18 +43,18 @@ public class RenderProject {
         ModelValidator.validateProject(project);
         ModelValidator.validateModel(conceptList);
 
-        renderFromModel(projectPath, project, conceptList);
-    }
-
-    public static void renderFromModel(String projectPath, Project project, List<Concept> conceptList) {
-        //create freemarker model
-        Map<String, Object> root = new HashMap<String, Object>();
-        root.putAll(ReflectUtils.toColumnObjectMap(project));
-//        root.putAll(DatabaseMapper.mapDatabaseToDriver(project.getDatabaseType()));
-
         //code source and target
         String sourcePath = projectPath + "/hiberium-gen/";
         String targetPath = projectPath + "/" + project.getProjectName() + "/";
+
+        renderFromModel(sourcePath, targetPath, project, conceptList);
+    }
+
+    public static void renderFromModel(String sourcePath, String targetPath, Project project, List<Concept> conceptList) {
+        //create freemarker model
+        Map<String, Object> root = new HashMap<String, Object>();
+        root.putAll(project.exportProjectToModel());
+//        root.putAll(DatabaseMapper.mapDatabaseToDriver(project.getDatabaseType()));
 
         //process project files
         System.out.println("processing common project files");
@@ -67,8 +65,7 @@ public class RenderProject {
         //process concept files
         for (Concept concept : conceptList) {
             System.out.println("processing concept " + concept.getConceptName() + " with " + concept.getAttributeXref().size() + " attributes");
-
-            Map<String, Object> conceptData = exportConceptToModel(concept);
+            Map<String,Object> conceptData = concept.exportConceptToModel();
             conceptData.putAll(root);
 
             for (Template template : project.getConceptions()) {
@@ -135,25 +132,6 @@ public class RenderProject {
             //todo flag to indicate composition
             concept.setRelationXref(childAttributeList);
         }
-    }
-
-    public static Map<String, Object> exportConceptToModel(Concept concept) {
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.putAll(ReflectUtils.toColumnObjectMap(concept));
-
-        List<Map<String, Object>> attributes = new ArrayList<Map<String, Object>>();
-        for (Attribute attribute : concept.getAttributeXref())
-            attributes.add(ReflectUtils.toColumnObjectMap(attribute));
-        model.put("attributes", attributes);
-
-        if(CollectionUtils.isEmpty(concept.getRelationXref()))
-            return model;
-        List<Map<String, Object>> relations = new ArrayList<Map<String, Object>>();
-        for (Attribute relation : concept.getRelationXref())
-            relations.add(ReflectUtils.toColumnObjectMap(relation));
-        model.put("relations", relations);
-
-        return model;
     }
 
 }
