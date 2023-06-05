@@ -20,7 +20,7 @@ import java.util.List;
 public class RenderConfig {
 
     protected Options options = new Options();
-    protected CommandLineParser parser = new DefaultParser();
+    protected CommandLineParser parser = new PosixParser();
     protected CommandLine cmd = null;
 
     public static void main(String[] args) {
