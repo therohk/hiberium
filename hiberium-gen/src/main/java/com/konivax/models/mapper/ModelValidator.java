@@ -8,6 +8,7 @@ import com.konivax.utils.StringUtils;
 import com.konivax.utils.Validate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,24 +64,32 @@ public final class ModelValidator {
     private static void validateAllConcepts(List<Concept> concepts) {
         long conceptCount = concepts.size();
 
-        Set<String> conceptNameSet = concepts.stream()
-                .map(c -> c.getConceptName().toLowerCase())
-                .collect(Collectors.toSet());
-        Validate.isTrue(conceptCount == conceptNameSet.size(), "duplicate concept name");
-
-        Set<String> tableNameSet = concepts.stream()
-                .map(Concept::getSqlTableName)
-                .collect(Collectors.toSet());
-        Validate.isTrue(conceptCount == tableNameSet.size(),
+        Map<String,String> conceptTableMap = concepts.stream()
+                .collect(Collectors.toMap(c -> c.getConceptName().toLowerCase(), Concept::getSqlTableName));
+        Validate.isTrue(conceptCount == conceptTableMap.size(),
+                "duplicate concept name");
+        Validate.isTrue(conceptCount == Set.copyOf(conceptTableMap.values()).size(),
                 "duplicate sql table name");
 
         Set<String> invalidRelationSet = concepts.stream()
                 .filter(c -> StringUtils.notBlank(c.getConceptParent()))
                 .map(c -> c.getConceptParent().toLowerCase())
-                .filter(s -> !conceptNameSet.contains(s))
+                .filter(s -> !conceptTableMap.containsKey(s))
                 .collect(Collectors.toSet());
         Validate.isTrue(invalidRelationSet.isEmpty(),
                 "missing parent concept name");
+
+        Map<String,Attribute> attributeFieldMap = concepts.stream()
+                .flatMap(c -> c.getAttributeXref().stream())
+                .collect(Collectors.toMap(a -> conceptTableMap.get(a.getConceptName().toLowerCase()) +"."+a.getFieldName(), a -> a));
+
+        List<Attribute> invalidForeignKey = concepts.stream()
+                .flatMap(c -> c.getAttributeXref().stream())
+                .filter(a -> StringUtils.notBlank(a.getForeignKey()))
+                .filter(a -> !attributeFieldMap.containsKey(a.getForeignKey()))
+                .collect(Collectors.toList());
+        Validate.isTrue(invalidForeignKey.isEmpty(),
+                "missing foreign key field");
     }
 
     public static void validateSingleConcept(Concept concept) {
