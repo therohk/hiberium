@@ -3,16 +3,16 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 group = 'com.konivax'
-version = '1.2.8-SNAPSHOT'
+version = '1.4.6'
 sourceCompatibility = '11'
 
 ext.libraryVersions = [
-    lombok : '1.18.22',
+    lombok : '1.18.26',
     cli : '1.2',
     jackson : '2.13.1',
     yaml : '2.11.1',
     freemarker : '2.3.31',
-    xmljaxb : '2.3.0',
+    xmljaxb : '2.3.1',
     supercsv : '2.4.0',
     jakarta : '2.2.3',
     junit : '5.8.2'
@@ -24,6 +24,7 @@ repositories {
 
 test {
     useJUnitPlatform()
+    testLogging.showStandardStreams = true
 }
 
 task render(type: JavaExec) {
@@ -42,7 +43,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:${libraryVersions.jackson}")
     implementation("com.fasterxml.jackson.core:jackson-databind:${libraryVersions.jackson}")
     implementation("com.fasterxml.jackson.core:jackson-annotations:${libraryVersions.jackson}")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${libraryVersions.jackson}")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${libraryVersions.yaml}")
 
     implementation("jakarta.persistence:jakarta.persistence-api:${libraryVersions.jakarta}")
 

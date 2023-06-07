@@ -53,33 +53,28 @@ WorkflowTransition,lastModTs,last_mod_ts,timestamptz,,,,
 # -------------------------------------
 # application role fields
 Role,roleId,pkrole_id,serial,K,,,
-Role,roleName,role_name,varchar,NUI,,,
+Role,roleName,role_name,varchar,NUIR,,,
 Role,roleDesc,role_desc,varchar,,,,
+Role,rolePolicy,role_policy_doc,text,N,,,{}
 Role,activeInd,role_active_ind,int4,,,,1
 Role,lastModCd,last_mod_cd,varchar,,,6,I
 Role,lastModTs,last_mod_ts,timestamptz,,,,
 # -------------------------------------
 # application user fields
 User,userId,pkuser_id,serial,K,,,
-User,userLoginName,login_name,varchar,NUIR,,16,
+User,userLoginName,login_name,varchar,NUIR,,32,
 User,userEmailId,user_email_id,varchar,NUIR,,32,
-User,userPassword,user_password,text,N,,,
-User,userStatus,user_status,int4,N,,,
+User,userPassword,user_password,text,NH,,,
+User,userStatus,user_status,int4,NR,,,
 User,userFirstName,first_name,varchar,,,32,
 User,userLastName,last_name,varchar,,,32,
 User,contactNum,contact_num,varchar,,,16,
-User,createTs,create_ts,timestamptz,,,,
+User,createTs,create_ts,timestamptz,I,,,
 User,signInTs,signin_ts,timestamptz,,,,
-User,workflowSt,fkuser_wf_state,int4,R,,,
-User,workflowTs,user_wf_ts,timestamptz,,,,
-User,activeInd,user_active_ind,int4,,,,1
+User,userUuid,user_uuid,bytea,NI,,32,
+User,userDirKey,directory_key,varchar,NI,,32,
+User,userRoleName,fkrole_name,varchar,,,,
+User,activeInd,user_active_ind,bool,,,,true
 User,lastModCd,last_mod_cd,varchar,,,6,I
 User,lastModTs,last_mod_ts,timestamptz,,,,
 # -------------------------------------
-# user to role mapping
-UserRoleMap,userRoleId,pkuserrole_id,serial,K,,,
-UserRoleMap,userId,fkuser_id,int4,NF,user_detail_def.pkuser_id,,
-UserRoleMap,roleId,fkrole_id,int4,NF,role_detail_def.pkrole_id,,
-UserRoleMap,activeInd,userrole_active_ind,int4,,,,1
-UserRoleMap,lastModCd,last_mod_cd,varchar,,,6,I
-UserRoleMap,lastModTs,last_mod_ts,timestamptz,,,,

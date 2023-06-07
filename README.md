@@ -20,12 +20,12 @@ The key features are :
 * **Easy to Use** : **No coding required!** Generate the entire web application from one yaml and two csv files.
 * **Clean Architecture** : Generates the repository, service and controller layers for each entity.
 * **Compatible** : Generates accurate jpa entities, table spec (postgres dialect) and elastic mappings from schema. Creates a docker **postgres container** with generated tables.
-* **Production Quality** : Integration with swagger, actuator, vault apis. Proper request logging and error handling.
+* **Production Quality** : Integration with swagger and prometheus. Proper request logging and error handling.
 * **Pragmatic** : Explore other useful endpoints like **paginated [rsql](RSQLEXP.md) search**, bulk entity merge and **csv import/export**.
 * **Configurable** : Configure attributes and merge behaviors using simple alphabetic flags.
 * **Extensible** : Easily modify the project model or implement your own templates and coding patterns.
-* **Composable** : Supports two-level nesting of concepts. Seamlessly transform between nested and flat/relational models.
-* **Browsable** : Generates **html forms** and submission endpoints along with a browser using sleek bootstrap interfaces. 
+* **Composable** : Supports two-level nesting of concepts. Seamlessly transform between nested and flat models.
+* **Browsable** : Generates **html forms** and submission apis with a browser using sleek bootstrap interfaces. 
 
 ---
 
@@ -63,7 +63,7 @@ Start writing business logic and setup connection details in `application-{profi
 
 2. Support rendering project from jar file and externalized config.
 
-3. Support for binary and blob data types.
+3. Support for running the application as a lambda function.
 
 4. Integrate spring security with JWT tokens and user roles.
 

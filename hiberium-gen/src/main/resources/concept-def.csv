@@ -6,4 +6,3 @@ WorkflowState,workflow_state_xref,data_portal,workflow,WorkflowProcess
 WorkflowTransition,workflow_trans_xref,data_portal,workflow,WorkflowProcess
 Role,role_detail_def,data_portal,userinfo,
 User,user_detail_def,data_portal,userinfo,
-UserRoleMap,user_role_xref,data_portal,userinfo,
